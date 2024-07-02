@@ -52,7 +52,7 @@ const GoogleLogin = () => {
     const id_token = googleUser.getAuthResponse().id_token;
     console.log('ID Token: ', id_token);
     
-    const response = await axios.post('http://localhost:3501/api/user/verify',{id : id_token, type: "google"})
+    const response = await axios.post('http://localhost:3501/api/user/verify-google',{id_token}, { withCredentials: true })
     console.log(response)
     navigate('/profile');
   };

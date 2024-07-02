@@ -1,7 +1,7 @@
 const express = require('express')
 const Router = express.Router()
-const verifyToken = require('../controllers/verifyController')
+const verifyGoogleToken = require('../controllers/verifyGoogleController')
 
-Router.route('/user/verify').post(verifyToken)
+Router.route('/user/verify-google').post(verifyGoogleToken)
 
 module.exports = Router
