@@ -3,6 +3,7 @@ import { gapi } from 'gapi-script';
 import styled from 'styled-components'
 import GoogleIconImage from "../assets/google_icon.png";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const GoogleButton = styled.div`
   display: flex;
@@ -51,7 +52,8 @@ const GoogleLogin = () => {
     const id_token = googleUser.getAuthResponse().id_token;
     console.log('ID Token: ', id_token);
     
-    // Send ID token to the backend for further processing
+    const response = await axios.post('http://localhost:3501/api/user/verify',{id : id_token, type: "google"})
+    console.log(response)
     navigate('/profile');
   };
 
