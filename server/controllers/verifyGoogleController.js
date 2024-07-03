@@ -6,7 +6,6 @@ const pool = require("../connectdb");
 const client = new OAuth2Client(process.env.GOOGLE_AUTH);
 
 const verifyGoogleToken = async (req, res) => {
-  console.log('requested')
   const data = req.body;
   const token = data.id_token;
   const insertQuery = `INSERT INTO chatbot_users(google_id,email,name,image_url) VALUES(?,?,?,?)`;
@@ -27,8 +26,10 @@ const verifyGoogleToken = async (req, res) => {
       `SELECT * FROM chatbot_users WHERE email = ?`,
       [email],
       (err, results) => {
-        if (err)
+        if (err){
+          console.log(err)
           return res.status(500).json({ status: false, msg: "Server error" });
+        }
         if (results.length > 0) {
           const user = results[0];
           const jwtToken = jwt.sign(
@@ -48,15 +49,17 @@ const verifyGoogleToken = async (req, res) => {
           return res.status(200).send({ status: true, token: jwtToken });
         }
         pool.query(insertQuery, [userid, email, name, image], (err, result) => {
-          if (err)
+          if (err){
+            console.log(err)
             return res.status(500).json({ status: false, msg: "Server error" });
+          }
           const userId = results.insertId; // This gets the auto-incremented ID
           const jwtToken = jwt.sign(
             { userId, email, name, image },
             JWT_SECRET,
             { expiresIn: "1h" }
           );
-          res.cookie("jwtToken", jwtToken, {
+          res.cookie("chat_tkn", jwtToken, {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
           });
