@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const pool = require("../connectdb");
 
 const createAcc = (req, res) => {
-  console.log(req.body);
   const { name, email, password } = req.body;
   const CreateQuery = `INSERT INTO chatbot_users(name,email,password) VALUES(?,?,?)`;
 
@@ -47,6 +46,7 @@ const createAcc = (req, res) => {
 
 const loginUser = (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
   const query = `SELECT * FROM chatbot_users WHERE email = ?`;
 
   pool.query(query, [email], (err, results) => {

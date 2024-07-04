@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Logo from "../assets/logo.png";
 import GoogleLogin from "./GoogleAuth";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { validate } from "./Validate";
 
 // Styled Components
 const Section = styled.section`
@@ -13,11 +15,11 @@ const Section = styled.section`
   background-color: #f4f4f9;
 `;
 
-const Form = styled.form`
+const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 450px;
-  min-width: 300px;
+  max-width:40;
+  min-width: 250px;
   align-items: center;
   background: white;
   padding: 2rem;
@@ -72,56 +74,96 @@ const LogoImage = styled.img`
   margin-bottom: 1rem;
 `;
 
-// Component
+const ErrorMessageStyled = styled.div`
+  color: red;
+  font-size: 10px;
+  margin-bottom: 1rem;
+`;
+
 export default function Login() {
   const [isLogging, setIsLogging] = useState(false);
-  const navigate = useNavigate()
+  const [userDetails, setUserDetails] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-  const HandleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+    setUserDetails((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
-  const HandleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(isLogging ? "Login" : "Signup");
+    const validationErrors = validate(userDetails, isLogging);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
+    try {
+      const url = isLogging 
+        ? 'http://localhost:3501/api/user/login'
+        : 'http://localhost:3501/api/user/create';
+      
+      const response = await axios.post(url, userDetails);
+      console.log(response);
+        navigate('/profile');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <Section>
-      <Form onSubmit={HandleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <LogoImage src={Logo} alt="Let's Talk Chatbot Logo" />
         <SubHeading>{isLogging ? "Login" : "Signup"}</SubHeading>
         {!isLogging && (
-          <InputEl
-            onChange={HandleChange}
-            type="text"
-            placeholder="Full Name"
-            name="name"
-          />
+          <>
+            <InputEl
+              type="text"
+              placeholder="Full Name"
+              name="name"
+              value={userDetails.name}
+              onChange={handleChange}
+            />
+            {errors.name && <ErrorMessageStyled>{errors.name}</ErrorMessageStyled>}
+          </>
         )}
         <InputEl
-          onChange={HandleChange}
           type="email"
           placeholder="Email"
           name="email"
+          value={userDetails.email}
+          onChange={handleChange}
         />
+        {errors.email && <ErrorMessageStyled>{errors.email}</ErrorMessageStyled>}
         <InputEl
-          onChange={HandleChange}
           type="password"
           placeholder="Password"
           name="password"
+          value={userDetails.password}
+          onChange={handleChange}
         />
-        <Button type="submit">{isLogging ? "Login" : "Signup"}</Button>
+        {errors.password && <ErrorMessageStyled>{errors.password}</ErrorMessageStyled>}
+        <Button type="submit">
+          {isLogging ? "Login" : "Signup"}
+        </Button>
         {isLogging && <LinkText>Forgot Password?</LinkText>}
-        {<GoogleLogin/>}
+        <GoogleLogin />
         <Text>
           {isLogging ? "Don't have an account?" : "Already have an account?"}
           <LinkText onClick={() => setIsLogging(!isLogging)}>
             {isLogging ? "Signup" : "Login"}
           </LinkText>
         </Text>
-      </Form>
+      </StyledForm>
     </Section>
   );
 }
