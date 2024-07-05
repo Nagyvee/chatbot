@@ -28,7 +28,7 @@ const createAcc = (req, res) => {
             return res.status(500).json({ status: false, msg: "server error" });
           }
           const userId = results.insertId;
-          jwt.sign({userId, name,email}, process.env.JWT_SECRET, (err, token) => {
+          jwt.sign({userId, name,email}, process.env.JWT_SECRET,  { expiresIn: "1h" }, (err, token) => {
             if (err){
               return res.status(500).json({ status: false, msg: "server error" });
             }
@@ -66,7 +66,7 @@ const loginUser = (req, res) => {
         name: user.name,
         email: user.email,
       };
-      jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
+      jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" }, (err, token) => {
         if (err){
           return res.status(500).json({ status: false, msg: "server error" });
         }

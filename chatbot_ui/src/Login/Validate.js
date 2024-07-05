@@ -17,4 +17,8 @@ export const validate = ({ name, email, password }, isLogging) => {
   
     return errors;
   };
+
+  export const setTokenToLocal = (tkn) => {
+    localStorage.setItem('chat_tkn', tkn)
+  }
   

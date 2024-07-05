@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import GoogleIconImage from "../assets/google_icon.png";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import { setTokenToLocal } from "./Validate";
+import verifyUser from './verifyUser'
 
 const GoogleButton = styled.div`
   display: flex;
@@ -45,19 +47,14 @@ const GoogleLogin = () => {
     const googleAuth = gapi.auth2.getAuthInstance();
     const googleUser = await googleAuth.signIn();
     const profile = googleUser.getBasicProfile();
-    console.log('ID: ', profile.getId());
-    console.log('Name: ', profile.getName());
-    console.log('Email: ', profile.getEmail());
-    console.log(`imageUrl: ` , profile.getImageUrl());
     const id_token = googleUser.getAuthResponse().id_token;
-    console.log('ID Token: ', id_token);
     
     const response = await axios.post('http://localhost:3501/api/user/verify-google',{id_token}, { withCredentials: true })
-    console.log(response)
+    setTokenToLocal(response.data.token)
     navigate('/profile');
   };
 
-  return (
+  return(
         <GoogleButton onClick={handleLogin}>
           <GoogleIcon src={GoogleIconImage} alt="Google Icon" />
           Login with Google

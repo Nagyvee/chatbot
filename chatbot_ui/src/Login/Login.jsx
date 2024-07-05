@@ -2,9 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
 import GoogleLogin from "./GoogleAuth";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { validate } from "./Validate";
+import { setTokenToLocal } from "./Validate";
 
 // Styled Components
 const Section = styled.section`
@@ -89,6 +90,9 @@ export default function Login() {
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  console.log(from)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -112,8 +116,8 @@ export default function Login() {
         : 'http://localhost:3501/api/user/create';
       
       const response = await axios.post(url, userDetails);
-      console.log(response);
-        navigate('/profile');
+      setTokenToLocal(response.data.token)
+      navigate(from);
     } catch (error) {
       console.error(error);
     }
