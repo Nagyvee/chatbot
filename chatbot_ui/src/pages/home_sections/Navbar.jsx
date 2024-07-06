@@ -1,39 +1,54 @@
-import styled from 'styled-components'
-import {useSelector} from 'react-redux'
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const NavContainer = styled.nav`
-width: 100%;
-height: 3rem;
-padding-top: .8rem;
-display: flex;
-justify-content: end;
-gap: .5rem;
-text-align:center;
-border-bottom: solid grey 2px;
-`
+  width: 100%;
+  height: 3.5rem;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  border-bottom: 2px solid grey;
+  background-color: #f8f9fa;
+`;
 
 const Text = styled.p`
- margin: 0;
- margin-top: 10px;
- font-weight: 500;
- font-size: 16px
-`
+  margin: 0;
+  margin-right: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
 
 const Image = styled.img`
-width: 38px;
-height: 38px;
-border-radius: 45%;
-`
+  width: 38px;
+  height: 38px;
+  margin-right: 15px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  cursor: pointer;
 
-const Navbar = () =>{
-    const user = useSelector((state) => state.user.userDetails)
+  &:hover {
+    border-color: #aaa;
+  }
+`;
 
-    return (
-        <NavContainer>
-        <Text>{user.name}</Text>
-        <Image src={user.image} alt='profile image' />
-        </NavContainer>
-    )
+const Navbar = () => {
+  const user = useSelector((state) => state.user.userDetails);
+
+  return (
+    <NavContainer>
+      <Text>{user.name}</Text>
+      <Image src={user.image} alt="profile image" />
+    </NavContainer>
+  );
 }
 
-export default Navbar
+export default Navbar;

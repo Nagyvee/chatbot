@@ -11,7 +11,7 @@ function App() {
   const user = useSelector((state) => state.user.userDetails)
   console.log(user.isActive )
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/profile";
+  const from = location.state?.from?.pathname || "/";
   console.log('sdecond')
   return (
     <Routes>
