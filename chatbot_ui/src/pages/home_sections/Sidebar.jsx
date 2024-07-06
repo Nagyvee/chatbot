@@ -12,12 +12,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const SidebarContainer = styled.div`
-  width: 200px;
+  width: 180px;
   height: 100vh;
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
-  padding: 1.8rem 1rem;
+  padding: 1.6rem 1rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 `;
 
@@ -35,11 +35,11 @@ const Logo = styled.img`
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  margin-right: 0.5rem;
+  margin-right: 0.1rem;
 `;
 
 const LogoText = styled.h1`
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #333;
 `;
@@ -52,7 +52,7 @@ const NavList = styled.ul`
 
 const NavItem = styled.li`
   display: flex;
-  font-size: .9rem;
+  font-size: .8rem;
   align-items: center;
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;

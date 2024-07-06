@@ -128,7 +128,7 @@ const MessageSection = styled.div`
 const Input = styled.input`
   flex: 1;
   padding: 0.75rem;
-  padding-right: 2.5rem; /* Add some padding to the right to avoid overlap with the button */
+  padding-right: 2.5rem;
   border-radius: 8px;
   border: 1px solid #ddd;
   font-size: 1rem;
