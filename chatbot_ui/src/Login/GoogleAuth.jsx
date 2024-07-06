@@ -30,6 +30,8 @@ const GoogleIcon = styled.img`
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_AUTH
 
 const GoogleLogin = () => {
+  const from = location.state?.from?.pathname || "/";
+
   useEffect(() => {
     const start = () => {
       gapi.auth2.init({
@@ -51,7 +53,7 @@ const GoogleLogin = () => {
     
     const response = await axios.post('http://localhost:3501/api/user/verify-google',{id_token}, { withCredentials: true })
     setTokenToLocal(response.data.token)
-    navigate('/profile');
+    navigate(from);
   };
 
   return(

@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import profileIcon from '../../assets/profile.jpg'
 
 const NavContainer = styled.nav`
   width: 100%;
   height: 3.5rem;
-  padding: 2rem 1rem;
+  padding: 2.5rem 1.2rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 0.5rem;
   text-align: center;
-  border-bottom: 2px solid grey;
-  background-color: #f8f9fa;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const Text = styled.p`
@@ -46,7 +47,7 @@ const Navbar = () => {
   return (
     <NavContainer>
       <Text>{user.name}</Text>
-      <Image src={user.image} alt="profile image" />
+     <Image src={user.image !== undefined? user.image: profileIcon} alt="profile image" />
     </NavContainer>
   );
 }

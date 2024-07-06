@@ -1,10 +1,10 @@
 import './App.css'
-import  {useEffect} from 'react'
 import { useLocation ,Navigate, Routes, Route} from 'react-router-dom'
 import Login from './Login/Login'
 import useVerifyUser from './Login/verifyUser'
 import { useSelector } from 'react-redux'
 import Home from './pages/home_sections/Home'
+import Chat from './pages/home_sections/Chat'
 
 function App() {
   useVerifyUser()
@@ -17,6 +17,7 @@ function App() {
     <Routes>
     <Route path="/user/auth" element={user.isActive ? <Navigate to={from} /> : <Login/>} />
       <Route path="/" element={user.isActive ? <Home /> : <Login/>} />
+      <Route path='/chat' element={ <Chat />}/>
       <Route path='*' element={<h1>Page Not Found</h1>} />
     </Routes>
   )
