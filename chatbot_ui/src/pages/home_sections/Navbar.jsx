@@ -5,11 +5,12 @@ import profileIcon from '../../assets/profile.jpg'
 const NavContainer = styled.nav`
   width: 100%;
   height: 3.5rem;
-  padding: 2.5rem 1.2rem;
+  padding: 1.8rem 1.2rem;
+  margin:0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 0.5rem;
+  gap: .4rem;
   text-align: center;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -17,19 +18,14 @@ const NavContainer = styled.nav`
 
 const Text = styled.p`
   margin: 0;
-  margin-right: 10px;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 550;
+  font-size: 14px;
   color: #333;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
 `;
 
 const Image = styled.img`
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   margin-right: 15px;
   border-radius: 50%;
   object-fit: cover;
