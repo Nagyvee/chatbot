@@ -3,36 +3,45 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import msgIconImg from '../../assets/msg-icon.png';
-import msgNortIcon from '../../assets/messagesNoti.png'
+import msgNortIcon from '../../assets/messagesNoti.png';
 import { useSelector } from 'react-redux';
 import profileIcon from '../../assets/profile.jpg';
 
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 2rem 5rem;
+  padding: .35rem 3.5rem;
+
+  .bottom-sec{
+    width: 100%;
+    background: #fff;
+    z-index: 10;
+    position: sticky;
+    bottom: -1.1rem;
+    padding-bottom: 1rem;
+    margin-top: 3rem;
+  }
 `;
 
 const UpperSection = styled.div`
-  margin-bottom: 1rem;
+  margin-bottom: .6rem;
 `;
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #333;
 `;
 
 const Subtitle = styled.p`
   margin: 0.5rem 0 0 0;
-  font-size: .9rem;
+  font-size: .85rem;
   color: #999;
 `;
 
 const HistorySection = styled.div`
   flex: 1;
-  padding:.5rem 1rem 2.4rem;
+  padding: .5rem 1rem 2.4rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #fff;
@@ -40,6 +49,15 @@ const HistorySection = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 `;
 
 const Center = styled.div`
@@ -81,38 +99,36 @@ const HistoryChatsContainer = styled.div`
   }
 
   h4 {
-    font-size: .9rem;
+    font-size: .85rem;
     margin: 0;
   }
 
   p {
-    font-size: .8rem;
+    font-size: .75rem;
     word-spacing: .15rem;
     color: #999;
     margin: 0;
   }
 
-    span {
+  span {
     display: inline-block;
     width: 5px;
     height: 5px;
     background-color: #999;
     border-radius: 50%;
     margin: 0 3px;
-    margin-top: ;
   }
 
   .badge {
-
     img {
-     position: absolute;
-    bottom: 7px;
-    right: -5px;
-    width: 25px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+      position: absolute;
+      bottom: 7px;
+      right: -5px;
+      width: 25px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 `;
@@ -120,9 +136,10 @@ const HistoryChatsContainer = styled.div`
 const MessageSection = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 4rem; /* Add a large gap between history section and input */
+  margin-top: 4rem;
   width: 100%;
   position: relative;
+  bottom: 10px;
 `;
 
 const Input = styled.input`
@@ -157,7 +174,7 @@ const SendButton = styled.button`
 `;
 
 const Footer = styled.p`
-  font-size: 1rem;
+  font-size: .85rem;
   margin-top: 1rem;
   text-align: center;
   color: #999;
@@ -166,6 +183,8 @@ const Footer = styled.p`
 const ChatContainer = () => {
   const user = useSelector((state) => state.user.userDetails);
   const historyChats = [
+    { title: 'How can I code', qstns: 10, time: '34min' },
+    { title: 'How can I code', qstns: 10, time: '34min' },
     { title: 'How can I code', qstns: 10, time: '34min' },
     { title: 'How can I code', qstns: 10, time: '34min' },
     { title: 'How can I code', qstns: 10, time: '34min' },
@@ -210,6 +229,7 @@ const ChatContainer = () => {
           </HistoryChatsContainer>
         )}
       </HistorySection>
+      <div className='bottom-sec'>
       <MessageSection>
         <Input type="text" placeholder="Write Coding about new HTML Tags" />
         <SendButton>
@@ -217,6 +237,7 @@ const ChatContainer = () => {
         </SendButton>
       </MessageSection>
       <Footer>Let's Talk AI Chat V2.5</Footer>
+      </div>
     </Section>
   );
 };
