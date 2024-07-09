@@ -16,21 +16,21 @@ const createAcc = (req, res) => {
       if (results.length > 0) {
         return res.status(400).json({
           status: false,
-          msg: "email is already registered please login",
+          msg: "email is already registered. Please login to continue",
         });
       }
       bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
-          return res.status(500).json({ status: false, msg: "server error" });
+          return res.status(500).json({ status: false, msg: "server error. Please try again." });
         }
         pool.query(CreateQuery, [name, email, hash], (err, results) => {
           if (err) {
-            return res.status(500).json({ status: false, msg: "server error" });
+            return res.status(500).json({ status: false, msg: "server error. Please try again." });
           }
           const userId = results.insertId;
           jwt.sign({userId, name,email}, process.env.JWT_SECRET,  { expiresIn: "1h" }, (err, token) => {
             if (err){
-              return res.status(500).json({ status: false, msg: "server error" });
+              return res.status(500).json({ status: false, msg: "server error. Please try again." });
             }
             res.cookie("chat_tkn", token, {
               maxAge: 60 * 60 * 1000,
@@ -52,13 +52,13 @@ const loginUser = (req, res) => {
   pool.query(query, [email], (err, results) => {
     if (err) return res.status(500).json({ status: false, msg: "false" });
     if (results.length === 0){
-      return res.status(400).json({ status: false, msg: "account not found" });
+      return res.status(400).json({ status: false, msg: "account does not exist." });
     }
     const user = results[0];
     bcrypt.compare(password, user.password, (err, isMatch) => {
-      if (err) res.status(500).json({ status: false, msg: "server error" });
+      if (err) res.status(500).json({ status: false, msg: "server error. Please try again." });
       if (!isMatch){
-        return res.status(400).json({ status: false, msg: "wrong password" });
+        return res.status(400).json({ status: false, msg: "You entered wrong Password." });
       }
 
       const payload = {
@@ -68,7 +68,7 @@ const loginUser = (req, res) => {
       };
       jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" }, (err, token) => {
         if (err){
-          return res.status(500).json({ status: false, msg: "server error" });
+          return res.status(500).json({ status: false, msg: "server error. Please try again." });
         }
         res.cookie("chat_tkn", token, {
           maxAge: 60 * 60 * 1000,

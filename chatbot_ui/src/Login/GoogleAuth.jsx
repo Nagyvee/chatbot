@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { gapi } from 'gapi-script';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import GoogleIconImage from "../assets/google_icon.png";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 import { setTokenToLocal } from "./Validate";
-import verifyUser from './verifyUser'
-import PopUpNotification from '../pages/home_sections/PopupNoti';
 
 const GoogleButton = styled.div`
   display: flex;
@@ -16,7 +14,7 @@ const GoogleButton = styled.div`
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: white;
-  cursor: pointer;
+  cursor: ${({ btnActive }) => (btnActive ? 'not-allowed' : 'pointer')};
   &:hover {
     background-color: #f4f4f9;
   }
@@ -28,10 +26,11 @@ const GoogleIcon = styled.img`
   margin-right: 10px;
 `;
 
-const CLIENT_ID = import.meta.env.VITE_GOOGLE_AUTH
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_AUTH;
 
-const GoogleLogin = () => {
-  const from = location.state?.from?.pathname || "/";
+const GoogleLogin = ({ setErrorMessage, setLoginError, btnActive, setBtnActive, from }) => {
+  const navigate = useNavigate();
+  const [isSigning, setIsSigning] = useState(false)
 
   useEffect(() => {
     const start = () => {
@@ -44,24 +43,33 @@ const GoogleLogin = () => {
     gapi.load('client:auth2', start);
   }, []);
 
-  const navigate = useNavigate();
-
   const handleLogin = async () => {
-    const googleAuth = gapi.auth2.getAuthInstance();
-    const googleUser = await googleAuth.signIn();
-    const profile = googleUser.getBasicProfile();
-    const id_token = googleUser.getAuthResponse().id_token;
-    
-    const response = await axios.post('http://localhost:3501/api/user/verify-google',{id_token}, { withCredentials: true })
-    setTokenToLocal(response.data.token)
-    navigate(from);
+    if (btnActive) return;
+    setIsSigning(true)
+    try {
+      setBtnActive(true);
+      const googleAuth = gapi.auth2.getAuthInstance();
+      const googleUser = await googleAuth.signIn();
+      const id_token = googleUser.getAuthResponse().id_token;
+      
+      const response = await axios.post('http://localhost:3501/api/user/verify-google', { id_token }, { withCredentials: true });
+      setTokenToLocal(response.data.token);
+      navigate(from);
+    } catch (error) {
+      const errorMsg = error.response?.data?.msg || "An error occurred. Please try again.";
+      setErrorMessage(errorMsg);
+      setLoginError(true);
+    } finally {
+      setBtnActive(false);
+      setIsSigning(false);
+    }
   };
 
-  return(
-        <GoogleButton onClick={handleLogin}>
-          <GoogleIcon src={GoogleIconImage} alt="Google Icon" />
-          Login with Google
-         </GoogleButton>
+  return (
+    <GoogleButton onClick={handleLogin} btnActive={btnActive}>
+      <GoogleIcon src={GoogleIconImage} alt="Google Icon" />
+      {!isSigning ? 'Login with Google' : 'Loading....'}
+    </GoogleButton>
   );
 };
 

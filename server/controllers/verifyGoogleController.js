@@ -28,7 +28,7 @@ const verifyGoogleToken = async (req, res) => {
       (err, results) => {
         if (err){
           console.log(err)
-          return res.status(500).json({ status: false, msg: "Server error" });
+          return res.status(500).json({ status: false, msg: "Server error. Please try again" });
         }
         if (results.length > 0) {
           const user = results[0];
@@ -51,7 +51,7 @@ const verifyGoogleToken = async (req, res) => {
         pool.query(insertQuery, [userid, email, name, image], (err, result) => {
           if (err){
             console.log(err)
-            return res.status(500).json({ status: false, msg: "Server error" });
+            return res.status(500).json({ status: false, msg: "Server error. Please try again" });
           }
           const userId = results.insertId; // This gets the auto-incremented ID
           const jwtToken = jwt.sign(
@@ -68,8 +68,7 @@ const verifyGoogleToken = async (req, res) => {
       }
     );
   } catch (error) {
-    console.log(error);
-    return res.status(400).send("Invalid ID token");
+    return res.status(400).json({status: false, msg: "Invalid ID token"});
   }
 };
 
