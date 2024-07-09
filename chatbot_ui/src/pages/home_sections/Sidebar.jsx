@@ -39,7 +39,7 @@ const Logo = styled.img`
 `;
 
 const LogoText = styled.h1`
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #333;
 `;
@@ -52,7 +52,7 @@ const NavList = styled.ul`
 
 const NavItem = styled.li`
   display: flex;
-  font-size: .8rem;
+  font-size: .9rem;
   align-items: center;
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
