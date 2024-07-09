@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { setTokenToLocal } from "./Validate";
 import verifyUser from './verifyUser'
+import PopUpNotification from '../pages/home_sections/PopupNoti';
 
 const GoogleButton = styled.div`
   display: flex;

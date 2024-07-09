@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { validate } from "./Validate";
 import { setTokenToLocal } from "./Validate";
+import PopUpNotification from "../pages/home_sections/PopupNoti";
 
 // Styled Components
 const Section = styled.section`
@@ -55,6 +56,11 @@ const Button = styled.button`
   &:hover {
     background-color: #0056b3;
   }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 `;
 
 const Text = styled.p`
@@ -82,13 +88,16 @@ const ErrorMessageStyled = styled.div`
 `;
 
 export default function Login() {
-  const [isLogging, setIsLogging] = useState(false);
+  const [isLogging, setIsLogging] = useState(true);
   const [userDetails, setUserDetails] = useState({
     name: '',
     email: '',
     password: ''
   });
+  const [loginError, setLoginError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [errors, setErrors] = useState({});
+  const [btnActive, setBtnActive] = useState(false)
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -108,6 +117,7 @@ export default function Login() {
       setErrors(validationErrors);
       return;
     }
+    setBtnActive(true)
     setErrors({});
     try {
       const url = isLogging 
@@ -118,12 +128,25 @@ export default function Login() {
       setTokenToLocal(response.data.token)
       navigate(from);
     } catch (error) {
-      console.error(error);
+      if(error.response === undefined){
+        setErrorMessage('An error Occured. Please try again.')
+        console.log(error.response)
+        setLoginError(true)
+      }
+      setErrorMessage(error.response.data.msg)
+      setLoginError(true)
+    }finally{
+      setBtnActive(false)
     }
   };
 
   return (
     <Section>
+     {loginError && <PopUpNotification 
+     message={errorMessage}
+     onClose={() => setLoginError(false)}
+     />}
+
       <StyledForm onSubmit={handleSubmit}>
         <LogoImage src={Logo} alt="Let's Talk Chatbot Logo" />
         <SubHeading>{isLogging ? "Login" : "Signup"}</SubHeading>
@@ -155,8 +178,8 @@ export default function Login() {
           onChange={handleChange}
         />
         {errors.password && <ErrorMessageStyled>{errors.password}</ErrorMessageStyled>}
-        <Button type="submit">
-          {isLogging ? "Login" : "Signup"}
+        <Button type="submit" disabled={btnActive}>
+          {btnActive ?  "Loading...": isLogging ? "Login" : "Signup"}
         </Button>
         {isLogging && <LinkText>Forgot Password?</LinkText>}
         <GoogleLogin />

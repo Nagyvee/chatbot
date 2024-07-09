@@ -5,17 +5,19 @@ import useVerifyUser from './Login/verifyUser'
 import { useSelector } from 'react-redux'
 import Home from './pages/home_sections/Home'
 import Chat from './pages/home_sections/Chat'
+import PopUpNotification from './pages/home_sections/PopupNoti'
 
 function App() {
   useVerifyUser()
   const user = useSelector((state) => state.user.userDetails)
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  return (
+  return(
     <Routes>
     <Route path="/user/auth" element={user.isActive ? <Navigate to={from} /> : <Login/>} />
       <Route path="/" element={user.isActive ? <Home /> : <Login/>} />
       <Route path='/chat' element={ <Chat />}/>
+      <Route path='/popup' element={ <PopUpNotification />}/>
       <Route path='*' element={<h1>Page Not Found</h1>} />
     </Routes>
   )
