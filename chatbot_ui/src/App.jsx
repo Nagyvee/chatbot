@@ -9,10 +9,8 @@ import Chat from './pages/home_sections/Chat'
 function App() {
   useVerifyUser()
   const user = useSelector((state) => state.user.userDetails)
-  console.log(user.isActive )
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  console.log('sdecond')
   return (
     <Routes>
     <Route path="/user/auth" element={user.isActive ? <Navigate to={from} /> : <Login/>} />
