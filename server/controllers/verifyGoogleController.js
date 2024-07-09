@@ -53,7 +53,7 @@ const verifyGoogleToken = async (req, res) => {
             console.log(err)
             return res.status(500).json({ status: false, msg: "Server error. Please try again" });
           }
-          const userId = results.insertId; // This gets the auto-incremented ID
+          const userId = results.insertId; // auto-incremented ID
           const jwtToken = jwt.sign(
             { userId, email, name, image },
             JWT_SECRET,

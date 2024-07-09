@@ -46,7 +46,7 @@ useEffect(() => {
 
     const intervalId = setInterval(() => {
       verifyUser();
-    }, 30 * 60 * 1000); // 30 minutes
+    }, 10.1 * 60 * 1000); 
 
     return () => clearInterval(intervalId);
   }, [location, dispatch]);
