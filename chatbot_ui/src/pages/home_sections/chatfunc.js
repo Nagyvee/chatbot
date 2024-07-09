@@ -1,7 +1,7 @@
 // src/services/openaiService.js
 import axios from 'axios';
 
-const API_KEY = ""; 
+const API_KEY = import.meta.env.VITE_OPENAI_KEY; 
 
 export const fetchOpenAIResponse = async (prompt) => {
     const endpoint = 'https://api.openai.com/v1/completions';
