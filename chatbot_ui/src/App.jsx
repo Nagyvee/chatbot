@@ -6,23 +6,36 @@ import { useSelector } from "react-redux";
 import Home from "./pages/home_sections/Home";
 import Chat from "./pages/home_sections/Chat";
 import PopUpNotification from "./pages/home_sections/PopupNoti";
+import { useState } from "react";
 
 function App() {
-  useVerifyUser();
+  const [popUp, setPopUp] = useState(false)
+  useVerifyUser(setPopUp);
   const user = useSelector((state) => state.user.userDetails);
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+
+  const handleClose = () =>{
+    setPopUp(false)
+  }
+
   return (
+    <>
+   {popUp && <PopUpNotification
+    message="Session Expired. Please log in to continue."
+    onClose={handleClose}
+    />
+   }
     <Routes>
       <Route
         path="/user/auth"
-        element={user.isActive ? <Navigate to={from} /> : <Login />}
+        element={user.isActive? <Navigate to={from} /> : <Login />}
       />
       <Route path="/" element={user.isActive ? <Home /> : <Login />} />
       <Route path="/chat" element={<Chat />} />
-      <Route path="/popup" element={<PopUpNotification />} />
       <Route path="*" element={<h1>Page Not Found</h1>} />
     </Routes>
+    </>
   );
 }
 

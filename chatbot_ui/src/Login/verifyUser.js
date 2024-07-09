@@ -4,7 +4,7 @@ import {jwtDecode} from 'jwt-decode'
 import { useEffect } from "react"
 import { useLocation } from "react-router-dom"
 
-const useVerifyUser = () =>{
+const useVerifyUser = (setPopUp) =>{
     const dispatch = useDispatch();
     const location = useLocation()
     
@@ -19,8 +19,7 @@ const verifyUser = () => {
 
     const token = localStorage.getItem('chat_tkn')
     
-    if (!token) {
-        console.log('No token found!')
+    if (!token){
         return dispatch(setUser(noUserState))
     } 
     const tokenDetails = jwtDecode(token)
@@ -28,6 +27,7 @@ const verifyUser = () => {
     console.log(tokenDetails)
     if (currentTime > tokenDetails.exp * 1000) {
         console.log('ivalid token provided!')
+        setPopUp(true)
         return dispatch(setUser(noUserState))
     }
     const userProfile = {
@@ -37,7 +37,6 @@ const verifyUser = () => {
         email: tokenDetails.email,
         image:tokenDetails.image,
     }
-    console.log('token is valid 👍')
     return dispatch(setUser(userProfile))
 }
 
