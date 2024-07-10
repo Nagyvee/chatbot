@@ -14,8 +14,11 @@ import {
   Text,
   LinkText,
   LogoImage,
-  InputField
+  InputField,
+  EyeIcon
 } from "./Styles";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const LOGIN_URL = "http://localhost:3501/api/user/login";
 const SIGNUP_URL = "http://localhost:3501/api/user/create";
@@ -29,7 +32,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const [isSigning, setIsSigning] = useState(false)
+  const [isSigning, setIsSigning] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [userDetails, errors, handleChange, validateForm, setUserDetails, setErrors] = useForm({
     name: "",
@@ -44,7 +48,7 @@ const Login = () => {
       return;
     }
     setBtnActive(true);
-    setIsSigning(true)
+    setIsSigning(true);
     setErrors({});
     try {
       const url = isLogging ? LOGIN_URL : SIGNUP_URL;
@@ -58,8 +62,12 @@ const Login = () => {
       setLoginError(true);
     } finally {
       setBtnActive(false);
-      setIsSigning(false)
+      setIsSigning(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -92,14 +100,19 @@ const Login = () => {
           onChange={handleChange}
           error={errors.email}
         />
+        <div className="password-wrap">
         <InputField
-          type="password"
+          type={showPassword ? "text" : "password"} 
           placeholder="Password"
           name="password"
           value={userDetails.password}
           onChange={handleChange}
           error={errors.password}
         />
+        <EyeIcon onClick={togglePasswordVisibility}>
+          <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+        </EyeIcon>
+        </div>
         <Button type="submit" disabled={btnActive}>
           {isSigning ? "Loading..." : isLogging ? "Login" : "Signup"}
         </Button>
@@ -122,4 +135,4 @@ const Login = () => {
   );
 }
 
-export default Login
+export default Login;

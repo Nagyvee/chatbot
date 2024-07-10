@@ -18,6 +18,10 @@ const StyledForm = styled.form`
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  .password-wrap{
+  position: relative;
+  }
 `;
 
 const SubHeading = styled.h2`
@@ -32,6 +36,13 @@ const InputEl = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
+`;
+
+const EyeIcon = styled.span`
+  position: absolute;
+  top: 10px;
+  right: 7px;
+  cursor: pointer;
 `;
 
 const Button = styled.button`
@@ -92,4 +103,4 @@ const InputField = ({ type, name, value, placeholder, onChange, error }) => (
     </>
   );
 
-export { Section, StyledForm, SubHeading, InputEl, Button, Text, LinkText, LogoImage, ErrorMessageStyled, InputField }
+export { Section, StyledForm, SubHeading, InputEl, Button, Text, LinkText, LogoImage, ErrorMessageStyled,EyeIcon, InputField }

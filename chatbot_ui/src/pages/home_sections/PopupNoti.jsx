@@ -4,29 +4,26 @@ import styled, { keyframes } from 'styled-components';
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 `;
 
 const Container = styled.div`
   position: fixed;
   top: 20px;
-  right: 42%;
+  left: 50%;
+  transform: translateX(-50%);
   max-width: 300px;
-  background-color: ${({ type }) => (type === 'success' ? '#4caf50' : '#f44336')}; /* Green for success, red for errors */
-  color: #fff;
-  padding: 1rem;
+  background-color: ${({ type }) => (type === 'success' ? '#4caf50' : '#f44336')};
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: ${fadeIn} 0.3s ease-out;
-  z-index: 1000; /* Ensures it stays above other content */
+  animation: ${fadeIn} 0.3s ease-in-out;
+  z-index: 1000;
 `;
 
 const Message = styled.p`
