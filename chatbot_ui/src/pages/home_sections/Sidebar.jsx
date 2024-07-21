@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import LogoImg from "../../assets/logo_nobg.png";
+import LogoImg from "../../assets/Nayvee_chat_logo_nobg.png";
 import {
   faRobot,
   faUsers,
@@ -24,24 +24,13 @@ const SidebarContainer = styled.div`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 2rem;
 `;
 
 const Logo = styled.img`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  margin-right: 0.1rem;
-`;
-
-const LogoText = styled.h1`
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #333;
+  width: 75%;
+  height: auto;
 `;
 
 const NavList = styled.ul`
@@ -84,7 +73,6 @@ const Sidebar = () => {
     <SidebarContainer>
       <LogoContainer>
         <Logo src={LogoImg} alt="Logo image"/>
-        <LogoText>Let's Talk</LogoText>
       </LogoContainer>
       <NavList>
         <NavItem className="active">

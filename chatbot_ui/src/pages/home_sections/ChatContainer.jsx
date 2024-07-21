@@ -257,7 +257,7 @@ const ChatContainer = () => {
             <FontAwesomeIcon icon={faPaperPlane} />
           </SendButton>
         </MessageSection>
-        <Footer>Let's Talk AI Chat V2.5</Footer>
+        <Footer>Nayvee Chat AI Chat V1.5</Footer>
       </div>
     </Section>
   );
