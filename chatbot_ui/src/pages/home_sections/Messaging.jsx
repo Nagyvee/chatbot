@@ -29,7 +29,7 @@ const Message = styled.div`
   }
 
   p {
-    margin: 0;
+    margin: 0 0 .75rem;
     color: #333;
     word-break: break-word;
   }
