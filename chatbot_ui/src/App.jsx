@@ -20,10 +20,6 @@ function App() {
     setPopUp(false);
   };
 
-  useEffect(() => {
-    console.log('hello')
-  }, []);
-
   return (
     <>
       {popUp && (

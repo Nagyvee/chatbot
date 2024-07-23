@@ -2,7 +2,6 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ChatContainer from "./ChatContainer";
 import styled from 'styled-components';
-import {v4 as uuidv4} from 'uuid';
 import { useEffect } from "react";
 
 const Section = styled.div`
@@ -31,11 +30,6 @@ const Main = styled.main`
 `;
 
 const Home = () => {
-  useEffect (() => {
-    const chat_id = uuidv4();
-    console.log('chat_id:', chat_id)
-  }
-    ,[]) 
 
   return (
     <Section>
