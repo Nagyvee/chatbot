@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import LogoImg from "../../assets/Nayvee_chat_logo_nobg.png";
+import LogoImg from "../../assets/Nayvee_chat_logo.png";
 import {
   faRobot,
   faUsers,
@@ -12,12 +12,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const SidebarContainer = styled.div`
-  width: 180px;
+  width: 200px;
   height: 100vh;
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
-  padding: 1.6rem .75rem;
+  padding: 1.8rem .5rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 `;
 
@@ -29,7 +29,8 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 75%;
+  width: 100%;
+  border-radius: 4px;
   height: auto;
 `;
 

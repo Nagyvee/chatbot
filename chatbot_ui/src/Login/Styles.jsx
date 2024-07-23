@@ -79,7 +79,9 @@ const LinkText = styled.span`
 `;
 
 const LogoImage = styled.img`
-  width: 100px;
+  width: 200px;
+  border-radius: 4px;
+  height: auto;
   margin-bottom: 1rem;
 `;
 

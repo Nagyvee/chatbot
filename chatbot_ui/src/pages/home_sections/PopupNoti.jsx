@@ -21,13 +21,16 @@ const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  alight-items: center;
+  justify-content: center;
+  padding: 1.5rem;
   animation: ${fadeIn} 0.3s ease-in-out;
   z-index: 1000;
 `;
 
 const Message = styled.p`
   margin: 0;
+  color: #fff;
   font-size: 1rem;
   text-align: center;
   margin-bottom: 1rem;
@@ -39,6 +42,8 @@ const CloseButton = styled.button`
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
+  width: 65%;
+  margin: 0 auto;
   font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

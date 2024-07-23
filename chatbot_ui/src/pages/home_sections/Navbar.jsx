@@ -4,8 +4,8 @@ import profileIcon from '../../assets/profile.jpg'
 
 const NavContainer = styled.nav`
   width: 100%;
-  height: 3.5rem;
-  padding: 1.8rem 1.2rem;
+  height: 4rem;
+  padding: 2rem 1.2rem;
   margin:0;
   display: flex;
   justify-content: flex-end;
