@@ -94,7 +94,7 @@ const InputSec = () => {
 
     try {
         setMessageValue('');
-        const response = await axios.post(`${URL}/api/chat/v2.5/nayveechat/`,{...senderObj, history, chatId: activeChat}, { withCredentials: true });
+        const response = await axios.post(`${URL}/chat/v2.5/nayveechat/`,{...senderObj, history, chatId: activeChat}, { withCredentials: true });
         await dispatch(addChat({ id: Date.now(),...senderObj}))
         await dispatch(addChat({ id: Date.now(), sender: 'Nayvee Chatbot', message: response.data }))
         console.log(response.data)

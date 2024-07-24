@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { gapi } from 'gapi-script';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import { gapi } from "gapi-script";
+import styled from "styled-components";
 import GoogleIconImage from "../assets/google_icon.png";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { setTokenToLocal } from "./Validate";
 
 const GoogleButton = styled.div`
@@ -14,7 +14,7 @@ const GoogleButton = styled.div`
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: white;
-  cursor: ${({ btnActive }) => (btnActive ? 'not-allowed' : 'pointer')};
+  cursor: ${({ btnActive }) => (btnActive ? "not-allowed" : "pointer")};
   &:hover {
     background-color: #f4f4f9;
   }
@@ -28,35 +28,47 @@ const GoogleIcon = styled.img`
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_AUTH;
 
-const GoogleLogin = ({ setErrorMessage, setLoginError, btnActive, setBtnActive, from }) => {
+const GoogleLogin = ({
+  setErrorMessage,
+  setLoginError,
+  btnActive,
+  setBtnActive,
+  from,
+}) => {
   const navigate = useNavigate();
-  const [isSigning, setIsSigning] = useState(false)
+  const [isSigning, setIsSigning] = useState(false);
 
   useEffect(() => {
     const start = () => {
       gapi.auth2.init({
         client_id: CLIENT_ID,
-        scope: ''
+        scope: "",
       });
     };
 
-    gapi.load('client:auth2', start);
+    gapi.load("client:auth2", start);
   }, []);
 
   const handleLogin = async () => {
     if (btnActive) return;
-    setIsSigning(true)
+    setIsSigning(true);
     try {
       setBtnActive(true);
       const googleAuth = gapi.auth2.getAuthInstance();
       const googleUser = await googleAuth.signIn();
       const id_token = googleUser.getAuthResponse().id_token;
-      
-      const response = await axios.post('http://localhost:3501/api/user/verify-google', { id_token }, { withCredentials: true });
+      const URL = import.meta.env.VITE_SERVER_URL;
+
+      const response = await axios.post(
+        `${URL}/user/verify-google`,
+        { id_token },
+        { withCredentials: true }
+      );
       setTokenToLocal(response.data.token);
       navigate(from);
     } catch (error) {
-      const errorMsg = error.response?.data?.msg || "An error occurred. Please try again.";
+      const errorMsg =
+        error.response?.data?.msg || "An error occurred. Please try again.";
       setErrorMessage(errorMsg);
       setLoginError(true);
     } finally {
@@ -68,7 +80,7 @@ const GoogleLogin = ({ setErrorMessage, setLoginError, btnActive, setBtnActive, 
   return (
     <GoogleButton onClick={handleLogin} btnActive={btnActive}>
       <GoogleIcon src={GoogleIconImage} alt="Google Icon" />
-      {!isSigning ? 'Login with Google' : 'Loading....'}
+      {!isSigning ? "Login with Google" : "Loading...."}
     </GoogleButton>
   );
 };

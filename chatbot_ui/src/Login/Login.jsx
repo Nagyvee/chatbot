@@ -20,8 +20,9 @@ import {
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const LOGIN_URL = "http://localhost:3501/api/user/login";
-const SIGNUP_URL = "http://localhost:3501/api/user/create";
+const URL = import.meta.env.VITE_SERVER_URL;
+const LOGIN_URL = `${URL}/user/login`;
+const SIGNUP_URL = `${URL}/user/create`;
 
 // Main Login Component
 const Login = () => {
