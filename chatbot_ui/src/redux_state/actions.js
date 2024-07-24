@@ -17,3 +17,8 @@ export const addMessages = (payload) => ({
     type: 'ADD_MESSAGE',
     payload: payload
 })
+
+export const addChat = (payload) => ({
+    type: 'ADD_CHAT',
+    payload: payload
+})

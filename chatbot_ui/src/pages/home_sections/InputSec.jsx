@@ -2,14 +2,17 @@ import styled from "styled-components";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveChat, setPendingMessage , addChat} from "../../redux_state/actions";
+import { v4 as uuidv4} from 'uuid';
+import axios from "axios";
 
 const MessageSection = styled.form`
   display: flex;
   align-items: center;
-  margin-top: 2rem;
-  width: 100%;
-  position: relative;
-  bottom: 10px;
+  width: calc(60%);
+  position: fixed;
+  bottom: 1rem;
 `;
 
 const Input = styled.textarea`
@@ -66,16 +69,44 @@ const Footer = styled.p`
 
 const InputSec = () => {
   const [messageValue, setMessageValue] = useState('');
+  const dispatch = useDispatch();
+  const chatId = useSelector((state) => state.chat.activeChat);
+  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
+  const history = useSelector((state) => state.chat.userChats)
 
-  const handleSend = (event) => {
+  const handleSend = async (event) => {
     event.preventDefault();
     if (messageValue.length <= 2) {
       alert("Message must be longer than 2 characters.");
       return;
     }
 
+    let activeChat = chatId
+    if(activeChat === undefined){
+        const chat_id = uuidv4()
+        dispatch(setActiveChat(chat_id))
+        activeChat = chat_id
+    }
+    const senderObj = { sender: 'user', message: messageValue, }
+    dispatch(setPendingMessage(senderObj))
+
+    const URL = import.meta.env.VITE_SERVER_URL
+
+    try {
+        setMessageValue('');
+        const response = await axios.post(`${URL}/api/chat/v2.5/nayveechat/`,{...senderObj, history, chatId: activeChat}, { withCredentials: true });
+        await dispatch(addChat({ id: Date.now(),...senderObj}))
+        await dispatch(addChat({ id: Date.now(), sender: 'Nayvee Chatbot', message: response.data }))
+        console.log(response.data)
+    } catch (error) {
+        console.log(Error)
+    }finally{
+        dispatch(setPendingMessage(null))
+    }
+
+    console.log(activeChat)
+    console.log(pendingMessage)
     console.log('sending..', messageValue);
-    setMessageValue(''); 
   }
 
   return (

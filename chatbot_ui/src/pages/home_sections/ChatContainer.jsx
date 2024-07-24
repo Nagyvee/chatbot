@@ -135,7 +135,7 @@ const HistoryChatsContainer = styled.div`
 
 const ChatContainer = () => {
   const user = useSelector((state) => state.user.userDetails);
-  const [activeChat, setActiveChate] = useState(true);
+  const activeChat = useSelector((state) => state.chat.activeChat);
   const historyChats = [
     { title: 'How can I code', qstns: 10, time: '34min' },
     { title: 'How can I code', qstns: 10, time: '34min' },
@@ -147,7 +147,7 @@ const ChatContainer = () => {
 
   return (
     <Section>
-      {!activeChat && (
+      {activeChat !== undefined &&(
         <UpperSection>
           <Title>Get answers in seconds</Title>
           <Subtitle>Create and complete tasks using boards</Subtitle>

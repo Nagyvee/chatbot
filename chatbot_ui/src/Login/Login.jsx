@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "../assets/Nayvee_chat_logo.png";
+import Logo from "../assets/nayveechat-logo.png";
 import GoogleLogin from "./GoogleAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
