@@ -10,16 +10,16 @@ import InputSec from './InputSec';
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 0.35rem 3.5rem;
+  padding: 0.35rem 3.5rem 0;
 
   .bottom-sec {
     width: 100%;
     background: #fff;
     z-index: 10;
     position: sticky;
-    bottom: -1.1rem;
-    padding-bottom: 1rem;
-    margin-top: 1rem;
+    bottom: 0;
+    padding-bottom: .5rem;
+    margin-top: 10rem;
   }
 `;
 
@@ -122,10 +122,10 @@ const HistoryChatsContainer = styled.div`
   .badge {
     img {
       position: absolute;
-      bottom: 7px;
-      right: -5px;
+      bottom: 6px;
+      right: -8px;
       width: 25px;
-      height: 22px;
+      height: 18px;
       display: flex;
       align-items: center;
       justify-content: center;

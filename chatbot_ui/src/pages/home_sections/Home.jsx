@@ -7,6 +7,8 @@ import { useEffect } from "react";
 const Section = styled.div`
   display: flex;
   height: 100vh;
+  margin: 0;
+  padding: 0;
 `;
 
 const Content = styled.div`
@@ -17,7 +19,7 @@ const Content = styled.div`
 
 const Main = styled.main`
   flex: 1;
-  padding: 1rem;
+  padding:0 1rem;
   overflow-y: auto;
     /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {

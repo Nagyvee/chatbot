@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import LogoImg from "../../assets/nayveechat-logo.png";
+import LogoImg from "../../assets/nayveechat-logo-nobg.png";
 import {
   faRobot,
   faUsers,
@@ -29,10 +29,10 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 80%;
+  width: 100%;
   height: 400px;
   border-radius: 4px;
-  height: auto;
+  height: 55px;
 `;
 
 const NavList = styled.ul`

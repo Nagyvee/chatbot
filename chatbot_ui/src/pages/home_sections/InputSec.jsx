@@ -10,9 +10,9 @@ import axios from "axios";
 const MessageSection = styled.form`
   display: flex;
   align-items: center;
-  width: calc(60%);
-  position: fixed;
-  bottom: 1rem;
+  width: calc(100%);
+  position: reletive;
+  margin-top: 0;
 `;
 
 const Input = styled.textarea`
@@ -26,7 +26,7 @@ const Input = styled.textarea`
   line-height: 1.5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   resize: none;
-  max-height: 500px;
+  max-height: 1000px;
   overflow-y: auto;
 
   &::placeholder {
