@@ -4,6 +4,8 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  height: 100%;
+  overflow-y: hidden;
   margin: 0;
   padding:0;
   background-color: #fff;
