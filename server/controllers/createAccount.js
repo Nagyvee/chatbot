@@ -11,7 +11,7 @@ const createAcc = (req, res) => {
     [email],
     (err, results) => {
       if (err) {
-        return res.status(500).json({ status: false, msg: "server error" });
+        return res.status(500).json({ status: false, msg: "server error. Please try again." });
       }
       if (results.length > 0) {
         return res.status(400).json({
@@ -50,7 +50,7 @@ const loginUser = (req, res) => {
   const query = `SELECT * FROM chatbot_users WHERE email = ?`;
 
   pool.query(query, [email], (err, results) => {
-    if (err) return res.status(500).json({ status: false, msg: "false" });
+    if (err) return res.status(500).json({ status: false, msg: "server error. Please try again." });
     if (results.length === 0){
       return res.status(400).json({ status: false, msg: "account does not exist." });
     }
