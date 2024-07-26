@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import styled from "styled-components";
 import msgIconImg from "../../assets/msg-icon.png";
 import msgNortIcon from "../../assets/messagesNoti.png";
 import { useSelector } from "react-redux";
 import profileIcon from "../../assets/profile.jpg";
 import Messages from "./Messaging";
-import InputSec from './InputSec';
+import InputSec from "./InputSec";
 
 const Section = styled.section`
   display: flex;
@@ -13,8 +13,18 @@ const Section = styled.section`
   flex-direction: column;
   padding: 0.35rem 3.5rem 0;
 
-  .top-wrap{
-  flex: 1;
+  .top-wrap {
+    padding: 1rem;
+    flex: 1;
+    overflow-y: auto;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 
   .bottom-sec {
@@ -23,8 +33,8 @@ const Section = styled.section`
     z-index: 10;
     position: sticky;
     bottom: 0;
-    padding-bottom: .5rem;
-    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    margin-top: 4rem;
   }
 `;
 
@@ -141,63 +151,73 @@ const HistoryChatsContainer = styled.div`
 const ChatContainer = () => {
   const user = useSelector((state) => state.user.userDetails);
   const activeChat = useSelector((state) => state.chat.activeChat);
+  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
+  const chatMessage = useSelector((state) => state.chat.userChats);
+  const messageRef = useRef(null);
+
+  useEffect(() => {
+    if (messageRef.current) {
+      messageRef.current.scrollTop = messageRef.current.scrollHeight;
+    }
+  }, [chatMessage, pendingMessage]);
+
   const historyChats = [
-    { title: 'How can I code', qstns: 10, time: '34min' },
-    { title: 'How can I code', qstns: 10, time: '34min' },
-    { title: 'How can I code', qstns: 10, time: '34min' },
-    { title: 'How can I code', qstns: 10, time: '34min' },
-    { title: 'How can I code', qstns: 10, time: '34min' },
-    { title: 'How can I code', qstns: 10, time: '34min' }
+    { title: "How can I code", qstns: 10, time: "34min" },
+    { title: "How can I code", qstns: 10, time: "34min" },
+    { title: "How can I code", qstns: 10, time: "34min" },
+    { title: "How can I code", qstns: 10, time: "34min" },
+    { title: "How can I code", qstns: 10, time: "34min" },
+    { title: "How can I code", qstns: 10, time: "34min" },
   ];
 
   return (
     <Section>
-      <div className="top-wrap">
-      {activeChat !== undefined &&(
-        <UpperSection>
-          <Title>Get answers in seconds</Title>
-          <Subtitle>Create and complete tasks using boards</Subtitle>
-        </UpperSection>
-      )}
-      {activeChat ? (
-        <Messages />
-      ) : (
-        <HistorySection>
-          <Title>Search History</Title>
-          {historyChats.length === 0 ? (
-            <Center>
-              <img src={msgIconImg} alt="No Questions" />
-              <Title>No Questions added</Title>
-              <Subtitle>
-                Type your questions below and get fast answers.
-              </Subtitle>
-            </Center>
-          ) : (
-            <HistoryChatsContainer>
-              {historyChats.map((chat, index) => (
-                <div className="wrapper" key={index}>
-                  <div style={{ position: "relative" }}>
-                    <img
-                      src={user?.image ? user.image : profileIcon}
-                      alt="profile img"
-                    />
-                    <div className="badge">
-                      <img src={msgNortIcon} alt="message icon" />
+      <div className="top-wrap" ref={messageRef}>
+        {activeChat === undefined && (
+          <UpperSection>
+            <Title>Get answers in seconds</Title>
+            <Subtitle>Create and complete tasks using boards</Subtitle>
+          </UpperSection>
+        )}
+        {activeChat !== undefined ? (
+          <Messages />
+        ) : (
+          <HistorySection>
+            <Title>Search History</Title>
+            {historyChats.length === 0 ? (
+              <Center>
+                <img src={msgIconImg} alt="No Questions" />
+                <Title>No Questions added</Title>
+                <Subtitle>
+                  Type your questions below and get fast answers.
+                </Subtitle>
+              </Center>
+            ) : (
+              <HistoryChatsContainer>
+                {historyChats.map((chat, index) => (
+                  <div className="wrapper" key={index}>
+                    <div style={{ position: "relative" }}>
+                      <img
+                        src={user?.image ? user.image : profileIcon}
+                        alt="profile img"
+                      />
+                      <div className="badge">
+                        <img src={msgNortIcon} alt="message icon" />
+                      </div>
+                    </div>
+                    <div>
+                      <h4>{chat.title}</h4>
+                      <p>
+                        {chat.qstns} questions asked <span></span> {chat.time}{" "}
+                        ago.
+                      </p>
                     </div>
                   </div>
-                  <div>
-                    <h4>{chat.title}</h4>
-                    <p>
-                      {chat.qstns} questions asked <span></span> {chat.time}{" "}
-                      ago.
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </HistoryChatsContainer>
-          )}
-        </HistorySection>
-      )}
+                ))}
+              </HistoryChatsContainer>
+            )}
+          </HistorySection>
+        )}
       </div>
       <div className="bottom-sec">
         <InputSec />
