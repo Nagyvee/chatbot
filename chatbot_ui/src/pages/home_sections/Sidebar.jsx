@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import LogoImg from "../../assets/nayveechat-logo-nobg.png";
+import LogoImg from "../../assets/nayvee_logo_ icon_nobg.png";
 import {
   faRobot,
   faUsers,
@@ -29,8 +29,8 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 100%;
-  height: 400px;
+  width: auto;
+  height: auto;
   border-radius: 4px;
   height: 55px;
 `;

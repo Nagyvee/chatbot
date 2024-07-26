@@ -1,11 +1,9 @@
 const axios = require('axios');
 require('dotenv').config();
-
 const API_KEY = process.env.OPENAI_KEY;
+const endpoint = 'https://api.openai.com/v1/chat/completions';
 
-const fetchOpenAIResponse = async (history, prompt) => {
-    const endpoint = 'https://api.openai.com/v1/chat/completions';
-
+const fetchOpenAIResponse = async (history, prompt) => {                                     
     let chatHistory = [
         {
             role: 'system',

@@ -9,8 +9,13 @@ import InputSec from './InputSec';
 
 const Section = styled.section`
   display: flex;
+  height: 100vh;
   flex-direction: column;
   padding: 0.35rem 3.5rem 0;
+
+  .top-wrap{
+  flex: 1;
+  }
 
   .bottom-sec {
     width: 100%;
@@ -147,6 +152,7 @@ const ChatContainer = () => {
 
   return (
     <Section>
+      <div className="top-wrap">
       {activeChat !== undefined &&(
         <UpperSection>
           <Title>Get answers in seconds</Title>
@@ -192,6 +198,7 @@ const ChatContainer = () => {
           )}
         </HistorySection>
       )}
+      </div>
       <div className="bottom-sec">
         <InputSec />
       </div>

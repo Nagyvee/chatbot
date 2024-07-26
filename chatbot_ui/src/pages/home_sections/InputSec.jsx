@@ -71,6 +71,7 @@ const InputSec = () => {
   const [messageValue, setMessageValue] = useState('');
   const dispatch = useDispatch();
   const chatId = useSelector((state) => state.chat.activeChat);
+  const userId = useSelector((state) => state.user.userDetails.id);
   const pendingMessage = useSelector((state) => state.chat.pendingMessage);
   const history = useSelector((state) => state.chat.userChats)
 
@@ -94,7 +95,7 @@ const InputSec = () => {
 
     try {
         setMessageValue('');
-        const response = await axios.post(`${URL}/chat/v2.5/nayveechat/`,{...senderObj, history, chatId: activeChat}, { withCredentials: true });
+        const response = await axios.post(`${URL}/chat/v2.5/nayveechat/`,{userId,...senderObj, history, chatId: activeChat}, { withCredentials: true });
         await dispatch(addChat({ id: Date.now(),...senderObj}))
         await dispatch(addChat({ id: Date.now(), sender: 'Nayvee Chatbot', message: response.data }))
         console.log(response.data)
