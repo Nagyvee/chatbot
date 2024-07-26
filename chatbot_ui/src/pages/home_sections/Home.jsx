@@ -2,7 +2,8 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ChatContainer from "./ChatContainer";
 import styled from 'styled-components';
-import { useEffect } from "react";
+import { useEffect, useRef, useMemo } from "react";
+import { useSelector } from "react-redux";
 
 const Section = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ const Content = styled.div`
 const Main = styled.main`
   flex: 1;
   padding:0 1rem;
-  overflow-y: auto;
+  overflow-y: hidden;
     /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
     display: none;
@@ -33,13 +34,22 @@ const Main = styled.main`
 `;
 
 const Home = () => {
+  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
+  const chatMessage = useSelector((state) => state.chat.userChats);
+  const messageRef = useRef(null);
+
+  useEffect(() => {
+    if (messageRef.current) {
+      messageRef.current.scrollTop = messageRef.current.scrollHeight;
+    }
+  }, [chatMessage, pendingMessage]);
 
   return (
     <Section>
       <Sidebar />
       <Content>
         <Navbar />
-        <Main>
+        <Main ref={messageRef} >
           <ChatContainer />
         </Main>
       </Content>

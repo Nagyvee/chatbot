@@ -48,6 +48,7 @@ export default function Messages() {
   const pendingMessage = useSelector((state) => state.chat.pendingMessage);
   const chatsState = useSelector((state) => state.chat)
   const chatMessage = useSelector((state) => state.chat.userChats)
+  console.log(chatMessage)
 
   const user = useSelector((state) => state.user.userDetails);
 
@@ -57,7 +58,7 @@ export default function Messages() {
         <Message key={index} sender={sender} className={sender === user ? 'sender-text' : 'chatbot-message'}>
           {sender === 'user' && <img src={user?.image ? user.image : profileIcon} alt="profile img" />}
           <p>{message}</p>
-         {sender === 'Nayvee Bot' && <span>{sender}</span> }
+         {sender === 'Nayvee' && <span>{sender}</span> }
         </Message>
       ))}
       {

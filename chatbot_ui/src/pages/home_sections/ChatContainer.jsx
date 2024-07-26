@@ -24,7 +24,7 @@ const Section = styled.section`
     position: sticky;
     bottom: 0;
     padding-bottom: .5rem;
-    margin-top: 10rem;
+    margin-top: 2rem;
   }
 `;
 

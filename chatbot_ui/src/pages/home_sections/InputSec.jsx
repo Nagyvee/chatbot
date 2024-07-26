@@ -26,7 +26,7 @@ const Input = styled.textarea`
   line-height: 1.5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   resize: none;
-  max-height: 1000px;
+  max-height: 200px;
   overflow-y: auto;
 
   &::placeholder {
@@ -97,7 +97,7 @@ const InputSec = () => {
         setMessageValue('');
         const response = await axios.post(`${URL}/chat/v2.5/nayveechat/`,{userId,...senderObj, history, chatId: activeChat}, { withCredentials: true });
         await dispatch(addChat({ id: Date.now(),...senderObj}))
-        await dispatch(addChat({ id: Date.now(), sender: 'Nayvee Chatbot', message: response.data }))
+        await dispatch(addChat({ id: Date.now(), sender: 'Nayvee', message: response.data }))
         console.log(response.data)
     } catch (error) {
         console.log(Error)
