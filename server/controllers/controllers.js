@@ -1,4 +1,5 @@
 const pool = require("../connectdb");
+const jwt = require("jsonwebtoken");
 
 const userHistory = async (req, res) => {
   const { userId } = req.body;
@@ -39,7 +40,7 @@ GROUP BY chatbot_messages.chat_id;`;
 };
 
 const selectSingleChat = async (req, res) => {
-  const {chatId}  = req.params;
+  const { chatId } = req.params;
   const query = `SELECT * FROM chatbot_messages WHERE chat_id =? ORDER BY id ASC`;
 
   try {
@@ -55,15 +56,43 @@ const selectSingleChat = async (req, res) => {
 };
 
 const deleteHistory = async (req, res) => {
-    const userId  = req.params.chatId;
-    const query = `DELETE FROM user_chats WHERE user_id =?`;
-    try {
-      const data = await pool.promise().query(query, [userId]);
-      console.log(data)
-      return res.status(200).json({ status: true, msg: "Chat history deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ status: false, message: "Server Error" });
-    }
-}
+  const userId = req.params.chatId;
+  const query = `DELETE FROM user_chats WHERE user_id =?`;
+  try {
+    const data = await pool.promise().query(query, [userId]);
+    console.log(data);
+    return res
+      .status(200)
+      .json({ status: true, msg: "Chat history deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ status: false, message: "Server Error" });
+  }
+};
 
-module.exports = { userHistory, selectSingleChat, deleteHistory };
+const logOutUser = async (req, res) => {
+  const token = req.cookies.chat_tkn;
+  if (!token) {
+    return res.status(401).json({ status: false, msg: "No token provided" });
+  }
+  try {
+    const tokenResults = await jwt.verify(token, process.env.JWT_SECRET);
+    const tokenExpDate = tokenResults.exp;
+
+    await pool
+      .promise()
+      .query(`INSERT INTO deactivated_tokens (token, exp_date) VALUES(?,?)`, [
+        token,
+        tokenExpDate,
+      ]);
+    res.clearCookie("chat_tkn");
+    res.status(200).json({ status: true, msg: "User logged out successfully" });
+    return;
+  } catch (error) {
+    res
+      .status(500)
+      .json({ status: false, msg: "Error logging out. Please try again." });
+    return;
+  }
+};
+
+module.exports = { userHistory, selectSingleChat, deleteHistory, logOutUser };
