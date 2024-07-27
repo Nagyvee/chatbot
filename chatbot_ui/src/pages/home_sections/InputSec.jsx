@@ -7,6 +7,7 @@ import {
   setActiveChat,
   setPendingMessage,
   addChat,
+  lastChatAnimated
 } from "../../redux_state/actions";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -100,6 +101,7 @@ const InputSec = () => {
         { userId, ...senderObj, history, chatId: activeChat },
         { withCredentials: true }
       );
+      await dispatch(lastChatAnimated(true));
       await dispatch(addChat({ id: Date.now(), ...senderObj }));
       await dispatch(
         addChat({ id: Date.now(), sender: "Nayvee", message: response.data })

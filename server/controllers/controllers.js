@@ -1,4 +1,4 @@
-const pool = require('../connectdb')
+const pool = require("../connectdb");
 
 const userHistory = async (req, res) => {
   const { userId } = req.body;
@@ -16,17 +16,17 @@ GROUP BY chatbot_messages.chat_id;`;
     const countsData = await pool.promise().query(countQuery, [userId]);
     const chats = chatsData[0];
     const counts = countsData[0];
-    const historyAndCount = []
+    const historyAndCount = [];
 
-    if(counts.length > 0){
-   const data = chats.forEach((chat) => {
-     messageCount = counts.find((count) => count.chat_id === chat.id);
-     historyAndCount.push({
-        ...chat,
-       askedQuestionsCount: messageCount['COUNT(*)']
-     })
-    });
-}
+    if (counts.length > 0) {
+      const data = chats.forEach((chat) => {
+        messageCount = counts.find((count) => count.chat_id === chat.id);
+        historyAndCount.push({
+          ...chat,
+          askedQuestionsCount: messageCount["COUNT(*)"],
+        });
+      });
+    }
 
     res.status(200).json({
       status: true,
@@ -38,4 +38,32 @@ GROUP BY chatbot_messages.chat_id;`;
   }
 };
 
-module.exports = {userHistory};
+const selectSingleChat = async (req, res) => {
+  const {chatId}  = req.params;
+  const query = `SELECT * FROM chatbot_messages WHERE chat_id =? ORDER BY id ASC`;
+
+  try {
+    const data = await pool.promise().query(query, [chatId]);
+    return res.status(200).json({
+      status: true,
+      data: data[0],
+      msg: "Chat fetched successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ status: false, message: "Server Error" });
+  }
+};
+
+const deleteHistory = async (req, res) => {
+    const userId  = req.params.chatId;
+    const query = `DELETE FROM user_chats WHERE user_id =?`;
+    try {
+      const data = await pool.promise().query(query, [userId]);
+      console.log(data)
+      return res.status(200).json({ status: true, msg: "Chat history deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ status: false, message: "Server Error" });
+    }
+}
+
+module.exports = { userHistory, selectSingleChat, deleteHistory };

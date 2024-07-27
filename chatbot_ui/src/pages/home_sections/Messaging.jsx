@@ -5,7 +5,7 @@ import profileIcon from "../../assets/profile.jpg";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import useTypewriter from "./TypeWriter"; // Adjust the import path as needed
+import useTypewriter from "./TypeWriter"; 
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FaCopy } from "react-icons/fa";
 import NayveeIcon from "../../assets/nayvee_logo_ icon_nobg.png";
@@ -21,13 +21,13 @@ const Container = styled.div`
   .loading{
   display: flex;
   margin: 0 auto;
-  font-weight: 550;
+  font-weight: 350;
 
     img{
     width: 22px;
     height: 22px;
     margin:0 0.45rem;
-   animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
 
      @keyframes spin{
   from{
@@ -40,15 +40,15 @@ const Container = styled.div`
 }
 
 span{
-  animation: textSize 2s infinite linear;
+  animation: textSize 3s infinite linear;
   transition: animation ease-in;
 
     @keyframes textSize{
   from{
-  font-size: .4rem;
+  font-size: .5rem;
   }
   to{
-    font-size: .8rem;
+    font-size: .85rem;
   }
   }
 }
@@ -143,7 +143,7 @@ const CopyButton = styled.button`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background: ${(copie) => (copie ? "#888" : "#0366d6")};
+  background: ${({copie}) => copie ? "#888" : "#0366d6"};
   color: white;
   border: none;
   padding: 0.25rem;
@@ -156,7 +156,7 @@ const CopyButton = styled.button`
   z-index: 2; /* Ensure it's on top */
 
   &:hover {
-    background: #024b9a;
+    background: ${({copie}) => copie ? "#888" : "#024b9a"};
   }
 `;
 
@@ -189,7 +189,7 @@ const CodeBlock = ({ className, children }) => {
         text={String(children).replace(/\n$/, "")}
         onCopy={() => setCopyText(true)}
       >
-        <CopyButton copy={copyText}>
+        <CopyButton copie={copyText}>
           <FaCopy style={{ marginRight: "0.25rem" }} />{" "}
           {copyText ? "Copied" : "Copy"}
         </CopyButton>
@@ -216,7 +216,8 @@ const components = {
 };
 
 const ChatMessage = ({ sender, message, user }) => {
-  const typedMessage = sender === "Nayvee" ? useTypewriter(message) : message;
+  const chatAnimated = useSelector((state) => state.chat.chatAnimated);
+  const typedMessage = sender === "Nayvee"? useTypewriter(message) : message;
 
   return (
     <Message
@@ -232,13 +233,18 @@ const ChatMessage = ({ sender, message, user }) => {
       )}
       {sender === "Nayvee" ? (
         <MarkdownContent>
-          <ReactMarkdown components={components}>{typedMessage}</ReactMarkdown>
+          <ReactMarkdown components={components}>{
+          chatAnimated? typedMessage : message
+          }</ReactMarkdown>
         </MarkdownContent>
       ) : (
         <p>{typedMessage}</p>
       )}
       {sender === "Nayvee" && (
+        <>
         <img src={NayveeIcon} alt="Nayvee Logo" className="nayvee-logo" />
+        <span style={{fontSize: "12px", paddingTop:".35rem", color: "#999"}}>Nayvee</span>
+        </>
       )}
     </Message>
   );

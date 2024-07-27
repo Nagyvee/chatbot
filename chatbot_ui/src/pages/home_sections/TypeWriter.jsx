@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { addCount } from '../../redux_state/actions';
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addCount, lastChatAnimated } from "../../redux_state/actions";
 
 const useTypewriter = (text, speed = 0.001) => {
-  const [displayedText, setDisplayedText] = useState('');
+  const [displayedText, setDisplayedText] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let currentText = '';
+    let currentText = "";
     let index = 0;
     const interval = setInterval(() => {
       if (index < text.length) {
         currentText += text[index];
         setDisplayedText(currentText);
-        index ++;
+        index++;
       } else {
         dispatch(addCount());
+        dispatch(lastChatAnimated(false));
         clearInterval(interval);
       }
     }, speed);

@@ -4,11 +4,14 @@ import msgIconImg from "../../assets/msg-icon.png";
 import msgNortIcon from "../../assets/messagesNoti.png";
 import { useSelector, useDispatch } from "react-redux";
 import profileIcon from "../../assets/profile.jpg";
+import { FaTrashAlt } from "react-icons/fa";
 import Messages from "./Messaging";
 import InputSec from "./InputSec";
 import axios from "axios";
 import { setChatHistory } from "../../redux_state/actions";
 import TimeDifference from "./TimeConvert";
+import {Link} from 'react-router-dom'
+import {chooseChat, deleteHistory} from "./otherFunctions";
 
 const Section = styled.section`
   display: flex;
@@ -63,10 +66,43 @@ const HistorySection = styled.div`
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #fff;
+  position: relative;
   margin-top: 0.65rem;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+ .delete-all{
+ font-size: 14px;
+ border: none;
+ border-radius: 3px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  cursor: pointer;
+  background-color: #bdf;
+  height: fit-content;
+  padding: .25rem;
+  top: .8rem;
+  right: .8rem;
+  bottom: 3rem;
+  display: flex;
+  transition: transform .3s ease-in;
+
+  &:hover {
+    transform: translateY(3px);
+     background-color: #faa;
+  }
+
+  svg{
+  color: #FF6969;
+  }
+
+  p{
+  font-size: 13px;
+  margin: 0 .4rem;
+  }
+  }
 
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
@@ -89,7 +125,7 @@ const Center = styled.div`
 `;
 
 const HistoryChatsContainer = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 1.8rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
@@ -97,6 +133,7 @@ const HistoryChatsContainer = styled.div`
   .wrapper {
     display: flex;
     padding: 0.5rem;
+    position: relative;
     border-radius: 8px;
     cursor: pointer;
     background: #f9f9f9;
@@ -200,6 +237,12 @@ const ChatContainer = () => {
         ) : (
           <HistorySection>
             <Title>Search History</Title>
+            {historyChats.length > 0 && (
+              <div className="delete-all" onClick={() => deleteHistory(user.id, dispatch)}>
+              <FaTrashAlt/>
+                <p>Clear All</p>
+              </div>
+              )}
             {historyChats.length === 0 ? (
               <Center>
                 <img src={msgIconImg} alt="No Questions" />
@@ -213,7 +256,7 @@ const ChatContainer = () => {
                 {historyChats.map((chat, index) => {
                   const timeDiff = TimeDifference(chat.time_created);
                   return(
-                  <div className="wrapper" key={index}>
+                  <div className="wrapper" key={index} onClick={() => chooseChat(chat.id, dispatch)}>
                     <div style={{ position: "relative" }}>
                       <img
                         src={user?.image ? user.image : profileIcon}
