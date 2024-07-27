@@ -3,9 +3,14 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { setActiveChat, setPendingMessage , addChat} from "../../redux_state/actions";
-import { v4 as uuidv4} from 'uuid';
+import {
+  setActiveChat,
+  setPendingMessage,
+  addChat,
+} from "../../redux_state/actions";
+import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import useTypewriter from "./TypeWriter";
 
 const MessageSection = styled.form`
   display: flex;
@@ -68,47 +73,43 @@ const Footer = styled.p`
 `;
 
 const InputSec = () => {
-  const [messageValue, setMessageValue] = useState('');
+  const [messageValue, setMessageValue] = useState("");
   const dispatch = useDispatch();
   const chatId = useSelector((state) => state.chat.activeChat);
   const userId = useSelector((state) => state.user.userDetails.id);
-  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
-  const history = useSelector((state) => state.chat.userChats)
+  const history = useSelector((state) => state.chat.userChats);
 
   const handleSend = async (event) => {
     event.preventDefault();
-    if (messageValue.length <= 2) {
-      alert("Message must be longer than 2 characters.");
-      return;
-    }
 
-    let activeChat = chatId
-    if(activeChat === undefined){
-        const chat_id = uuidv4()
-        dispatch(setActiveChat(chat_id))
-        activeChat = chat_id
+    let activeChat = chatId;
+    if (activeChat === undefined) {
+      const chat_id = uuidv4();
+      dispatch(setActiveChat(chat_id));
+      activeChat = chat_id;
     }
-    const senderObj = { sender: 'user', message: messageValue, }
-    dispatch(setPendingMessage(senderObj))
+    const senderObj = { sender: "user", message: messageValue };
+    dispatch(setPendingMessage(senderObj));
 
-    const URL = import.meta.env.VITE_SERVER_URL
+    const URL = import.meta.env.VITE_SERVER_URL;
 
     try {
-        setMessageValue('');
-        const response = await axios.post(`${URL}/chat/v2.5/nayveechat/`,{userId,...senderObj, history, chatId: activeChat}, { withCredentials: true });
-        await dispatch(addChat({ id: Date.now(),...senderObj}))
-        await dispatch(addChat({ id: Date.now(), sender: 'Nayvee', message: response.data }))
-        console.log(response.data)
+      setMessageValue("");
+      const response = await axios.post(
+        `${URL}/chat/v2.5/nayveechat/`,
+        { userId, ...senderObj, history, chatId: activeChat },
+        { withCredentials: true }
+      );
+      await dispatch(addChat({ id: Date.now(), ...senderObj }));
+      await dispatch(
+        addChat({ id: Date.now(), sender: "Nayvee", message: response.data })
+      );
     } catch (error) {
-        console.log(Error)
-    }finally{
-        dispatch(setPendingMessage(null))
+      console.log(Error);
+    } finally {
+      dispatch(setPendingMessage(null));
     }
-
-    console.log(activeChat)
-    console.log(pendingMessage)
-    console.log('sending..', messageValue);
-  }
+  };
 
   return (
     <>
@@ -127,6 +128,6 @@ const InputSec = () => {
       <Footer>Nayvee Chat AI Chat V2.5</Footer>
     </>
   );
-}
+};
 
 export default InputSec;

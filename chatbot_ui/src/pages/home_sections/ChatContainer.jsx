@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import msgIconImg from "../../assets/msg-icon.png";
 import msgNortIcon from "../../assets/messagesNoti.png";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import profileIcon from "../../assets/profile.jpg";
 import Messages from "./Messaging";
 import InputSec from "./InputSec";
+import axios from "axios";
+import { setChatHistory } from "../../redux_state/actions";
+import TimeDifference from "./TimeConvert";
 
 const Section = styled.section`
   display: flex;
@@ -34,7 +37,7 @@ const Section = styled.section`
     position: sticky;
     bottom: 0;
     padding-bottom: 0.5rem;
-    margin-top: 4rem;
+    margin-top: 5.5rem;
   }
 `;
 
@@ -153,22 +156,35 @@ const ChatContainer = () => {
   const activeChat = useSelector((state) => state.chat.activeChat);
   const pendingMessage = useSelector((state) => state.chat.pendingMessage);
   const chatMessage = useSelector((state) => state.chat.userChats);
+  const count = useSelector((state) => state.chat.count);
+  const historyChats = useSelector((state) => state.chat.chatsHistory);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const messageRef = useRef(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchChatsHistory = async () => {
+      setHistoryLoading(true);
+      try {
+        const URL = import.meta.env.VITE_SERVER_URL;
+        const response = await axios.post(`${URL}/chat/v2.5/user/history`, {userId: user.id} , {withCredentials: true})
+        const data = response.data.data
+        dispatch(setChatHistory(data));
+      } catch (error) {
+        console.log(error)
+      }finally{
+        setHistoryLoading(false);
+      }
+    }
+
+    fetchChatsHistory();
+  },[activeChat])
 
   useEffect(() => {
     if (messageRef.current) {
-      messageRef.current.scrollTop = messageRef.current.scrollHeight;
+      messageRef.current.scrollTo({ top: messageRef.current.scrollHeight, behavior: 'smooth' });
     }
-  }, [chatMessage, pendingMessage]);
-
-  const historyChats = [
-    { title: "How can I code", qstns: 10, time: "34min" },
-    { title: "How can I code", qstns: 10, time: "34min" },
-    { title: "How can I code", qstns: 10, time: "34min" },
-    { title: "How can I code", qstns: 10, time: "34min" },
-    { title: "How can I code", qstns: 10, time: "34min" },
-    { title: "How can I code", qstns: 10, time: "34min" },
-  ];
+  }, [chatMessage, pendingMessage, count]);
 
   return (
     <Section>
@@ -194,7 +210,9 @@ const ChatContainer = () => {
               </Center>
             ) : (
               <HistoryChatsContainer>
-                {historyChats.map((chat, index) => (
+                {historyChats.map((chat, index) => {
+                  const timeDiff = TimeDifference(chat.time_created);
+                  return(
                   <div className="wrapper" key={index}>
                     <div style={{ position: "relative" }}>
                       <img
@@ -206,14 +224,13 @@ const ChatContainer = () => {
                       </div>
                     </div>
                     <div>
-                      <h4>{chat.title}</h4>
+                      <h4>{chat.topic}</h4>
                       <p>
-                        {chat.qstns} questions asked <span></span> {chat.time}{" "}
-                        ago.
+                        {chat.askedQuestionsCount} questions asked <span></span> {timeDiff}
                       </p>
                     </div>
                   </div>
-                ))}
+                )})}
               </HistoryChatsContainer>
             )}
           </HistorySection>

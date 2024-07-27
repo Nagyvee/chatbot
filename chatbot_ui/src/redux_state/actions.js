@@ -22,3 +22,12 @@ export const addChat = (payload) => ({
     type: 'ADD_CHAT',
     payload: payload
 })
+
+export const setChatHistory = (payload) => ({
+    type: 'SET_CHAT_HISTORY',
+    payload: payload
+})
+
+export const addCount = () => ({
+    type: 'ADD_COUNT',
+})

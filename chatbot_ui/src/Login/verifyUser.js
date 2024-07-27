@@ -24,9 +24,7 @@ const verifyUser = () => {
     } 
     const tokenDetails = jwtDecode(token)
     const currentTime = Date.now() 
-    console.log(tokenDetails)
     if (currentTime > tokenDetails.exp * 1000) {
-        console.log('ivalid token provided!')
         setPopUp(true)
         localStorage.clear()
         return dispatch(setUser(noUserState))
