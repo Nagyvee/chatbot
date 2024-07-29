@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCount, lastChatAnimated } from "../../redux_state/actions";
 
-const useTypewriter = (text, speed = 10) => {
+const useTypewriter = (text, speed = 15) => {
   const [displayedText, setDisplayedText] = useState("");
   const dispatch = useDispatch();
 
