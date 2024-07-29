@@ -19,7 +19,7 @@ const MessageSection = styled.form`
   padding-top: 0;
   width: calc(100%);
   position: reletive;
-  margin-top: 0;
+  margin: 0;
 `;
 
 const Input = styled.textarea`
@@ -75,7 +75,7 @@ const SendButton = styled.button`
 
 const Footer = styled.p`
   font-size: 0.85rem;
-  margin-top: 1rem;
+  margin-top: 0.2rem;
   text-align: center;
   color: #999;
 `;
