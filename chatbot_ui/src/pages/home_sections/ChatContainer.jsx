@@ -37,7 +37,7 @@ const Section = styled.section`
   }
 
     @media(max-width: 500px){
-    height: 95vh;
+    height: 98vh;
   }
   }
 
@@ -46,7 +46,7 @@ const Section = styled.section`
     background: #fff;
     z-index: 10;
     position: sticky;
-    bottom: 2%;
+    bottom: 1%;
     padding-bottom: 0.5rem;
   }
 
