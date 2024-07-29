@@ -85,6 +85,8 @@ const logInSuccess = async (req, res, payload) => {
     res.cookie("chat_tkn", token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
+      secure: true,
+      sameSite: 'None',
     });
 
     return res.status(200).json({ status: true, token });
