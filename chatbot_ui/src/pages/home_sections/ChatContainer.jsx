@@ -31,6 +31,10 @@ const Section = styled.section`
     /* Hide scrollbar for IE, Edge and Firefox */
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+
+  @media (max-width: 1000px) {
+     padding: 0 0 5rem;
+  }
   }
 
   .bottom-sec {
@@ -40,6 +44,10 @@ const Section = styled.section`
     position: sticky;
     bottom: 0;
     padding-bottom: 0.5rem;
+  }
+
+   @media (max-width: 1000px) {
+     padding: 0.35rem 1rem 0;
   }
 `;
 

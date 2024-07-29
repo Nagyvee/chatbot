@@ -68,6 +68,10 @@ const Message = styled.div`
   max-width: 75%;
    ${({ sender })=> sender === "user" && "align-self: flex-end;"}
 
+  @media (max-width: 768px) {
+      max-width: ${({sender}) => sender ==='user'? "80%": "100%"};
+  }
+
   .user-profile {
     width: 30px;
     height: 30px;
@@ -104,6 +108,7 @@ const MarkdownContent = styled.div`
   }
 
   pre {
+    width: 100%;
     padding: 0.2rem;
     border-radius: 5px;
     overflow-x: auto;
@@ -164,10 +169,6 @@ const CodeBlock = ({ className, children }) => {
   const match = /language-(\w+)/.exec(className || "");
   const language = match ? match[1] : "";
   const [copyText, setCopyText] = useState(false);
-
-  const handleCopy = useCallback(() => {
-    console.log("Code copied to clipboard");
-  }, []);
 
   return (
     <div style={{ position: "relative" }}>

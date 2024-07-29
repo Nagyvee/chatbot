@@ -5,13 +5,13 @@ import LogoImg from "../../assets/nayvee_logo_ icon_nobg.png";
 import {
   faRobot,
   faUsers,
-  faPlug,
-  faUserFriends,
   faDollarSign,
   faCog,
   faSignOutAlt,
   faCommentAlt,
   faUserCog,
+  faBars,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveChat, deleteChats } from "../../redux_state/actions";
@@ -27,6 +27,14 @@ const SidebarContainer = styled.div`
   padding: 1.8rem 0.5rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: relative;
+  transition: transform 0.3s ease;
+
+  @media (max-width: 975px) {
+    transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
+    position: fixed;
+    z-index: 1000;
+    height: 100%;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -94,68 +102,99 @@ const NavItem = styled.li`
   }
 `;
 
+const ToggleButton = styled.button`
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  background: #5a67d8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #4c51bf;
+  }
+
+  @media (min-width: 975px) {
+    display: none;
+  }
+`;
+
 const Sidebar = () => {
- const dispatch = useDispatch();
- const activeChat = useSelector((state) => state.chat.activeChat);
- const chats = useSelector((state) => state.chat.userChats);
+  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const activeChat = useSelector((state) => state.chat.activeChat);
+  const chats = useSelector((state) => state.chat.userChats);
 
- const handleLogOut = async () => {
-  try {
-    const URL = import.meta.env.VITE_SERVER_URL
-    await axios.post(`${URL}/user/logout`,"",{withCredentials:true});
-    localStorage.clear();
-    window.location.href = '/user/auth';
-  } catch (error) {
-    console.error('Error logging out:', error);
-  }
- }
+  const handleLogOut = async () => {
+    try {
+      const URL = import.meta.env.VITE_SERVER_URL;
+      await axios.post(`${URL}/user/logout`, "", { withCredentials: true });
+      localStorage.clear();
+      window.location.href = '/user/auth';
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
- const newChat = () =>{
-  if(activeChat === undefined || chats.length < 1){
-    return;
-  }
-  const chatId = uuidV4()
-  dispatch(setActiveChat(chatId));
-  dispatch(deleteChats())
- }
+  const newChat = () => {
+    if (activeChat === undefined || chats.length < 1) {
+      return;
+    }
+    const chatId = uuidV4();
+    dispatch(setActiveChat(chatId));
+    dispatch(deleteChats());
+  };
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <SidebarContainer>
-      <LogoContainer>
-        <Logo src={LogoImg} alt="Logo image" />
-      </LogoContainer>
-      <NavList>
-        <NavItem className="active" onClick ={newChat}>
-           <FontAwesomeIcon icon={faRobot} />
-          <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI': 'New Chat'}</span>
-        </NavItem>
-  
-        <NavItem onClick={() =>dispatch(setActiveChat(undefined))}>
-          <FontAwesomeIcon icon={faCommentAlt} />
-          <span>Chats History</span>
-        </NavItem>
-        <NavItem>
-          <FontAwesomeIcon icon={faUsers} />
-          <span>Members</span>
-        </NavItem>
-        <NavItem>
-          <FontAwesomeIcon icon={faDollarSign} />
-          <span>Pricing</span>
-        </NavItem>
-        <NavItem>
-          <FontAwesomeIcon icon={faCog} />
-          <span>Settings</span>
-        </NavItem>
-        <NavItem>
-          <FontAwesomeIcon icon={faUserCog} />
-          <span>Profile</span>
-        </NavItem>
-        <NavItem className="logout" onClick={handleLogOut}>
-          <FontAwesomeIcon icon={faSignOutAlt} />
-          LogOut
-        </NavItem>
-      </NavList>
-    </SidebarContainer>
+    <>
+      <ToggleButton onClick={toggleSidebar}>
+        <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
+      </ToggleButton>
+      <SidebarContainer isOpen={isOpen}>
+        <LogoContainer>
+          <Logo src={LogoImg} alt="Logo image" />
+        </LogoContainer>
+        <NavList>
+          <NavItem className="active" onClick={newChat}>
+            <FontAwesomeIcon icon={faRobot} />
+            <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI' : 'New Chat'}</span>
+          </NavItem>
+          <NavItem onClick={() => dispatch(setActiveChat(undefined))}>
+            <FontAwesomeIcon icon={faCommentAlt} />
+            <span>Chats History</span>
+          </NavItem>
+          <NavItem>
+            <FontAwesomeIcon icon={faUsers} />
+            <span>Members</span>
+          </NavItem>
+          <NavItem>
+            <FontAwesomeIcon icon={faDollarSign} />
+            <span>Pricing</span>
+          </NavItem>
+          <NavItem>
+            <FontAwesomeIcon icon={faCog} />
+            <span>Settings</span>
+          </NavItem>
+          <NavItem>
+            <FontAwesomeIcon icon={faUserCog} />
+            <span>Profile</span>
+          </NavItem>
+          <NavItem className="logout" onClick={handleLogOut}>
+            <FontAwesomeIcon icon={faSignOutAlt} />
+            LogOut
+          </NavItem>
+        </NavList>
+      </SidebarContainer>
+    </>
   );
 };
 
