@@ -11,7 +11,7 @@ const Section = styled.div`
   padding: 0;
 
   @media(max-width: 500px){
-    height: 98vh;
+    height: 95vh;
   }
 `;
 
