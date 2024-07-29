@@ -65,7 +65,7 @@ const Message = styled.div`
     sender === "user" ? "#A3FFD6" : "#f9f9f9"};
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  max-width: ${({sender}) => sender === 'user' ?"60%" : "75 %"};
+  max-width: 75%;
    ${({ sender })=> sender === "user" && "align-self: flex-end;"}
 
   .user-profile {

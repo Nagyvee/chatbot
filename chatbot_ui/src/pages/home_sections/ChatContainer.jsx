@@ -20,7 +20,7 @@ const Section = styled.section`
   padding: 0.35rem 3.5rem 0;
 
   .top-wrap {
-    padding: 1rem;
+    padding: 1rem 1rem 5rem;
     flex: 1;
     overflow-y: auto;
     /* Hide scrollbar for Chrome, Safari and Opera */
@@ -40,7 +40,6 @@ const Section = styled.section`
     position: sticky;
     bottom: 0;
     padding-bottom: 0.5rem;
-    margin-top: 5.5rem;
   }
 `;
 

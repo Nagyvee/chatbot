@@ -15,7 +15,8 @@ import useTypewriter from "./TypeWriter";
 
 const MessageSection = styled.form`
   display: flex;
-  align-items: center;
+  height: fit-content;
+  padding-top: 0;
   width: calc(100%);
   position: reletive;
   margin-top: 0;
@@ -23,16 +24,17 @@ const MessageSection = styled.form`
 
 const Input = styled.textarea`
   flex: 1;
-  padding: 0.75rem;
+  margin-top: 0;
+  padding: 0.5rem;
   padding-right: 2.5rem;
-  border-radius: 8px;
+  border-radius: 1px;
   border: 1px solid #ddd;
   font-size: 1rem;
   font-family: inherit;
   line-height: 1.5;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   resize: none;
-  max-height: 200px;
+  min-height: 50px;
   overflow-y: auto;
 
   &::placeholder {
@@ -40,7 +42,7 @@ const Input = styled.textarea`
   }
 
   &:focus {
-    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     outline: none;
   }
 
@@ -54,6 +56,7 @@ const Input = styled.textarea`
 const SendButton = styled.button`
   position: absolute;
   right: 0.5rem;
+  top: 15%;
   padding: 0.5rem;
   background: #5a67d8;
   border: none;
