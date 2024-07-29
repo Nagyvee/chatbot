@@ -135,6 +135,7 @@ const Sidebar = () => {
       const URL = import.meta.env.VITE_SERVER_URL;
       await axios.post(`${URL}/user/logout`, "", { withCredentials: true });
       localStorage.clear();
+      toggleSidebar()
       window.location.href = '/user/auth';
     } catch (error) {
       console.error('Error logging out:', error);
@@ -148,6 +149,7 @@ const Sidebar = () => {
     const chatId = uuidV4();
     dispatch(setActiveChat(chatId));
     dispatch(deleteChats());
+    toggleSidebar()
   };
 
   const toggleSidebar = () => {
@@ -168,23 +170,26 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faRobot} />
             <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI' : 'New Chat'}</span>
           </NavItem>
-          <NavItem onClick={() => dispatch(setActiveChat(undefined))}>
+          <NavItem onClick={() => {
+            dispatch(setActiveChat(undefined))
+            toggleSidebar()
+            }}>
             <FontAwesomeIcon icon={faCommentAlt} />
             <span>Chats History</span>
           </NavItem>
-          <NavItem>
+          <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUsers} />
             <span>Members</span>
           </NavItem>
-          <NavItem>
+          <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faDollarSign} />
             <span>Pricing</span>
           </NavItem>
-          <NavItem>
+          <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faCog} />
             <span>Settings</span>
           </NavItem>
-          <NavItem>
+          <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUserCog} />
             <span>Profile</span>
           </NavItem>
