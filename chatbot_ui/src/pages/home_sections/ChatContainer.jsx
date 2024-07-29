@@ -49,6 +49,10 @@ const Section = styled.section`
    @media (max-width: 1000px) {
      padding: 0.35rem 1rem 0;
   }
+
+       @media(max-width: 487px){
+     padding: .35rem 0.5rem 0;
+     }
 `;
 
 const UpperSection = styled.div`

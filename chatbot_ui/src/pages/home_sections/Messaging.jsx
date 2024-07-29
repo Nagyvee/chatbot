@@ -124,7 +124,7 @@ const MarkdownContent = styled.div`
     word-wrap: break-word;
 
     @media (max-width: 378px) {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       padding: 0;
     }
   }
@@ -138,7 +138,7 @@ const MarkdownContent = styled.div`
     word-wrap: break-word;
 
         @media (max-width: 487px) {
-      // font-size: 0.875rem;
+      font-size: 0.875rem;
     }
   }
 
