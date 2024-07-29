@@ -136,9 +136,10 @@ const MarkdownContent = styled.div`
     border-radius: 3px;
     white-space: pre-wrap;
     word-wrap: break-word;
+    line-height: 2rem;
 
-        @media (max-width: 487px) {
-      font-size: 0.875rem;
+   @media (max-width: 487px) {
+      font-size: 1rem;
     }
   }
 

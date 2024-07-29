@@ -234,6 +234,8 @@ const ChatContainer = () => {
     }
   }, [chatMessage, pendingMessage, count]);
 
+  console.log('renderd')
+
   return (
     <Section>
       <div className="top-wrap" ref={messageRef}>
