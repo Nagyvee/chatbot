@@ -35,6 +35,10 @@ const Section = styled.section`
   @media (max-width: 1000px) {
      padding: .5rem 0 5rem;
   }
+
+    @media(max-width: 500px){
+    height: 90vh;
+  }
   }
 
   .bottom-sec {
