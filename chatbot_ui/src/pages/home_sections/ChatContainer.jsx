@@ -18,6 +18,7 @@ const Section = styled.section`
   height: 100vh;
   flex-direction: column;
   padding: 0.35rem 3.5rem 0;
+  overflow: hidden;
 
   .top-wrap {
     padding: 1rem 1rem 5rem;
@@ -48,6 +49,7 @@ const Section = styled.section`
     position: sticky;
     bottom: 0;
     padding-bottom: 0.5rem;
+    overflow: hidden;
 
     @media (max-width: 500px) {
       bottom: 3%;
