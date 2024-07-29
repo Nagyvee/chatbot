@@ -67,6 +67,10 @@ const SendButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover{
+  background: #1C1678;
+  }
 `;
 
 const Footer = styled.p`

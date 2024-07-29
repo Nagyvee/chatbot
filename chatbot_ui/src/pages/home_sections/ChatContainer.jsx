@@ -33,7 +33,7 @@ const Section = styled.section`
     scrollbar-width: none; /* Firefox */
 
   @media (max-width: 1000px) {
-     padding: 0 0 5rem;
+     padding: .5rem 0 5rem;
   }
   }
 
@@ -137,18 +137,20 @@ const Center = styled.div`
 
 const HistoryChatsContainer = styled.div`
   margin-top: 1.8rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 
   .wrapper {
     display: flex;
+    flex: 1;
+    min-width: 230px;
     padding: 0.5rem;
     position: relative;
-    border-radius: 8px;
+    border-radius: 1.5px;
     cursor: pointer;
     background: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s;
 
     &:hover {
@@ -156,11 +158,16 @@ const HistoryChatsContainer = styled.div`
     }
   }
 
+  .img-wrap{
+  width: 38px;
+  position: relative;
+  margin-right: .8rem;
+  }
+
   img {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    margin-right: 0.65rem;
     position: relative;
   }
 
@@ -188,8 +195,8 @@ const HistoryChatsContainer = styled.div`
   .badge {
     img {
       position: absolute;
-      bottom: 6px;
-      right: -8px;
+      bottom: 7px;
+      right: -.4rem;
       width: 25px;
       height: 18px;
       display: flex;
@@ -271,6 +278,8 @@ const ChatContainer = () => {
                   return(
                   <div className="wrapper" key={index} onClick={() => chooseChat(chat.id, dispatch)}>
                     <div style={{ position: "relative" }}>
+                      
+                      <div className='img-wrap'>
                       <img
                         src={user?.image ? user.image : profileIcon}
                         alt="profile img"
@@ -278,11 +287,12 @@ const ChatContainer = () => {
                       <div className="badge">
                         <img src={msgNortIcon} alt="message icon" />
                       </div>
+                      </div>
                     </div>
                     <div>
                       <h4>{chat.topic}</h4>
                       <p>
-                        {chat.askedQuestionsCount} questions asked <span></span> {timeDiff}
+                        {chat.askedQuestionsCount} question(s) asked <span></span> {timeDiff}
                       </p>
                     </div>
                   </div>
