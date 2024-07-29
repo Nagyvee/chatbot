@@ -19,7 +19,7 @@ import axios from 'axios';
 import { v4 as uuidV4 } from "uuid";
 
 const SidebarContainer = styled.div`
-  width: 200px;
+  width: 180px;
   height: 100vh;
   background: #f5f5f5;
   display: flex;
@@ -128,7 +128,7 @@ const Sidebar = () => {
         <NavItem className="active" onClick ={newChat}>
            <FontAwesomeIcon icon={faRobot} />
           <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI': 'New Chat'}</span>
-        </NavItem>:
+        </NavItem>
   
         <NavItem onClick={() =>dispatch(setActiveChat(undefined))}>
           <FontAwesomeIcon icon={faCommentAlt} />

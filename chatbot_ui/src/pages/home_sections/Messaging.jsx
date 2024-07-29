@@ -57,20 +57,20 @@ span{
 
 const Message = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: ${({sender}) => sender === 'user' ?"no-wrap" : "wrap"};
   align-items: flex-start;
   position: relative;
-  padding: 1rem;
+  padding:.75rem 1.5rem .2rem .5rem;
   background-color: ${({ sender }) =>
-    sender === "user" ? "#e0f7fa" : "#f9f9f9"};
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 70%;
-  ${({ sender }) => sender === "user" && "align-self: flex-end;"}
+    sender === "user" ? "#A3FFD6" : "#f9f9f9"};
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  max-width: ${({sender}) => sender === 'user' ?"60%" : "75 %"};
+   ${({ sender })=> sender === "user" && "align-self: flex-end;"}
 
   .user-profile {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     margin-right: 0.75rem;
   }

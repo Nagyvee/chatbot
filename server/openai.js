@@ -31,7 +31,7 @@ const fetchOpenAIResponse = async (history, prompt) => {
     const data = {
         model: 'gpt-4o', // Specify the GPT-4 model
         messages: chatHistory,
-        max_tokens: 200,
+        max_tokens: 500,
         temperature: 0.7,
     };
 
