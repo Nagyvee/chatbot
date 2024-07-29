@@ -46,7 +46,7 @@ const Section = styled.section`
     background: #fff;
     z-index: 10;
     position: sticky;
-    bottom: 5%;
+    bottom: 2%;
     padding-bottom: 0.5rem;
   }
 
