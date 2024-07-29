@@ -10,15 +10,14 @@ import InputSec from "./InputSec";
 import axios from "axios";
 import { setChatHistory } from "../../redux_state/actions";
 import TimeDifference from "./TimeConvert";
-import { Link } from "react-router-dom";
-import { chooseChat, deleteHistory } from "./otherFunctions";
+import {Link} from 'react-router-dom'
+import {chooseChat, deleteHistory} from "./otherFunctions";
 
 const Section = styled.section`
   display: flex;
   height: 100vh;
   flex-direction: column;
   padding: 0.35rem 3.5rem 0;
-  overflow: hidden;
 
   .top-wrap {
     padding: 1rem 1rem 5rem;
@@ -33,13 +32,13 @@ const Section = styled.section`
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 
-    @media (max-width: 1000px) {
-      padding: 0.5rem 0 5rem;
-    }
+  @media (max-width: 1000px) {
+     padding: .5rem 0 5rem;
+  }
 
-    @media (max-width: 500px) {
-      height: 95vh;
-    }
+    @media(max-width: 500px){
+    height: 95vh;
+  }
   }
 
   .bottom-sec {
@@ -49,20 +48,19 @@ const Section = styled.section`
     position: sticky;
     bottom: 0;
     padding-bottom: 0.5rem;
-    overflow: hidden;
 
-    @media (max-width: 500px) {
-      bottom: 3%;
-    }
+       @media (max-width: 500px) {
+        bottom: 10%;
+  }
   }
 
-  @media (max-width: 1000px) {
-    padding: 0.35rem 1rem 0;
+   @media (max-width: 1000px) {
+     padding: 0.35rem 1rem 0;
   }
 
-  @media (max-width: 487px) {
-    padding: 0.35rem 0.5rem 0;
-  }
+       @media(max-width: 487px){
+     padding: .35rem 0.5rem 0;
+     }
 `;
 
 const UpperSection = styled.div`
@@ -93,36 +91,36 @@ const HistorySection = styled.div`
   flex-direction: column;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  .delete-all {
-    font-size: 14px;
-    border: none;
-    border-radius: 3px;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    cursor: pointer;
-    background-color: #bdf;
-    height: fit-content;
-    padding: 0.25rem;
-    top: 0.8rem;
-    right: 0.8rem;
-    bottom: 3rem;
-    display: flex;
-    transition: transform 0.3s ease-in;
+ .delete-all{
+ font-size: 14px;
+ border: none;
+ border-radius: 3px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  cursor: pointer;
+  background-color: #bdf;
+  height: fit-content;
+  padding: .25rem;
+  top: .8rem;
+  right: .8rem;
+  bottom: 3rem;
+  display: flex;
+  transition: transform .3s ease-in;
 
-    &:hover {
-      transform: translateY(3px);
-      background-color: #faa;
-    }
+  &:hover {
+    transform: translateY(3px);
+     background-color: #faa;
+  }
 
-    svg {
-      color: #ff6969;
-    }
+  svg{
+  color: #FF6969;
+  }
 
-    p {
-      font-size: 13px;
-      margin: 0 0.4rem;
-    }
+  p{
+  font-size: 13px;
+  margin: 0 .4rem;
+  }
   }
 
   /* Hide scrollbar for Chrome, Safari and Opera */
@@ -168,10 +166,10 @@ const HistoryChatsContainer = styled.div`
     }
   }
 
-  .img-wrap {
-    width: 38px;
-    position: relative;
-    margin-right: 0.8rem;
+  .img-wrap{
+  width: 38px;
+  position: relative;
+  margin-right: .8rem;
   }
 
   img {
@@ -206,7 +204,7 @@ const HistoryChatsContainer = styled.div`
     img {
       position: absolute;
       bottom: 7px;
-      right: -0.4rem;
+      right: -.4rem;
       width: 25px;
       height: 18px;
       display: flex;
@@ -232,33 +230,26 @@ const ChatContainer = () => {
       setHistoryLoading(true);
       try {
         const URL = import.meta.env.VITE_SERVER_URL;
-        const response = await axios.post(
-          `${URL}/chat/v2.5/user/history`,
-          { userId: user.id },
-          { withCredentials: true }
-        );
-        const data = response.data.data;
+        const response = await axios.post(`${URL}/chat/v2.5/user/history`, {userId: user.id} , {withCredentials: true})
+        const data = response.data.data
         dispatch(setChatHistory(data));
       } catch (error) {
-        console.log(error);
-      } finally {
+        console.log(error)
+      }finally{
         setHistoryLoading(false);
       }
-    };
+    }
 
     fetchChatsHistory();
-  }, [activeChat]);
+  },[activeChat])
 
   useEffect(() => {
     if (messageRef.current) {
-      messageRef.current.scrollTo({
-        top: messageRef.current.scrollHeight,
-        behavior: "smooth",
-      });
+      messageRef.current.scrollTo({ top: messageRef.current.scrollHeight, behavior: 'smooth' });
     }
   }, [chatMessage, pendingMessage, count]);
 
-  console.log("renderd");
+  console.log('renderd')
 
   return (
     <Section>
@@ -275,14 +266,11 @@ const ChatContainer = () => {
           <HistorySection>
             <Title>Search History</Title>
             {historyChats.length > 0 && (
-              <div
-                className="delete-all"
-                onClick={() => deleteHistory(user.id, dispatch)}
-              >
-                <FaTrashAlt />
+              <div className="delete-all" onClick={() => deleteHistory(user.id, dispatch)}>
+              <FaTrashAlt/>
                 <p>Clear All</p>
               </div>
-            )}
+              )}
             {historyChats.length === 0 ? (
               <Center>
                 <img src={msgIconImg} alt="No Questions" />
@@ -295,33 +283,28 @@ const ChatContainer = () => {
               <HistoryChatsContainer>
                 {historyChats.map((chat, index) => {
                   const timeDiff = TimeDifference(chat.time_created);
-                  return (
-                    <div
-                      className="wrapper"
-                      key={index}
-                      onClick={() => chooseChat(chat.id, dispatch)}
-                    >
-                      <div style={{ position: "relative" }}>
-                        <div className="img-wrap">
-                          <img
-                            src={user?.image ? user.image : profileIcon}
-                            alt="profile img"
-                          />
-                          <div className="badge">
-                            <img src={msgNortIcon} alt="message icon" />
-                          </div>
-                        </div>
+                  return(
+                  <div className="wrapper" key={index} onClick={() => chooseChat(chat.id, dispatch)}>
+                    <div style={{ position: "relative" }}>
+                      
+                      <div className='img-wrap'>
+                      <img
+                        src={user?.image ? user.image : profileIcon}
+                        alt="profile img"
+                      />
+                      <div className="badge">
+                        <img src={msgNortIcon} alt="message icon" />
                       </div>
-                      <div>
-                        <h4>{chat.topic}</h4>
-                        <p>
-                          {chat.askedQuestionsCount} question(s) asked{" "}
-                          <span></span> {timeDiff}
-                        </p>
                       </div>
                     </div>
-                  );
-                })}
+                    <div>
+                      <h4>{chat.topic}</h4>
+                      <p>
+                        {chat.askedQuestionsCount} question(s) asked <span></span> {timeDiff}
+                      </p>
+                    </div>
+                  </div>
+                )})}
               </HistoryChatsContainer>
             )}
           </HistorySection>
