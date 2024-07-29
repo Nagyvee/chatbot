@@ -37,7 +37,7 @@ const Section = styled.section`
   }
 
     @media(max-width: 500px){
-    height: 90vh;
+    height: 95vh;
   }
   }
 
