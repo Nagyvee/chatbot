@@ -7,7 +7,8 @@ export const chooseChat = async (id, dispatch) => {
     try {
         const URL = import.meta.env.VITE_SERVER_URL;
         const response = await axios.get(`${URL}/chat/v2.5/nayveechat/${id}`, { withCredentials: true })
-      response.data.data.forEach((chat) =>{
+        dispatch(deleteChats());
+        response.data.data.forEach((chat) =>{
             if(chat.sender === 'user'){
                 dispatch(addChat({ id: Date.now(), sender: "user", message: chat.content }))
                 return;
