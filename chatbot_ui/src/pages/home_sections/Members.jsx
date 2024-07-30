@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux'
 import axios from 'axios'
 
 const Container = styled.div`
-padding: 1rem;
+padding: 1rem .3rem;
 overflow-y: auto;
 overflow-x: hidden;
 text-align: center;
@@ -20,8 +20,11 @@ display: flex;
 cursor: pointer;
 width: 100%;
 margin: .3rem 1rem;
-ju8stify-content: center;
+justify-content: center;
 align-items: center;
+text-align: left;
+transition: opacity .4s ease;
+}
 
 .text{
 display: flex;
@@ -29,7 +32,7 @@ flex-direction: column;
 align-items: flex-start;
 
 h4{
- font-size: 1rem;
+ font-size: .95rem;
 }
 
 p{
@@ -49,7 +52,7 @@ const Members = () => {
     const user = useSelector((state) => state.user.userDetails);
     const [membersArr, setMembersArr] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [memberTotal, setMembersTotal] = useState(10)
+    const [memberTotal, setMembersTotal] = useState(0)
 
     useEffect(() =>{
     const fetchMember = async () => {

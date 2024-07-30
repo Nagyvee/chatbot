@@ -6,6 +6,7 @@ import Members from './Members'
 import Pricing from './Pricing'
 import Profile from './Profile'
 import { useParams, useNavigate } from "react-router-dom";
+import Settings from './Settings'
 
 const SettingsContainer = styled.div`
   position: absolute;
@@ -67,6 +68,7 @@ const SettingsPop = () => {
           id === 'members' ? <Members /> :
           id === 'pricing' ? <Pricing /> :
           id === 'profile' ? <Profile /> :
+          id === 'settings' ? <Settings />:
           navigate('/')
         }
       </SettingsContainer>

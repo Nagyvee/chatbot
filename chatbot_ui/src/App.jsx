@@ -9,6 +9,7 @@ import PopUpNotification from "./pages/home_sections/PopupNoti";
 import { useState, useEffect } from "react";
 import ProtectedRoute from "./Login/ProtectedRoute";
 import SettingsPop from './pages/home_sections/SettingsPop'
+import PrivacyPolicy from './pages/home_sections/Privacy'
 
 function App() {
   const [popUp, setPopUp] = useState(false);
@@ -34,6 +35,8 @@ function App() {
           path="/user/auth"
           element={user.isActive ? <Navigate to={from} /> : <Login />}
         />
+          <Route
+          path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route
           path="/"
           element={
