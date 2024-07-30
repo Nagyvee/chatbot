@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import Cropper from "react-easy-crop";
-import { FiEdit3, FiSave } from "react-icons/fi";
 import axios from 'axios';
 import {setUser} from '../../redux_state/actions'
 
