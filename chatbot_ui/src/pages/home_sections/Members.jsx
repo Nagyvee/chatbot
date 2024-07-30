@@ -1,0 +1,106 @@
+import styled from 'styled-components'
+import ProfileImg from '../../assets/profile.jpg'
+import {useEffect, useState} from 'react'
+import {useSelector} from 'react-redux'
+import axios from 'axios'
+
+const Container = styled.div`
+padding: 1rem;
+overflow-y: auto;
+overflow-x: hidden;
+text-align: center;
+
+h2{
+font-size: 1.5rem;
+margin-bottom: 1rem;
+}
+
+div{
+display: flex;
+cursor: pointer;
+width: 100%;
+margin: .3rem 1rem;
+ju8stify-content: center;
+align-items: center;
+
+.text{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+
+h4{
+ font-size: 1rem;
+}
+
+p{
+font-weight: 300;
+ font-size: .85rem;
+ color: #999;
+}
+}
+
+img{
+width: 40px;
+border-radius: 50%;
+}
+`
+
+const Members = () => {
+    const user = useSelector((state) => state.user.userDetails);
+    const [membersArr, setMembersArr] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [memberTotal, setMembersTotal] = useState(10)
+
+    useEffect(() =>{
+    const fetchMember = async () => {
+        const URL = import.meta.env.VITE_SERVER_URL;
+     try{
+      const response = await axios.get(`${URL}/members`,{withCredentials: true});
+      const data = response.data
+      setMembersArr(data.members)
+      setMembersTotal(data.totalMembers)
+
+    }catch(err){
+        console.log(err)
+     }finally{
+
+     }
+    }
+
+     fetchMember();
+ },[])
+
+    return(
+        <Container>
+        <h2>Nayvee Chat Members</h2>
+
+        <div>
+                    <img src={user.image ? user.image : ProfileImg} alt='member profile' />
+                    <div className='text' >
+                    <h4>{user.name}</h4>
+                    <p>Jsoined: 2024</p>
+                    </div>
+                    </div>
+            {
+                membersArr.map((member) => {
+                    if(member.id === user.id){
+                        return;
+                    }
+                    return(
+                        <div key={member.id}>
+                            <img src={member.image !== null ? member.image : ProfileImg} alt='member profile' />
+                            <div className='text' >
+                            <h4>{member.name}</h4>
+                            <p>Joined: 2024</p>
+                            </div>
+                            </div>
+                    )
+                })
+            }
+          {memberTotal - membersArr.length > 0 &&  <p>+ {memberTotal - membersArr.length} more</p> }
+        </Container>
+    )
+}
+
+
+export default Members

@@ -23,6 +23,7 @@ const SidebarContainer = styled.div`
   height: 100vh;
   background: #f5f5f5;
   display: flex;
+  z-index: 100;
   flex-direction: column;
   padding: 1.8rem 0.5rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -32,7 +33,7 @@ const SidebarContainer = styled.div`
   @media (max-width: 975px) {
     transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
     position: fixed;
-    z-index: 1000;
+    z-index: 100;
     height: 100%;
   }
 `;

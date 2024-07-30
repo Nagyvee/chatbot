@@ -2,6 +2,7 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ChatContainer from "./ChatContainer";
 import styled from 'styled-components';
+import SettingsPop from './SettingsPop'
 
 const Section = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ const Content = styled.div`
 `;
 
 const Main = styled.main`
+  position: relative;
   flex: 1;
 `;
 
@@ -32,6 +34,7 @@ const Home = () => {
       <Content>
         <Navbar />
         <Main>
+          <SettingsPop />
           <ChatContainer />
         </Main>
       </Content>

@@ -95,4 +95,59 @@ const logOutUser = async (req, res) => {
   }
 };
 
-module.exports = { userHistory, selectSingleChat, deleteHistory, logOutUser };
+const getMembers = async (req,res) => {
+  const query = `SELECT * FROM chatbot_users LIMIT 10`;
+
+  try{
+    const data = await pool.promise().query(query)
+    const count = await pool.promise().query(`SELECT COUNT(*) FROM chatbot_users`);
+    if(data.legth < 1){
+      return res.status(200).json({
+        status: true,
+        data: []
+      })
+    }
+    let members =[]
+
+
+     data[0].forEach((member) => {
+      members.push({
+        name: member.name,
+        image: member.image_url,
+        id: member.id
+      })
+    })
+    res.status(200).json({
+      status: true,
+      members,
+      totalMembers: count[0][0]['COUNT(*)']
+  })
+  }catch(err){
+    res.status(500).json({
+      status: false,
+      msg: 'Server error'
+  })
+    console.log(err)
+  }
+}
+
+const updateProfile = async (req,res) => {
+  const {id, name} = req.body;
+
+  try{
+    const data = await pool.promise().query(`UPDATE chatbot_users SET name = ?  WHERE id = ?`, [name,id]);
+    console.log(data);
+    res.status(200).json({
+      staus: true,
+      msg: 'Name updated'
+    })
+  }catch(err){
+    console.log(err)
+    res.status(500).json({
+      staus: false,
+      msg: 'Server Error'
+    })
+  }
+}
+
+module.exports = { userHistory, selectSingleChat, deleteHistory, logOutUser, getMembers, updateProfile };
