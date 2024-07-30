@@ -49,8 +49,7 @@ const Settings = () => {
   };
 
   const handlePrivacyPolicy = () => {
-    navigate('/privacy-policy')
-    window.open('https://localhost:5173/privacy-policy', '_blank');
+    window.open('http://localhost:5173/privacy-policy', '_blank');
   };
 
   const handleTermsOfService = () => {
