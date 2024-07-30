@@ -53,7 +53,7 @@ const Settings = () => {
   };
 
   const handleTermsOfService = () => {
-    window.open('https://www.example.com/terms-of-service', '_blank');
+    window.open('http://localhost:5173/terms-of-service', '_blank');
   };
 
   const handleLogout = () => {

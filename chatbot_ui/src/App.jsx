@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import ProtectedRoute from "./Login/ProtectedRoute";
 import SettingsPop from './pages/home_sections/SettingsPop'
 import PrivacyPolicy from './pages/home_sections/Privacy'
+import TermsOfService from './pages/home_sections/Terms'
 
 function App() {
   const [popUp, setPopUp] = useState(false);
@@ -35,8 +36,10 @@ function App() {
           path="/user/auth"
           element={user.isActive ? <Navigate to={from} /> : <Login />}
         />
-          <Route
+        <Route
           path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route
+          path="/terms-of-service" element={<TermsOfService />} />
         <Route
           path="/"
           element={
