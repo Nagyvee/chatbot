@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ChatContainer from "./ChatContainer";
 import styled from 'styled-components';
-import SettingsPop from './SettingsPop'
+import SettingsPop from './SettingsPop';
 
 const Section = styled.div`
   display: flex;

@@ -5,6 +5,7 @@ import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Members from './Members'
 import Pricing from './Pricing'
 import Profile from './Profile'
+import { useParams, useNavigate } from "react-router-dom";
 
 const SettingsContainer = styled.div`
   position: absolute;
@@ -46,10 +47,13 @@ const ToggleButton = styled.button`
 
 const SettingsPop = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
 
   const toggleSettings = () => {
     setIsOpen(false);
   };
+
+  const { id } = useParams()
 
   return (
     <>
@@ -59,9 +63,12 @@ const SettingsPop = () => {
             <FontAwesomeIcon icon={faTimes} />
           </ToggleButton>
         </div>
-        {/* <Members /> */}
-        {/* <Pricing /> */}
-        <Profile />
+        { 
+          id === 'members' ? <Members /> :
+          id === 'pricing' ? <Pricing /> :
+          id === 'profile' ? <Profile /> :
+          navigate('/')
+        }
       </SettingsContainer>
     </>
   );

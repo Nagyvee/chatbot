@@ -8,6 +8,7 @@ import Chat from "./pages/home_sections/Chat";
 import PopUpNotification from "./pages/home_sections/PopupNoti";
 import { useState, useEffect } from "react";
 import ProtectedRoute from "./Login/ProtectedRoute";
+import SettingsPop from './pages/home_sections/SettingsPop'
 
 function App() {
   const [popUp, setPopUp] = useState(false);
@@ -35,6 +36,14 @@ function App() {
         />
         <Route
           path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/:id"
           element={
             <ProtectedRoute>
               <Home />

@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActiveChat, deleteChats } from "../../redux_state/actions";
 import axios from 'axios';
 import { v4 as uuidV4 } from "uuid";
+import {Link} from 'react-router-dom'
 
 const SidebarContainer = styled.div`
   width: 180px;
@@ -167,33 +168,41 @@ const Sidebar = () => {
           <Logo src={LogoImg} alt="Logo image" />
         </LogoContainer>
         <NavList>
-          <NavItem className="active" onClick={newChat}>
+        <Link to={'/'} >
+           <NavItem className="active" onClick={newChat}>
             <FontAwesomeIcon icon={faRobot} />
             <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI' : 'New Chat'}</span>
           </NavItem>
-          <NavItem onClick={() => {
+        </ Link>
+           <NavItem onClick={() => {
             dispatch(setActiveChat(undefined))
             toggleSidebar()
             }}>
             <FontAwesomeIcon icon={faCommentAlt} />
             <span>Chats History</span>
           </NavItem>
-          <NavItem onClick={toggleSidebar}>
+          <Link to={'/members'} ><NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUsers} />
             <span>Members</span>
           </NavItem>
-          <NavItem onClick={toggleSidebar}>
+          </Link>
+          <Link to={'/pricing'} ><NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faDollarSign} />
             <span>Pricing</span>
           </NavItem>
+          </Link>
+          <Link to={'/settings'} >
           <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faCog} />
             <span>Settings</span>
           </NavItem>
+          </Link>
+          <Link to={'/profile'} >
           <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUserCog} />
             <span>Profile</span>
           </NavItem>
+          </Link>
           <NavItem className="logout" onClick={handleLogOut}>
             <FontAwesomeIcon icon={faSignOutAlt} />
             LogOut
