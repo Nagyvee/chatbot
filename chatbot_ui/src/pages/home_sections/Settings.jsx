@@ -1,5 +1,6 @@
-import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom'
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { FaEnvelope, FaGlobe, FaTrash } from "react-icons/fa";
 
 const Container = styled.div`
   padding: 20px;
@@ -8,6 +9,7 @@ const Container = styled.div`
   height: 100%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  position: relative;
 
   h2 {
     text-align: center;
@@ -20,6 +22,18 @@ const Container = styled.div`
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ebebeb;
+
+    .icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        color: blue;
+        margin-right: 1rem;
+        font-size: 1.3rem;
+      }
+    }
   }
 
   .setting:last-child {
@@ -31,34 +45,53 @@ const Container = styled.div`
     border: none;
     border-radius: 5px;
     cursor: pointer;
+
+    &:hover {
+      background-color: #d9d9d9;
+    }
   }
 
-  .setting button:hover {
-    background-color: #f0f0f0;
+  .delete {
+    position: absolute;
+    bottom: 0.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #FF4B91;
+    color: #fff;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px gray;
+    transition: box-shadow .4s ease;
+
+    &:hover{
+    box-shadow: 4px 4px 8px gray;
+    }
   }
 `;
 
 const Settings = () => {
-  const  navigate = useNavigate()
+  const navigate = useNavigate();
   const handleContactSupport = () => {
-    window.location.href = 'mailto:nayvee@techie.com';
+    window.location.href = "mailto:nayvee@techie.com";
   };
 
   const handleRateApp = () => {
-    window.open('https://www.example.com/rate-us', '_blank');
+    window.open("https://www.example.com/rate-us", "_blank");
   };
 
   const handlePrivacyPolicy = () => {
-    window.open('http://localhost:5173/privacy-policy', '_blank');
+    window.open("http://localhost:5173/privacy-policy", "_blank");
   };
 
   const handleTermsOfService = () => {
-    window.open('http://localhost:5173/terms-of-service', '_blank');
+    window.open("http://localhost:5173/terms-of-service", "_blank");
   };
 
-  const handleLogout = () => {
-    // Add logout functionality here
-    console.log('User logged out');
+  const handleDelete = () => {
+    window.location.href = "mailto:nayvee@techie.com?subject=Delete my Nayvee Chat account.";
   };
 
   return (
@@ -81,10 +114,19 @@ const Settings = () => {
         <button onClick={handleTermsOfService}>View</button>
       </div>
       <div className="setting">
-        <span>Email: nayvee@techie.com</span>
+        <div className="icons">
+          <FaEnvelope />{" "}
+          <a href="mailto:nayvee@techie.com">nayvee@techie.com</a>{" "}
+        </div>
       </div>
       <div className="setting">
-        <span>Web: www.nayveetech.co.za</span>
+        <div className="icons">
+          <FaGlobe />{" "}
+          <a href="https://www.nayveetech.co.za"> www.nayveetech.co.za </a>
+        </div>
+      </div>
+      <div className="delete" onClick={handleDelete}>
+          <FaTrash /> Request Account Deletion
       </div>
     </Container>
   );

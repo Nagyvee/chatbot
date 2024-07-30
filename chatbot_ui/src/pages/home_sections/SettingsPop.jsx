@@ -20,8 +20,7 @@ const SettingsContainer = styled.div`
   z-index: 50;
   padding: 1.8rem 0.5rem;
   transition: transform 0.3s ease;
-  transform: ${({ isOpen }) =>
-    isOpen ? "translateX(0)" : "translateX(-100%)"};
+  transform: translateX(0);
 `;
 
 const ToggleButton = styled.button`
@@ -47,18 +46,17 @@ const ToggleButton = styled.button`
 `;
 
 const SettingsPop = () => {
-  const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
   const toggleSettings = () => {
-    setIsOpen(false);
+   navigate('/')
   };
 
   const { id } = useParams()
 
   return (
     <>
-      <SettingsContainer isOpen={isOpen}>
+      <SettingsContainer>
         <div className="wrap">
           <ToggleButton onClick={toggleSettings}>
             <FontAwesomeIcon icon={faTimes} />
