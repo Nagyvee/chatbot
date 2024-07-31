@@ -50,7 +50,8 @@ const Section = styled.section`
     padding-bottom: 0.5rem;
 
        @media (max-width: 500px) {
-        bottom: 7.5%;
+        bottom: 2.5%;
+        padding-bottom: 2rem;
   }
   }
 
