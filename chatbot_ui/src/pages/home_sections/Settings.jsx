@@ -73,7 +73,6 @@ const Container = styled.div`
 `;
 
 const Settings = () => {
-  const navigate = useNavigate();
   const handleContactSupport = () => {
     window.location.href = "mailto:nayvee@techie.com";
   };
@@ -83,11 +82,11 @@ const Settings = () => {
   };
 
   const handlePrivacyPolicy = () => {
-    window.open("http://localhost:5173/privacy-policy", "_blank");
+    window.href("/privacy-policy", "_blank");
   };
 
   const handleTermsOfService = () => {
-    window.open("http://localhost:5173/terms-of-service", "_blank");
+    window.href("/terms-of-service", "_blank");
   };
 
   const handleDelete = () => {
@@ -116,13 +115,13 @@ const Settings = () => {
       <div className="setting">
         <div className="icons">
           <FaEnvelope />{" "}
-          <a href="mailto:nayvee@techie.com">nayvee@techie.com</a>{" "}
+          <a href="mailto:nayvee@techie.com" target="_blank">nayvee@techie.com</a>{" "}
         </div>
       </div>
       <div className="setting">
         <div className="icons">
           <FaGlobe />{" "}
-          <a href="https://www.nayveetech.co.za"> www.nayveetech.co.za </a>
+          <a href="https://www.nayveetech.co.za" target="_blank"> www.nayveetech.co.za </a>
         </div>
       </div>
       <div className="delete" onClick={handleDelete}>
