@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://nayveechatbot.onrender.com"],
+    origin: ["http://localhost:5173", "https://chatbot.nayveetech.co.za"],
     credentials: true,
   })
 );
