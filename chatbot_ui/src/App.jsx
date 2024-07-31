@@ -12,6 +12,7 @@ import SettingsPop from './pages/home_sections/SettingsPop'
 import PrivacyPolicy from './pages/home_sections/Privacy'
 import TermsOfService from './pages/home_sections/Terms'
 
+
 function App() {
   const [popUp, setPopUp] = useState(false);
   useVerifyUser(setPopUp);

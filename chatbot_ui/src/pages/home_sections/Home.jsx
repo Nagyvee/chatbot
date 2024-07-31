@@ -1,8 +1,9 @@
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import ChatContainer from "./ChatContainer";
-import styled from 'styled-components';
-import SettingsPop from './SettingsPop';
+import styled from "styled-components";
+import SettingsPop from "./SettingsPop";
+import { useParams } from "react-router-dom";
 
 const Section = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const Section = styled.div`
   margin: 0;
   padding: 0;
 
-  @media(max-width: 500px){
+  @media (max-width: 500px) {
     height: 100vh;
   }
 `;
@@ -28,13 +29,14 @@ const Main = styled.main`
 `;
 
 const Home = () => {
+  const { id } = useParams();
   return (
     <Section>
       <Sidebar />
       <Content>
         <Navbar />
         <Main>
-          <SettingsPop />
+          {id !== undefined && <SettingsPop />}
           <ChatContainer />
         </Main>
       </Content>

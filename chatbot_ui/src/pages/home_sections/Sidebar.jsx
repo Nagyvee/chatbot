@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActiveChat, deleteChats } from "../../redux_state/actions";
 import axios from 'axios';
 import { v4 as uuidV4 } from "uuid";
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 const SidebarContainer = styled.div`
   width: 180px;
@@ -30,6 +30,11 @@ const SidebarContainer = styled.div`
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: relative;
   transition: transform 0.3s ease;
+
+  a{
+  text-decoration: none;
+  color: #000;
+  }
 
   @media (max-width: 975px) {
     transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
@@ -89,15 +94,15 @@ const NavItem = styled.li`
   &:hover {
     background: #e2e8f0;
   }
+  }
 
-  &.active {
+  .active li {
     background: #5a67d8;
     color: #fff;
 
     svg {
       color: #fff;
     }
-  }
 
   svg {
     margin-right: 1rem;
@@ -168,12 +173,12 @@ const Sidebar = () => {
           <Logo src={LogoImg} alt="Logo image" />
         </LogoContainer>
         <NavList>
-        <Link to={'/'} >
-           <NavItem className="active" onClick={newChat}>
+        <NavLink to={'/'} >
+           <NavItem onClick={newChat}>
             <FontAwesomeIcon icon={faRobot} />
             <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI' : 'New Chat'}</span>
           </NavItem>
-        </ Link>
+        </ NavLink>
            <NavItem onClick={() => {
             dispatch(setActiveChat(undefined))
             toggleSidebar()
@@ -181,28 +186,28 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faCommentAlt} />
             <span>Chats History</span>
           </NavItem>
-          <Link to={'/members'} ><NavItem onClick={toggleSidebar}>
+          <NavLink to={'/members'} ><NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUsers} />
             <span>Members</span>
           </NavItem>
-          </Link>
-          <Link to={'/pricing'} ><NavItem onClick={toggleSidebar}>
+          </NavLink>
+          <NavLink to={'/pricing'} ><NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faDollarSign} />
             <span>Pricing</span>
           </NavItem>
-          </Link>
-          <Link to={'/settings'} >
+          </NavLink>
+          <NavLink to={'/settings'} >
           <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faCog} />
             <span>Settings</span>
           </NavItem>
-          </Link>
-          <Link to={'/profile'} >
+          </NavLink>
+          <NavLink to={'/profile'} >
           <NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUserCog} />
             <span>Profile</span>
           </NavItem>
-          </Link>
+          </NavLink>
           <NavItem className="logout" onClick={handleLogOut}>
             <FontAwesomeIcon icon={faSignOutAlt} />
             LogOut
