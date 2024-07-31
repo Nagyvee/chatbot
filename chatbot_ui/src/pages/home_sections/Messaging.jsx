@@ -28,8 +28,8 @@ const Container = styled.div`
     font-weight: 350;
 
     img {
-      width: 22px;
-      height: 22px;
+      width: 14px;
+      height: 18px;
       margin: 0 0.45rem;
       animation: spin 1s infinite linear;
 
@@ -84,7 +84,7 @@ const Message = styled.div`
   }
 
   .nayvee-logo {
-    width: 22px;
+    width: 18px;
     height: 22px;
     margin: 0.2rem 0.45rem;
   }

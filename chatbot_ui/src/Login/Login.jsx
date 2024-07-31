@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "../assets/nayveechat-logo.png";
+import Logo from "../assets/nayvee_logo_ icon_nobg.png";
 import GoogleLogin from "./GoogleAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +15,9 @@ import {
   LinkText,
   LogoImage,
   InputField,
-  EyeIcon
+  LogoText,
+  EyeIcon,
+  LogoSec
 } from "./Styles";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -81,7 +83,10 @@ const Login = () => {
       )}
 
       <StyledForm onSubmit={handleSubmit}>
+       <LogoSec>
         <LogoImage src={Logo} alt="Let's Talk Chatbot Logo" />
+        <LogoText>NAYVEE CHAT</LogoText>
+       </LogoSec>
         <SubHeading>{isLogging ? "Login" : "Signup"}</SubHeading>
         {!isLogging && (
           <InputField

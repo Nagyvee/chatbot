@@ -78,12 +78,27 @@ const LinkText = styled.span`
   }
 `;
 
+const LogoSec = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .2rem;
+`
+
 const LogoImage = styled.img`
-  width: 225px;
+  width: auto;
   border-radius: 4px;
-  height: 65px;
-  margin-bottom: 1rem;
+  height: 80px;
+  padding: .15rem .65rem;
+  box-shadow: 0 2px 4px gray;
+  cursor: pointer;
 `;
+
+const LogoText = styled.h3`
+font-size: 1.5rem;
+color: #007bff;
+`
 
 const ErrorMessageStyled = styled.div`
   color: red;
@@ -105,4 +120,4 @@ const InputField = ({ type, name, value, placeholder, onChange, error }) => (
     </>
   );
 
-export { Section, StyledForm, SubHeading, InputEl, Button, Text, LinkText, LogoImage, ErrorMessageStyled,EyeIcon, InputField }
+export { Section, StyledForm, SubHeading, InputEl, Button, Text, LinkText,LogoSec ,LogoImage, LogoText, ErrorMessageStyled,EyeIcon, InputField }
