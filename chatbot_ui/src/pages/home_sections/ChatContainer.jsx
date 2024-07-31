@@ -83,6 +83,8 @@ const HistorySection = styled.div`
   flex: 1;
   padding: 0.5rem 1rem 2.4rem;
   border: 1px solid #ddd;
+  height: 65%;
+  overflow-y: auto;
   border-radius: 8px;
   background: #fff;
   position: relative;
@@ -152,7 +154,8 @@ const HistoryChatsContainer = styled.div`
   .wrapper {
     display: flex;
     flex: 1;
-    min-width: 230px;
+    max-width: 600px;
+    min-width: 280px;
     padding: 0.5rem;
     position: relative;
     border-radius: 1.5px;
