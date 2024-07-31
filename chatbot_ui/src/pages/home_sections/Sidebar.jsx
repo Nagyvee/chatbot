@@ -151,6 +151,7 @@ const Sidebar = () => {
 
   const newChat = () => {
     if (activeChat === undefined || chats.length < 1) {
+      toggleSidebar()
       return;
     }
     const chatId = uuidV4();
