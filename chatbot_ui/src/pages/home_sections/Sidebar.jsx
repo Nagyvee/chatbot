@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActiveChat, deleteChats } from "../../redux_state/actions";
 import axios from 'axios';
 import { v4 as uuidV4 } from "uuid";
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 
 const SidebarContainer = styled.div`
   width: 180px;
@@ -180,6 +180,7 @@ const Sidebar = () => {
             <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI' : 'New Chat'}</span>
           </NavItem>
         </ NavLink>
+         <Link to={'/'} >
            <NavItem onClick={() => {
             dispatch(setActiveChat(undefined))
             toggleSidebar()
@@ -187,6 +188,7 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faCommentAlt} />
             <span>Chats History</span>
           </NavItem>
+          </Link >
           <NavLink to={'/members'} ><NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUsers} />
             <span>Members</span>
