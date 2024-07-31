@@ -11,7 +11,7 @@ import Settings from './Settings'
 const SettingsContainer = styled.div`
   position: absolute;
   left: 0;
-  top: 7.5%;
+  top: 4%;
   width: 300px;
   height: 80vh;
   background: #f5f7f8;
