@@ -88,6 +88,7 @@ const Login = () => {
         <LogoText>NAYVEE CHAT</LogoText>
        </LogoSec>
         <SubHeading>{isLogging ? "Login" : "Signup"}</SubHeading>
+        
         {!isLogging && (
           <InputField
             type="text"

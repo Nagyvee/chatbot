@@ -5,6 +5,7 @@ import GoogleIconImage from "../assets/google_icon.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setTokenToLocal } from "./Validate";
+import { Browser } from "@capacitor/browser";
 
 const GoogleButton = styled.div`
   display: flex;
@@ -42,7 +43,7 @@ const GoogleLogin = ({
     const start = () => {
       gapi.auth2.init({
         client_id: CLIENT_ID,
-        scope: "",
+        scope: "profile email",
       });
     };
 
@@ -54,11 +55,26 @@ const GoogleLogin = ({
     setIsSigning(true);
     try {
       setBtnActive(true);
-      const googleAuth = gapi.auth2.getAuthInstance();
-      const googleUser = await googleAuth.signIn();
-      const id_token = googleUser.getAuthResponse().id_token;
-      const URL = import.meta.env.VITE_SERVER_URL;
+      const auth2 = gapi.auth2.getAuthInstance();
+      await Browser.open({ url: auth2.signIn().then(googleUser => {
+        const id_token = googleUser.getAuthResponse().id_token;
+        handleServerLogin(id_token);
+      }) });
+    } catch (error) {
+      const errorMsg =
+        error.response?.data?.msg || "An error occurred. Please try again.";
+      setErrorMessage(errorMsg);
+      setLoginError(true);
+    } finally {
+      setBtnActive(false);
+      setIsSigning(false);
+    }
+  };
 
+  const handleServerLogin = async (id_token) => {
+    const URL = import.meta.env.VITE_SERVER_URL;
+
+    try {
       const response = await axios.post(
         `${URL}/user/verify-google`,
         { id_token },
@@ -71,9 +87,6 @@ const GoogleLogin = ({
         error.response?.data?.msg || "An error occurred. Please try again.";
       setErrorMessage(errorMsg);
       setLoginError(true);
-    } finally {
-      setBtnActive(false);
-      setIsSigning(false);
     }
   };
 

@@ -1,0 +1,10 @@
+{
+  "appId": "com.chatbot.nayvee",
+  "appName": "Nayvee Chat",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://chatbot.nayveetech.co.za",
+    "cleattext": true
+  }
+}
