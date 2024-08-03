@@ -307,7 +307,7 @@ export default function Messages() {
           />
           <div className="loading">
             <img src={NayveeIcon} alt="Nayvee Logo" className="nayvee-logo" />
-            <span>Nayvee Thinking...</span>
+            <span>Nayvee filtering...</span>
           </div>
         </>
       )}
