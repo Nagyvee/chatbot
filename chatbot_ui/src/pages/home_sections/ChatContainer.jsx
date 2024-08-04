@@ -83,7 +83,7 @@ const HistorySection = styled.div`
   flex: 1;
   padding: 0.5rem 1rem 2.4rem;
   border: 1px solid #ddd;
-  height: 65%;
+  height: 80%;
   overflow-y: auto;
   border-radius: 8px;
   background: #fff;
