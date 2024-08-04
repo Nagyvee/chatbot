@@ -14,7 +14,7 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   margin: 0;
-  max-width: 1000%;
+  max-width: 100%;
   flex-direction: column;
   gap: 1rem;
   padding: 2rem;
@@ -131,7 +131,6 @@ const MarkdownContent = styled.div`
     position: relative;
     background-color: #2d2d2d;
     white-space: pre; 
-    overflow-x: auto; 
     overflow-wrap: break-word;
 
     @media (max-width: 378px) {
