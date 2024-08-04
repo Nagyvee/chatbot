@@ -15,6 +15,24 @@ const Container = styled.div`
     margin-bottom: 1rem;
   }
 
+    .failed {
+    color: red;
+    margin: 2rem auto;
+    font-size: 0.9rem;
+    font-weight: 550;
+    text-align: center;
+
+    span {
+      cursor: pointer;
+      font-size: 1rem;
+      border-bottom: solid black 3px;
+
+      &:hover {
+        opacity: 0.55;
+      }
+    }
+  }
+
   div {
     display: flex;
     cursor: pointer;
@@ -53,11 +71,14 @@ const Members = () => {
   const [membersArr, setMembersArr] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [memberTotal, setMembersTotal] = useState(0);
+  const [errMsg, setErrMsg] = useState(false);
+  const [retry, setRetry] = useState(0)
 
   useEffect(() => {
     const fetchMember = async () => {
       const URL = import.meta.env.VITE_SERVER_URL;
       setIsLoading(true);
+      setErrMsg(false)
       try {
         const response = await axios.get(`${URL}/members`, {
           withCredentials: true,
@@ -66,14 +87,14 @@ const Members = () => {
         setMembersArr(data.members);
         setMembersTotal(data.totalMembers);
       } catch (err) {
-        console.log(err);
+        setErrMsg(true)
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchMember();
-  }, []);
+  }, [retry]);
 
   return (
     <Container>
@@ -112,6 +133,7 @@ const Members = () => {
           <div className="loader"></div>{" "}
         </div>
       )}
+             {errMsg && <p className='failed'>Server Connection Erron <br/> <span onClick={() => setRetry(retry + 1)}>Retry</span></p>}
     </Container>
   );
 };
