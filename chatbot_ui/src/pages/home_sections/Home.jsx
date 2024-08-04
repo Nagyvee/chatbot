@@ -12,13 +12,10 @@ const Section = styled.div`
   margin: 0;
   padding: 0;
 
-  @media (max-width: 500px) {
-    height: 100vh;
-  }
 `;
 
 const Content = styled.div`
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;

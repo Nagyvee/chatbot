@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addCount, lastChatAnimated } from "../../redux_state/actions";
+import { addCount } from "../../redux_state/actions";
 
 const useTypewriter = (text, speed = 15) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -16,7 +16,6 @@ const useTypewriter = (text, speed = 15) => {
         index++;
       } else {
         dispatch(addCount());
-        dispatch(lastChatAnimated(false));
         clearInterval(interval);
       }
     }, speed);

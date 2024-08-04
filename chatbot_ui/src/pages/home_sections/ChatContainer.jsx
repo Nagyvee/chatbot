@@ -15,6 +15,7 @@ import { chooseChat, deleteHistory } from "./otherFunctions";
 const Section = styled.section`
   display: flex;
   height: 100vh;
+  width: 100%;
   flex-direction: column;
   padding: 0.35rem 3.5rem 0;
 

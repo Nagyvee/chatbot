@@ -12,6 +12,9 @@ import NayveeIcon from "../../assets/nayvee_logo_ icon_nobg.png";
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
+  margin: 0;
+  max-width: 1000%;
   flex-direction: column;
   gap: 1rem;
   padding: 2rem;
@@ -107,9 +110,8 @@ const MarkdownContent = styled.div`
   font-size: 1rem;
   color: #333;
   width: 100%;
-  margin:0;
+  margin: 0;
   position: relative;
-
 
   h1,
   h2,
@@ -123,30 +125,29 @@ const MarkdownContent = styled.div`
 
   pre {
     width: 100%;
+    max-width: 100%; 
     padding: 0.2rem;
     border-radius: 5px;
-    overflow-x: auto;
     position: relative;
     background-color: #2d2d2d;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    white-space: pre; 
+    overflow-x: auto; 
+    overflow-wrap: break-word;
 
     @media (max-width: 378px) {
       font-size: 0.78rem;
       padding: 0;
     }
   }
-  }
 
   code {
     background: #f5f5f5;
-    padding: .3rem 0.4rem;
+    padding: 0.3rem 0.4rem;
     border-radius: 3px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    line-height: 2rem;
+    white-space: pre; /* Use pre to maintain whitespace */
+    overflow-wrap: break-word; /* Break long words */
 
-   @media (max-width: 487px) {
+    @media (max-width: 487px) {
       font-size: 1rem;
     }
   }
@@ -173,6 +174,7 @@ const MarkdownContent = styled.div`
   }
 `;
 
+
 const CopyButton = styled.button`
   position: absolute;
   top: 0.5rem;
@@ -187,7 +189,7 @@ const CopyButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  z-index: 2; /* Ensure it's on top */
+  z-index: 5; 
 
   &:hover {
     background: ${({ copie }) => (copie ? "#888" : "#024b9a")};
@@ -200,7 +202,7 @@ const CodeBlock = ({ className, children }) => {
   const [copyText, setCopyText] = useState(false);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", overflowX: 'hidden' }}>
       {language && (
         <span
           style={{
