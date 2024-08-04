@@ -18,15 +18,15 @@ const Container = styled.div`
   border-radius: 8px;
   overflow-y: auto;
 
-.failed{
+  .failed {
     color: red;
     margin: 1rem auto;
-    font-size: .8rem;
+    font-size: 0.8rem;
     font-weight: 550;
   }
 
-  @media(max-width: 485px){
-  padding: 2rem 0;
+  @media (max-width: 485px) {
+    padding: 2rem 0;
   }
 
   .loading {
@@ -251,8 +251,7 @@ const components = {
   },
 };
 
-const ChatMessage = ({ sender, message, user }) => {
-  const chatAnimated = useSelector((state) => state.chat.chatAnimated);
+const ChatMessage = ({ sender, message, user, typeChat }) => {
   const typedMessage = sender === "Nayvee" ? useTypewriter(message) : message;
 
   return (
@@ -270,7 +269,7 @@ const ChatMessage = ({ sender, message, user }) => {
       {sender === "Nayvee" ? (
         <MarkdownContent>
           <ReactMarkdown components={components}>
-            {chatAnimated ? typedMessage : message}
+            {typeChat === message ? typedMessage : message}
           </ReactMarkdown>
         </MarkdownContent>
       ) : (
@@ -290,7 +289,7 @@ const ChatMessage = ({ sender, message, user }) => {
   );
 };
 
-export default function Messages({failedMsg}) {
+export default function Messages({ failedMsg, typeChat }) {
   const pendingMessage = useSelector((state) => state.chat.pendingMessage);
   const chatMessage = useSelector((state) => state.chat.userChats);
   const user = useSelector((state) => state.user.userDetails);
@@ -304,6 +303,7 @@ export default function Messages({failedMsg}) {
             sender={sender}
             message={message}
             user={user}
+            typeChat={typeChat}
           />
         ))}
       {pendingMessage !== null && (
@@ -319,7 +319,7 @@ export default function Messages({failedMsg}) {
           </div>
         </>
       )}
-     {failedMsg && <p className='failed'>Error sending message. Try again.</p>}
+      {failedMsg && <p className="failed">Error sending message. Try again.</p>}
     </Container>
   );
 }

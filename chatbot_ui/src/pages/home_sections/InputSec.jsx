@@ -6,8 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setActiveChat,
   setPendingMessage,
-  addChat,
-  lastChatAnimated
+  addChat
 } from "../../redux_state/actions";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -77,19 +76,19 @@ const Footer = styled.p`
   color: #999;
 `;
 
-const InputSec = ({ setFailed }) => {
+const InputSec = ({ setFailed, setTypeChat }) => {
   const [messageValue, setMessageValue] = useState("");
   const [isSending, setIsSending] = useState(false);
   const dispatch = useDispatch();
   const chatId = useSelector((state) => state.chat.activeChat);
   const userId = useSelector((state) => state.user.userDetails.id);
   const history = useSelector((state) => state.chat.userChats);
-  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
 
   const handleSend = async (event) => {
     event.preventDefault();
     setFailed(false);
     setIsSending(true);
+    setTypeChat('')
 
     let activeChat = chatId;
     if (activeChat === undefined) {
@@ -109,11 +108,11 @@ const InputSec = ({ setFailed }) => {
         { userId, ...senderObj, history, chatId: activeChat },
         { withCredentials: true }
       );
-      await dispatch(lastChatAnimated(true));
       await dispatch(addChat({ id: Date.now(), ...senderObj }));
       await dispatch(
         addChat({ id: Date.now(), sender: "Nayvee", message: response.data })
       );
+      setTypeChat(response.data)
     } catch (error) {
       setFailed(true);
       setMessageValue(senderObj.message);

@@ -10,7 +10,6 @@ import InputSec from "./InputSec";
 import axios from "axios";
 import { setChatHistory } from "../../redux_state/actions";
 import TimeDifference from "./TimeConvert";
-import { Link } from "react-router-dom";
 import { chooseChat, deleteHistory } from "./otherFunctions";
 
 const Section = styled.section`
@@ -248,6 +247,7 @@ const ChatContainer = () => {
   const [failedMsg, setFailed] = useState(false);
   const [errMsg, setErrMsg] = useState(false);
   const [retry, setRetry] = useState(0);
+  const [typeChat, setTypeChat] = useState('')
 
   useEffect(() => {
     const fetchChatsHistory = async () => {
@@ -282,8 +282,6 @@ const ChatContainer = () => {
     }
   }, [chatMessage, pendingMessage, count]);
 
-  console.log("renderd");
-
   return (
     <Section>
       <div className="top-wrap" ref={messageRef}>
@@ -294,7 +292,10 @@ const ChatContainer = () => {
           </UpperSection>
         )}
         {activeChat !== undefined ? (
-          <Messages failedMsg={failedMsg} />
+          <Messages 
+          failedMsg={failedMsg}
+          typeChat= {typeChat}
+           />
         ) : (
           <HistorySection>
             <Title>Search History</Title>
@@ -369,7 +370,9 @@ const ChatContainer = () => {
         )}
       </div>
       <div className="bottom-sec">
-        <InputSec setFailed={setFailed} />
+        <InputSec
+         setFailed={setFailed}
+         setTypeChat={setTypeChat} />
       </div>
     </Section>
   );

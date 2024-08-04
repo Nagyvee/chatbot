@@ -16,7 +16,6 @@ const initialChatState = {
   activeChat: undefined,
   pendingMessage: null,
   count: 0,
-  chatAnimated: false
 };
 
 const userReducer = (state = initialUserState, action) => {
@@ -63,11 +62,6 @@ const chatReducer = (state = initialChatState, action) => {
       return {
         ...state,
         count: state.count + 1,
-      };
-      case "CHAT_ANIMATE":
-      return {
-        ...state,
-        chatAnimated: action.payload,
       };
     case "ADD_MESSAGE":
       return {

@@ -32,11 +32,6 @@ export const addCount = () => ({
     type: 'ADD_COUNT',
 })
 
-export const lastChatAnimated = (payload) => ({
-    type: 'CHAT_ANIMATE',
-    payload: payload
-})
-
 export const deleteChats = () =>({
     type: 'DELETE_CHATS'
 })
