@@ -111,6 +111,7 @@ const MarkdownContent = styled.div`
   width: 100%;
   margin: 0;
   position: relative;
+   overflow-x: auto;
 
   h1,
   h2,
