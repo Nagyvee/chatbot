@@ -11,7 +11,6 @@ import {
 } from "../../redux_state/actions";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import useTypewriter from "./TypeWriter";
 
 const MessageSection = styled.form`
   display: flex;
@@ -80,15 +79,17 @@ const Footer = styled.p`
   color: #999;
 `;
 
-const InputSec = () => {
+const InputSec = ({setFailed}) => {
   const [messageValue, setMessageValue] = useState("");
   const dispatch = useDispatch();
   const chatId = useSelector((state) => state.chat.activeChat);
   const userId = useSelector((state) => state.user.userDetails.id);
   const history = useSelector((state) => state.chat.userChats);
+  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
 
   const handleSend = async (event) => {
     event.preventDefault();
+    setFailed(false)
 
     let activeChat = chatId;
     if (activeChat === undefined) {
@@ -114,7 +115,8 @@ const InputSec = () => {
         addChat({ id: Date.now(), sender: "Nayvee", message: response.data })
       );
     } catch (error) {
-      console.log(Error);
+      setFailed(true)
+      setMessageValue(senderObj.message);
     } finally {
       dispatch(setPendingMessage(null));
     }

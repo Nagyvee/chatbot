@@ -18,6 +18,13 @@ const Container = styled.div`
   border-radius: 8px;
   overflow-y: auto;
 
+.failed{
+    color: red;
+    margin: 1rem auto;
+    font-size: .9rem;
+    font-weight: 550;
+  }
+
   @media(max-width: 485px){
   padding: 2rem 0;
   }
@@ -282,7 +289,7 @@ const ChatMessage = ({ sender, message, user }) => {
   );
 };
 
-export default function Messages() {
+export default function Messages({failedMsg}) {
   const pendingMessage = useSelector((state) => state.chat.pendingMessage);
   const chatMessage = useSelector((state) => state.chat.userChats);
   const user = useSelector((state) => state.user.userDetails);
@@ -311,6 +318,7 @@ export default function Messages() {
           </div>
         </>
       )}
+     {failedMsg && <p className='failed'>Error sending message. Try again.</p>}
     </Container>
   );
 }
