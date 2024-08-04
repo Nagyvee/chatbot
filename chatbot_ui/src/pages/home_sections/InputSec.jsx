@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setActiveChat,
@@ -17,7 +17,7 @@ const MessageSection = styled.form`
   height: fit-content;
   padding-top: 0;
   width: calc(100%);
-  position: reletive;
+  position: relative;
   margin: 0;
 `;
 
@@ -31,7 +31,6 @@ const Input = styled.textarea`
   font-size: 1rem;
   font-family: inherit;
   line-height: 1.5;
-  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   resize: none;
   min-height: 50px;
   overflow-y: auto;
@@ -45,7 +44,6 @@ const Input = styled.textarea`
     outline: none;
   }
 
-  /* Hide the scrollbar */
   &::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -67,8 +65,8 @@ const SendButton = styled.button`
   align-items: center;
   justify-content: center;
 
-  &:hover{
-  background: #1C1678;
+  &:hover {
+    background: #1c1678;
   }
 `;
 
@@ -79,8 +77,9 @@ const Footer = styled.p`
   color: #999;
 `;
 
-const InputSec = ({setFailed}) => {
+const InputSec = ({ setFailed }) => {
   const [messageValue, setMessageValue] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const dispatch = useDispatch();
   const chatId = useSelector((state) => state.chat.activeChat);
   const userId = useSelector((state) => state.user.userDetails.id);
@@ -89,7 +88,8 @@ const InputSec = ({setFailed}) => {
 
   const handleSend = async (event) => {
     event.preventDefault();
-    setFailed(false)
+    setFailed(false);
+    setIsSending(true);
 
     let activeChat = chatId;
     if (activeChat === undefined) {
@@ -115,9 +115,10 @@ const InputSec = ({setFailed}) => {
         addChat({ id: Date.now(), sender: "Nayvee", message: response.data })
       );
     } catch (error) {
-      setFailed(true)
+      setFailed(true);
       setMessageValue(senderObj.message);
     } finally {
+      setIsSending(false);
       dispatch(setPendingMessage(null));
     }
   };
@@ -132,8 +133,12 @@ const InputSec = ({setFailed}) => {
           required
           placeholder="Write Coding about new HTML Tags"
         />
-        <SendButton type="submit">
-          <FontAwesomeIcon icon={faPaperPlane} />
+        <SendButton type="submit" disabled={isSending}>
+          {isSending ? (
+            <FontAwesomeIcon icon={faSpinner} spin />
+          ) : (
+            <FontAwesomeIcon icon={faPaperPlane} />
+          )}
         </SendButton>
       </MessageSection>
       <Footer>Nayvee Chat AI Chat V2.5</Footer>

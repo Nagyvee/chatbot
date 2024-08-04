@@ -132,19 +132,37 @@ const getMembers = async (req,res) => {
 }
 
 const updateProfile = async (req,res) => {
+  const token = req.cookies.chat_tkn;
   const {id, name} = req.body;
+  if (!token) {
+    return res.status(401).json({ status: false, msg: "No token provided" });
+  }
+
+  const jwtSecret = process.env.JWT_SECRET
+  const validToken = await jwt.verify(token, jwtSecret)
+  const timeDiff = validToken.exp - validToken.iat
+
+  const userPayload = {
+    id: validToken.id,
+    email: validToken.email,
+    name,
+    image: validToken.image
+  }
 
   try{
-    const data = await pool.promise().query(`UPDATE chatbot_users SET name = ?  WHERE id = ?`, [name,id]);
-    console.log(data);
-    res.status(200).json({
-      staus: true,
-      msg: 'Name updated'
-    })
+    await pool.promise().query(`UPDATE chatbot_users SET name = ?  WHERE id = ?`, [name,id]);
+    const newToken = await jwt.sign(userPayload, jwtSecret, {expiresIn: timeDiff});
+    res.cookie("chat_tkn", newToken, {
+      maxAge: timeDiff * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
+    return res.status(200).json({ status: true, token: newToken });
   }catch(err){
     console.log(err)
     res.status(500).json({
-      staus: false,
+      status: false,
       msg: 'Server Error'
     })
   }

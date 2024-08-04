@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom"
 
 const useVerifyUser = (setPopUp) =>{
     const dispatch = useDispatch();
-    const location = useLocation()
+    const location = useLocation();
     
 const verifyUser = () => {
     const noUserState = {

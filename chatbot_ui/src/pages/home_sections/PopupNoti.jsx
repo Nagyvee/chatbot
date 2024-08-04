@@ -12,8 +12,8 @@ const fadeIn = keyframes`
 
 const Container = styled.div`
   position: fixed;
-  top: 20px;
-  left: 40%;
+  top: 25px;
+  left: 50%;
   transform: translateX(-50%);
   max-width: 500px;
   background-color: ${({ type }) => (type === 'success' ? '#4caf50' : '#f44336')};
