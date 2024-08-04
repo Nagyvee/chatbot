@@ -13,13 +13,12 @@ import NayveeIcon from "../../assets/nayvee_logo_ icon_nobg.png";
 const Container = styled.div`
   display: flex;
   width: 100%;
-  margin: 0;
-  max-width: 100%;
   flex-direction: column;
   gap: 1rem;
   padding: 2rem;
   border-radius: 8px;
   overflow-y: auto;
+  overflow-x: hidden;
 
   .failed {
     color: red;
