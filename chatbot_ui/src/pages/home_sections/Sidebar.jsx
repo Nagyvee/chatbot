@@ -42,6 +42,14 @@ const SidebarContainer = styled.div`
     z-index: 100;
     height: 100%;
   }
+
+  .failed{
+    color: red;
+    margin: 1.8rem auto;
+    font-size: 0.85rem;
+    font-weight: 450;
+    text-align: center;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -89,6 +97,10 @@ const NavItem = styled.li`
     right: 1.5rem;
     left: 1rem;
     background-color: #fac5b8;
+
+    svg{
+    margin-right: .3rem;
+    }
   }
 
   &:hover {
@@ -136,6 +148,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const activeChat = useSelector((state) => state.chat.activeChat);
   const chats = useSelector((state) => state.chat.userChats);
+  const [errMsg, setErrMsg] = useState(false)
 
   const handleLogOut = async () => {
     try {
@@ -145,7 +158,10 @@ const Sidebar = () => {
       toggleSidebar()
       window.location.href = '/user/auth';
     } catch (error) {
-      console.error('Error logging out:', error);
+      setErrMsg(true)
+      setTimeout(() => {
+        setErrMsg(false);
+      }, 10000);
     }
   };
 
@@ -215,6 +231,7 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faSignOutAlt} />
             LogOut
           </NavItem>
+          {errMsg && <p className='failed'>Error logging out</p>}
         </NavList>
       </SidebarContainer>
     </>

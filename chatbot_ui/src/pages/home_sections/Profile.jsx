@@ -2,18 +2,25 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { FiEdit3, FiSave } from "react-icons/fi";
-import axios from 'axios';
-import {setUser} from '../../redux_state/actions'
+import axios from "axios";
+import { setUser } from "../../redux_state/actions";
 
 const Container = styled.div`
   max-width: 300px;
   margin: auto;
-  padding:0 20px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
 
+  .failed{
+    color: red;
+    margin: 1rem auto;
+    font-size: 0.9rem;
+    font-weight: 350;
+    text-align: center;
+  }
+`;
 
 const InfoSection = styled.div`
   width: 100%;
@@ -83,25 +90,34 @@ const Profile = () => {
   const [name, setName] = useState(user.name);
   const [isEditingName, setIsEditingName] = useState(false);
   const dispatch = useDispatch();
+  const [errMsg, setErrMsg] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSave = () => {
-    console.log(user)
+  const handleSave = async () => {
+    if (isLoading) return;
     const URL = import.meta.env.VITE_SERVER_URL;
-    try{
-        const response = axios.post(`${URL}/user/update-profile`, {id: user.id, name: name},{withCredintials: true});
-        const updatedUser ={
-            ...user,
-            name: name
-        }
-        dispatch(setUser(updatedUser))
-    }catch(err){
-        console.log(err)
+    setErrMsg(false);
+    setIsLoading(true);
+    try {
+      await axios.post(
+        `${URL}/user/update-profile`,
+        { id: user.id, name: name },
+        { withCredintials: true }
+      );
+      const updatedUser = {
+        ...user,
+        name: name,
+      };
+      dispatch(setUser(updatedUser));
+    } catch (err) {
+      setErrMsg(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Container>
-
       <InfoSection>
         <InfoItem>
           <Label>Email:</Label>
@@ -124,7 +140,10 @@ const Profile = () => {
         </InfoItem>
       </InfoSection>
 
-      <SaveButton onClick={handleSave}>Save</SaveButton>
+      <SaveButton onClick={handleSave}>
+        {isLoading ? "Please wait..." : "Save"}
+      </SaveButton>
+      {errMsg && <p className="failed">Server Connection Error</p>}
     </Container>
   );
 };

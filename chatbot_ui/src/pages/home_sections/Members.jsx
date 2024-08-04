@@ -19,7 +19,7 @@ const Container = styled.div`
     color: red;
     margin: 2rem auto;
     font-size: 0.9rem;
-    font-weight: 550;
+    font-weight: 450;
     text-align: center;
 
     span {
@@ -133,7 +133,7 @@ const Members = () => {
           <div className="loader"></div>{" "}
         </div>
       )}
-             {errMsg && <p className='failed'>Server Connection Erron <br/> <span onClick={() => setRetry(retry + 1)}>Retry</span></p>}
+             {errMsg && <p className='failed'>Server Connection Error <br/> <span onClick={() => setRetry(retry + 1)}>Retry</span></p>}
     </Container>
   );
 };

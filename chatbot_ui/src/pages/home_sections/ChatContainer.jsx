@@ -97,7 +97,7 @@ const HistorySection = styled.div`
     color: red;
     margin: 1rem auto;
     font-size: 0.9rem;
-    font-weight: 550;
+    font-weight: 450;
     text-align: center;
 
     span {

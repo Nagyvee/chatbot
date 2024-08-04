@@ -21,7 +21,7 @@ const Container = styled.div`
 .failed{
     color: red;
     margin: 1rem auto;
-    font-size: .9rem;
+    font-size: .8rem;
     font-weight: 550;
   }
 
@@ -107,6 +107,7 @@ const MarkdownContent = styled.div`
   font-size: 1rem;
   color: #333;
   width: 100%;
+  margin:0;
   position: relative;
 
 
