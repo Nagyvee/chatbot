@@ -13,11 +13,12 @@ import {
   Button,
   Text,
   LinkText,
+  Loader,
   LogoImage,
   InputField,
   LogoText,
   EyeIcon,
-  LogoSec
+  LogoSec,
 } from "./Styles";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,11 +39,21 @@ const Login = () => {
   const [isSigning, setIsSigning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const [userDetails, errors, handleChange, validateForm, setUserDetails, setErrors] = useForm({
-    name: "",
-    email: "",
-    password: "",
-  }, isLogging);
+  const [
+    userDetails,
+    errors,
+    handleChange,
+    validateForm,
+    setUserDetails,
+    setErrors,
+  ] = useForm(
+    {
+      name: "",
+      email: "",
+      password: "",
+    },
+    isLogging
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,12 +94,25 @@ const Login = () => {
       )}
 
       <StyledForm onSubmit={handleSubmit}>
-       <LogoSec>
-        <LogoImage src={Logo} alt="Let's Talk Chatbot Logo" />
-        <LogoText>NAYVEE CHAT</LogoText>
-       </LogoSec>
+        {isSigning && (
+          <Loader>
+            <h3>Connecting to Nayvee Tech...</h3>
+            <div
+              className="loader"
+              style={{
+                width: "75px",
+                height: "75px",
+              }}
+            ></div>
+            <h4>Please wait...</h4>
+          </Loader>
+        )}
+        <LogoSec>
+          <LogoImage src={Logo} alt="Let's Talk Chatbot Logo" />
+          <LogoText>NAYVEE CHAT</LogoText>
+        </LogoSec>
         <SubHeading>{isLogging ? "Login" : "Signup"}</SubHeading>
-        
+
         {!isLogging && (
           <InputField
             type="text"
@@ -108,17 +132,17 @@ const Login = () => {
           error={errors.email}
         />
         <div className="password-wrap">
-        <InputField
-          type={showPassword ? "text" : "password"} 
-          placeholder="Password"
-          name="password"
-          value={userDetails.password}
-          onChange={handleChange}
-          error={errors.password}
-        />
-        <EyeIcon onClick={togglePasswordVisibility}>
-          <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-        </EyeIcon>
+          <InputField
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            name="password"
+            value={userDetails.password}
+            onChange={handleChange}
+            error={errors.password}
+          />
+          <EyeIcon onClick={togglePasswordVisibility}>
+            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+          </EyeIcon>
         </div>
         <Button type="submit" disabled={btnActive}>
           {isSigning ? "Loading..." : isLogging ? "Login" : "Signup"}
@@ -130,6 +154,8 @@ const Login = () => {
           btnActive={btnActive}
           setBtnActive={setBtnActive}
           from={from}
+          isSigning={isSigning}
+          setIsSigning={setIsSigning}
         />
         <Text>
           {isLogging ? "Don't have an account?" : "Already have an account?"}
@@ -140,6 +166,6 @@ const Login = () => {
       </StyledForm>
     </Section>
   );
-}
+};
 
 export default Login;

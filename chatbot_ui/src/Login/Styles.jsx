@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import NayveeTechLogo from "../assets/nayveetech_logo.png";
 
 const Section = styled.section`
   display: flex;
@@ -8,19 +9,47 @@ const Section = styled.section`
   background-color: #f4f4f9;
 `;
 
+const Loader = styled.div`
+  position: absolute;
+  top: 35%;
+  bottom: 5%;
+  left: 2%;
+  right: 2%;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  background-color: #f4f4f9;
+
+  h3{
+  font-size: .9rem;
+  font-weight: 500;
+  }
+
+    h4{
+  font-size: .85rem;
+  font-weight: 350;
+  }
+
+
+`;
+
 const StyledForm = styled.form`
   display: flex;
+  position: relative;
   flex-direction: column;
   max-width: 400px;
   min-width: 250px;
   align-items: center;
-  background: white;
+  background: #fff;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-  .password-wrap{
-  position: relative;
+  .password-wrap {
+    position: relative;
   }
 `;
 
@@ -83,22 +112,22 @@ const LogoSec = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: .2rem;
-`
+  gap: 0.2rem;
+`;
 
 const LogoImage = styled.img`
   width: auto;
   border-radius: 4px;
   height: 80px;
-  padding: .15rem .65rem;
+  padding: 0.15rem 0.65rem;
   box-shadow: 0 2px 4px gray;
   cursor: pointer;
 `;
 
 const LogoText = styled.h3`
-font-size: 1.5rem;
-color: #007bff;
-`
+  font-size: 1.5rem;
+  color: #007bff;
+`;
 
 const ErrorMessageStyled = styled.div`
   color: red;
@@ -108,16 +137,31 @@ const ErrorMessageStyled = styled.div`
 
 // Input Field Component
 const InputField = ({ type, name, value, placeholder, onChange, error }) => (
-    <>
-      <InputEl
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        onChange={onChange}
-      />
-      {error && <ErrorMessageStyled>{error}</ErrorMessageStyled>}
-    </>
-  );
+  <>
+    <InputEl
+      type={type}
+      placeholder={placeholder}
+      name={name}
+      value={value}
+      onChange={onChange}
+    />
+    {error && <ErrorMessageStyled>{error}</ErrorMessageStyled>}
+  </>
+);
 
-export { Section, StyledForm, SubHeading, InputEl, Button, Text, LinkText,LogoSec ,LogoImage, LogoText, ErrorMessageStyled,EyeIcon, InputField }
+export {
+  Section,
+  StyledForm,
+  SubHeading,
+  InputEl,
+  Button,
+  Text,
+  LinkText,
+  LogoSec,
+  LogoImage,
+  LogoText,
+  ErrorMessageStyled,
+  EyeIcon,
+  InputField,
+  Loader,
+};

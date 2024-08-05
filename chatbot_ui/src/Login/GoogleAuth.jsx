@@ -34,9 +34,10 @@ const GoogleLogin = ({
   btnActive,
   setBtnActive,
   from,
+  isSigning,
+  setIsSigning
 }) => {
   const navigate = useNavigate();
-  const [isSigning, setIsSigning] = useState(false);
 
   useEffect(() => {
     const start = () => {
