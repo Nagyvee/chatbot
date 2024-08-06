@@ -7,7 +7,7 @@ const userHistory = async (req, res) => {
   const chatsQuery = `SELECT chatbot_chats.id, chatbot_chats.time_created, chatbot_chats.topic FROM chatbot_chats 
 INNER JOIN user_chats ON user_chats.chat_id = chatbot_chats.id WHERE user_id = ? ORDER BY chatbot_chats.time_created DESC`;
 
-  const countQuery = `SELECT chatbot_messages.chat_id, COUNT(*) FROM chatbot_messages 
+  const countQuery = `SELECT chatbot_messages.chat_id, COUNT(*) AS countNum FROM chatbot_messages 
 INNER JOIN chatbot_chats ON chatbot_chats.id = chatbot_messages.chat_id 
 INNER JOIN user_chats ON user_chats.chat_id = chatbot_chats.id WHERE user_id = ? AND chatbot_messages.sender = 'user'
 GROUP BY chatbot_messages.chat_id`;
@@ -24,7 +24,7 @@ GROUP BY chatbot_messages.chat_id`;
         messageCount = counts.find((count) => count.chat_id === chat.id);
         historyAndCount.push({
           ...chat,
-          askedQuestionsCount: messageCount["COUNT(*)"],
+          askedQuestionsCount: messageCount.countNum,
         });
       });
     }
@@ -105,7 +105,7 @@ const getMembers = async (req, res) => {
     const data = await pool.promise().query(query);
     const count = await pool
       .promise()
-      .query(`SELECT COUNT(*) FROM chatbot_users`);
+      .query(`SELECT COUNT(*) As countNum FROM chatbot_users`);
     if (data.legth < 1) {
       return res.status(200).json({
         status: true,
@@ -124,7 +124,7 @@ const getMembers = async (req, res) => {
     res.status(200).json({
       status: true,
       members,
-      totalMembers: count[0][0]["COUNT(*)"],
+      totalMembers: count[0][0].countNum,
     });
   } catch (err) {
     res.status(500).json({
