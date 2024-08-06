@@ -20,11 +20,10 @@ const chatController = async (req, res) => {
     await pool.promise().query(addMessageQuery, [chatId, data, "Nayvee"]);
     res.status(200).json(data);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res
       .status(500)
       .json({ error: "Failed to fetch Nayvee AI response.", errorMsg: error });
-    consoile.log(error);
   }
 };
 
