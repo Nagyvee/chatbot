@@ -6,5 +6,19 @@
   "server": {
     "url": "https://chatbot.nayveetech.co.za",
     "cleattext": true
+  },
+  "plugins":{
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {
+    "preferences": {
+      "SplashMantainAspectRatio": true,
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000",
+      "SplashShowOnlyFirstTime": "false"
+    }
   }
 }
+

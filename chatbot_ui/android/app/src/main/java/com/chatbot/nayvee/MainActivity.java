@@ -9,8 +9,9 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Enable cookies for WebView
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptCookie(true);
+        /* Enable cookies for WebView */
+           CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptThirdPartyCookies(getBridge().getWebView(),true);
+            cookieManager.setAcceptCookie(true);
     }
 }

@@ -10,7 +10,7 @@ INNER JOIN user_chats ON user_chats.chat_id = chatbot_chats.id WHERE user_id = ?
   const countQuery = `SELECT chatbot_messages.chat_id, COUNT(*) FROM chatbot_messages 
 INNER JOIN chatbot_chats ON chatbot_chats.id = chatbot_messages.chat_id 
 INNER JOIN user_chats ON user_chats.chat_id = chatbot_chats.id WHERE user_id = ? AND chatbot_messages.sender = 'user'
-GROUP BY chatbot_messages.chat_id;`;
+GROUP BY chatbot_messages.chat_id`;
 
   try {
     const chatsData = await pool.promise().query(chatsQuery, [userId]);
@@ -20,7 +20,7 @@ GROUP BY chatbot_messages.chat_id;`;
     const historyAndCount = [];
 
     if (counts.length > 0) {
-      const data = chats.forEach((chat) => {
+      chats.forEach((chat) => {
         messageCount = counts.find((count) => count.chat_id === chat.id);
         historyAndCount.push({
           ...chat,
@@ -35,7 +35,10 @@ GROUP BY chatbot_messages.chat_id;`;
       msg: "User History fetched successfully",
     });
   } catch (error) {
-    res.status(500).json({ status: false, message: "Server Error" });
+    console.log(error);
+    res
+      .status(500)
+      .json({ status: false, message: "Server Error", errorMsg: error });
   }
 };
 
@@ -95,77 +98,89 @@ const logOutUser = async (req, res) => {
   }
 };
 
-const getMembers = async (req,res) => {
+const getMembers = async (req, res) => {
   const query = `SELECT * FROM chatbot_users LIMIT 10`;
 
-  try{
-    const data = await pool.promise().query(query)
-    const count = await pool.promise().query(`SELECT COUNT(*) FROM chatbot_users`);
-    if(data.legth < 1){
+  try {
+    const data = await pool.promise().query(query);
+    const count = await pool
+      .promise()
+      .query(`SELECT COUNT(*) FROM chatbot_users`);
+    if (data.legth < 1) {
       return res.status(200).json({
         status: true,
-        data: []
-      })
+        data: [],
+      });
     }
-    let members =[]
+    let members = [];
 
-
-     data[0].forEach((member) => {
+    data[0].forEach((member) => {
       members.push({
         name: member.name,
         image: member.image_url,
-        id: member.id
-      })
-    })
+        id: member.id,
+      });
+    });
     res.status(200).json({
       status: true,
       members,
-      totalMembers: count[0][0]['COUNT(*)']
-  })
-  }catch(err){
+      totalMembers: count[0][0]["COUNT(*)"],
+    });
+  } catch (err) {
     res.status(500).json({
       status: false,
-      msg: 'Server error'
-  })
-    console.log(err)
+      msg: "Server error",
+    });
+    console.log(err);
   }
-}
+};
 
-const updateProfile = async (req,res) => {
+const updateProfile = async (req, res) => {
   const token = req.cookies.chat_tkn;
-  const {id, name} = req.body;
+  const { id, name } = req.body;
   if (!token) {
     return res.status(401).json({ status: false, msg: "No token provided" });
   }
 
-  const jwtSecret = process.env.JWT_SECRET
-  const validToken = await jwt.verify(token, jwtSecret)
-  const timeDiff = validToken.exp - validToken.iat
+  const jwtSecret = process.env.JWT_SECRET;
+  const validToken = await jwt.verify(token, jwtSecret);
+  const timeDiff = validToken.exp - validToken.iat;
 
   const userPayload = {
     id: validToken.id,
     email: validToken.email,
     name,
-    image: validToken.image
-  }
+    image: validToken.image,
+  };
 
-  try{
-    await pool.promise().query(`UPDATE chatbot_users SET name = ?  WHERE id = ?`, [name,id]);
-    const newToken = await jwt.sign(userPayload, jwtSecret, {expiresIn: timeDiff});
+  try {
+    await pool
+      .promise()
+      .query(`UPDATE chatbot_users SET name = ?  WHERE id = ?`, [name, id]);
+    const newToken = await jwt.sign(userPayload, jwtSecret, {
+      expiresIn: timeDiff,
+    });
     res.cookie("chat_tkn", newToken, {
       maxAge: timeDiff * 1000,
       httpOnly: true,
       secure: true,
-      sameSite: 'None',
+      sameSite: "None",
     });
     return res.status(200).json({ status: true, token: newToken });
-  }catch(err){
-    console.log(err)
+  } catch (err) {
+    console.log(err);
     res.status(500).json({
       status: false,
-      msg: 'Server Error'
-    })
+      msg: "Server Error",
+    });
   }
-}
+};
 
-module.exports = { userHistory, selectSingleChat, deleteHistory, logOutUser, getMembers, updateProfile };
+module.exports = {
+  userHistory,
+  selectSingleChat,
+  deleteHistory,
+  logOutUser,
+  getMembers,
+  updateProfile,
+};
