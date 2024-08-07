@@ -22,10 +22,12 @@ GROUP BY chatbot_messages.chat_id`;
     if (counts.length > 0) {
       chats.forEach((chat) => {
         messageCount = counts.find((count) => count.chat_id === chat.id);
+        if(messageCount.countNum !== undefined){
         historyAndCount.push({
           ...chat,
           askedQuestionsCount: messageCount.countNum,
         });
+      }
       });
     }
 

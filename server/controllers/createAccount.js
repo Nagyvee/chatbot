@@ -83,7 +83,7 @@ const logInSuccess = async (req, res, payload) => {
     });
 
     res.cookie("chat_tkn", token, {
-      maxAge: 60 * 60 * 1000,
+      maxAge: 60 * 60 * 1000 * 24 * 14,
       httpOnly: true,
       secure: true,
       sameSite: 'None',

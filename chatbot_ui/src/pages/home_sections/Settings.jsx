@@ -82,11 +82,11 @@ const Settings = () => {
   };
 
   const handlePrivacyPolicy = () => {
-    window.open("/privacy-policy", "_blank");
+    window.open("/privacy-policy");
   };
 
   const handleTermsOfService = () => {
-    window.open("/terms-of-service", "_blank");
+    window.open("/terms-of-service");
   };
 
   const handleDelete = () => {

@@ -199,6 +199,7 @@ const Sidebar = () => {
          <Link to={'/'} >
            <NavItem onClick={() => {
             dispatch(setActiveChat(undefined))
+            dispatch(deleteChats());
             toggleSidebar()
             }}>
             <FontAwesomeIcon icon={faCommentAlt} />
