@@ -79,7 +79,7 @@ const loginUser = async (req, res) => {
 const logInSuccess = async (req, res, payload) => {
   try {
     const token = await jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: 60 * 60 * 24 * 7 * 2
     });
 
     res.cookie("chat_tkn", token, {
