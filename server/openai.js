@@ -29,7 +29,7 @@ const fetchOpenAIResponse = async (history, prompt) => {
     chatHistory.push({ role: 'user', content: prompt });
 
     const data = {
-        model: 'gpt-3.5', 
+        model: 'gpt-3.5-turbo', 
         messages: chatHistory,
         max_tokens: 400,
         temperature: 0.7,
