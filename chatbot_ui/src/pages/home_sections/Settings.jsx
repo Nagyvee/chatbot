@@ -73,20 +73,21 @@ const Container = styled.div`
 `;
 
 const Settings = () => {
+  const navigate = useNavigate();
   const handleContactSupport = () => {
     window.location.href = "mailto:nayvee@techie.com";
   };
 
   const handleRateApp = () => {
-    window.open("https://www.example.com/rate-us", "_blank");
+    navigate("/rate-us");
   };
 
   const handlePrivacyPolicy = () => {
-    window.open("/privacy-policy");
+    navigate("/privacy-policy");
   };
 
   const handleTermsOfService = () => {
-    window.open("/terms-of-service");
+    navigate("/terms-of-service");
   };
 
   const handleDelete = () => {
@@ -121,7 +122,7 @@ const Settings = () => {
       <div className="setting">
         <div className="icons">
           <FaGlobe />{" "}
-          <a href="https://www.nayveetech.co.za" target="_blank"> www.nayveetech.co.za </a>
+          <a href="https://www.nayveetech.co.za"> www.nayveetech.co.za </a>
         </div>
       </div>
       <div className="delete" onClick={handleDelete}>

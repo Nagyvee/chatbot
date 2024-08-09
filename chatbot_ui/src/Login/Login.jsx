@@ -163,6 +163,12 @@ const Login = () => {
             {isLogging ? "Signup" : "Login"}
           </LinkText>
         </Text>
+        <Text>
+          By creating account you Agree to <br /> our services
+          <Link to={"/terms-of-service"}>
+            <LinkText>Terms & Conditions</LinkText>
+          </Link>{" "}
+        </Text>
       </StyledForm>
     </Section>
   );
