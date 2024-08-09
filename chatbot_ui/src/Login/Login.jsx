@@ -162,14 +162,12 @@ const Login = () => {
             {isLogging ? "Signup" : "Login"}
           </LinkText>
         </Text>
-        (
         <Text>
-          By using our services you to <br /> our 
+          By continuing you to our <br />
           <Link to={"/terms-of-service"}>
             <LinkText>Terms & Conditions</LinkText>
           </Link>{" "}
         </Text>
-        )
       </StyledForm>
     </Section>
   );
