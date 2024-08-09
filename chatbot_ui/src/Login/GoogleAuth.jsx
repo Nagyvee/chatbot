@@ -81,7 +81,7 @@ const GoogleLogin = ({
   return (
     <GoogleButton onClick={handleLogin} btnActive={btnActive}>
       <GoogleIcon src={GoogleIconImage} alt="Google Icon" />
-      {!isSigning ? "Login with Google" : "Loading...."}
+      {!isSigning ? "Sign with Google" : "Loading...."}
     </GoogleButton>
   );
 };
