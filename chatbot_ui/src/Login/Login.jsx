@@ -112,7 +112,6 @@ const Login = () => {
           <LogoText>NAYVEE CHAT</LogoText>
         </LogoSec>
         <SubHeading>{isLogging ? "Login" : "Signup"}</SubHeading>
-
         {!isLogging && (
           <InputField
             type="text"
@@ -163,12 +162,14 @@ const Login = () => {
             {isLogging ? "Signup" : "Login"}
           </LinkText>
         </Text>
+        (
         <Text>
-          By creating account you Agree to <br /> our services
+          By using our services you to <br /> our 
           <Link to={"/terms-of-service"}>
             <LinkText>Terms & Conditions</LinkText>
           </Link>{" "}
         </Text>
+        )
       </StyledForm>
     </Section>
   );

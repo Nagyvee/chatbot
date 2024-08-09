@@ -1,13 +1,13 @@
 {
   "appId": "com.chatbot.nayvee",
-  "appName": "Nayvee Chat",
+  "appName": "android",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": {
     "url": "https://chatbot.nayveetech.co.za",
     "cleattext": true
   },
-  "plugins":{
+  "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
     }
@@ -21,4 +21,3 @@
     }
   }
 }
-
