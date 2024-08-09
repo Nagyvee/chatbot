@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Logo from "../assets/nayvee_logo_ icon_nobg.png";
 import GoogleLogin from "./GoogleAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { setTokenToLocal } from "./Validate";
 import PopUpNotification from "../pages/home_sections/PopupNoti";
