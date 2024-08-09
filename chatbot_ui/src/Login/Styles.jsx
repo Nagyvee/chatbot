@@ -96,7 +96,8 @@ const Button = styled.button`
 
 const Text = styled.p`
   margin: 1rem 0;
-  color: #666;
+  color: #665;
+  text-align: center;
 `;
 
 const LinkText = styled.span`
