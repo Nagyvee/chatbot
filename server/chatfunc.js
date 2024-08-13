@@ -25,10 +25,10 @@ class ChatSession {
         this.messages.push({ role: 'user', content: prompt });
 
         const data = {
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-4o-mini',
             messages: this.messages,
             max_tokens: 150, 
-            temperature: 0.7,
+            temperature: 1,
         };
 
         try {
