@@ -17,7 +17,13 @@ const fetchOpenAIResponse = async (history, prompt) => {
     };
 
     if(history !== undefined && history.length > 0){
-        const prevHistory = history.forEach((item) =>{
+        let prevHistory;
+        if(history.length > 6){
+            prevHistory = history.slice(-6)
+        }else{
+            prevHistory = history
+        }
+          prevHistory.forEach((item) =>{
             if(item.sender === 'user'){
                 chatHistory.push({ role: 'user', content: item.message });
             }else{

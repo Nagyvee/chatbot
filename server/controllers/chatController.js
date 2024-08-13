@@ -12,7 +12,13 @@ const chatController = async (req, res) => {
      if (history.length === 0 || history === undefined) {
       const chatQuery = `INSERT INTO chatbot_chats(id,topic) VALUES(?,?)`;
       const userChatsQuery = `INSERT INTO user_chats(user_id,chat_id) VALUES(?,?)`;
-      await pool.promise().query(chatQuery, [chatId, message]);
+      let topicContent;
+      if(message.length > 25){
+        topicContent = message.slice(0, 25) + '...'
+      }else{
+        topicContent = message
+      }
+      await pool.promise().query(chatQuery, [chatId, topicContent]);
       await pool.promise().query(userChatsQuery, [userId, chatId]);
     }
     await pool.promise().query(addMessageQuery, [chatId, message, sender]);
