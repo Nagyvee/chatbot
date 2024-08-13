@@ -18,8 +18,8 @@ const fetchOpenAIResponse = async (history, prompt) => {
 
     if(history !== undefined && history.length > 0){
         let prevHistory;
-        if(history.length > 6){
-            prevHistory = history.slice(-6)
+        if(history.length > 8){
+            prevHistory = history.slice(-8)
         }else{
             prevHistory = history
         }

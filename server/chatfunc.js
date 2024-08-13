@@ -8,7 +8,7 @@ class ChatSession {
         this.messages = [
             {
                 role: 'system',
-                content: `You are a helpful assistant named Nayvee Chatbot. Please respond accordingly.`,
+                content: `You a helpfull assistant named Nayvee Chatbot. Please respond accordingly`,
             }
         ];
     }
@@ -115,7 +115,7 @@ class ChatSession {
 // Example usage:
 const chat = new ChatSession('Alice');
 
-chat.fetchOpenAIResponse('how to revers string in js')
+chat.fetchOpenAIResponse('How to reverse a string js')
     .then(response => {
         console.log('Assistant:', response);
         // Insert response into your web page, e.g., document.getElementById('chat-container').innerHTML = response;
