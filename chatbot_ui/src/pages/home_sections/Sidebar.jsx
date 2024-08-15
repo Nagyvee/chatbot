@@ -87,7 +87,7 @@ const NavItem = styled.li`
 
   span {
     position: absolute;
-    left: 25%;
+    left: 32%;
   }
 
   &.logout {
