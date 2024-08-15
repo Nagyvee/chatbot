@@ -13,8 +13,8 @@ const chatController = async (req, res) => {
       const chatQuery = `INSERT INTO chatbot_chats(id,topic) VALUES(?,?)`;
       const userChatsQuery = `INSERT INTO user_chats(user_id,chat_id) VALUES(?,?)`;
       let topicContent;
-      if(message.length > 40){
-        topicContent = message.slice(0, 40) + '...'
+      if(message.length > 60){
+        topicContent = message.slice(0, 60) + '...'
       }else{
         topicContent = message
       }
