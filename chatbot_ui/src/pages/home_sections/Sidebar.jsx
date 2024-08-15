@@ -75,8 +75,10 @@ const NavList = styled.ul`
 const NavItem = styled.li`
   display: flex;
   font-size: 0.9rem;
+  gap: 1rem;
   align-items: center;
-  padding: 0.55rem 1rem;
+  justify-content: center;
+  padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
   border-radius: 0.5rem;
@@ -85,7 +87,7 @@ const NavItem = styled.li`
 
   span {
     position: absolute;
-    left: 20%;
+    left: 25%;
   }
 
   &.logout {
@@ -99,7 +101,7 @@ const NavItem = styled.li`
     background-color: #fac5b8;
 
     svg{
-    margin-right: .65rem;
+    margin-right: .3rem;
     }
   }
 
