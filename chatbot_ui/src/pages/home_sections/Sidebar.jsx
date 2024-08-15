@@ -76,7 +76,7 @@ const NavItem = styled.li`
   display: flex;
   font-size: 0.9rem;
   align-items: center;
-  padding: 0.75rem 1rem;
+  padding: 0.55rem 1rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
   border-radius: 0.5rem;
