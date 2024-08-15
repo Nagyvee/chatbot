@@ -85,7 +85,7 @@ const NavItem = styled.li`
 
   span {
     position: absolute;
-    left: 25%;
+    left: 20%;
   }
 
   &.logout {
@@ -99,7 +99,7 @@ const NavItem = styled.li`
     background-color: #fac5b8;
 
     svg{
-    margin-right: .3rem;
+    margin-right: .65rem;
     }
   }
 
