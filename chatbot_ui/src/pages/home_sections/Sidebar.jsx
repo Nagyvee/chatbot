@@ -77,7 +77,7 @@ const NavItem = styled.li`
   font-size: 0.9rem;
   gap: 1rem;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
@@ -87,7 +87,7 @@ const NavItem = styled.li`
 
   span {
     position: absolute;
-    left: 32%;
+    left: 27%;
   }
 
   &.logout {
