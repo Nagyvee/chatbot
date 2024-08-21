@@ -210,7 +210,7 @@ const Sidebar = () => {
           </Link >
           <NavLink to={'/members'} ><NavItem onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUsers} />
-            <span>Members</span>
+            <span>Chatbot users</span>
           </NavItem>
           </NavLink>
           <NavLink to={'/pricing'} ><NavItem onClick={toggleSidebar}>

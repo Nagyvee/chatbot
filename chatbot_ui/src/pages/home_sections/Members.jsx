@@ -100,10 +100,14 @@ const Members = () => {
     <Container>
       <h2>Nayvee Chat Members</h2>
 
+      {memberTotal > 0 && (
+        <p> {memberTotal} users</p>
+      )}
+
       <div>
         <img src={user.image ? user.image : ProfileImg} alt="member profile" />
         <div className="text">
-          <h4>{user.name}</h4>
+          <h4>{user.name} (You)</h4>
           <p>Joined: 2024</p>
         </div>
       </div>
@@ -124,9 +128,6 @@ const Members = () => {
           </div>
         );
       })}
-      {memberTotal - membersArr.length > 0 && (
-        <p>+ {memberTotal - membersArr.length} more</p>
-      )}
       {isLoading && (
         <div style={{ width: "80px", margin: '1rem auto' }}>
           {" "}

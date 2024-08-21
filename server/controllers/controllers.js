@@ -101,14 +101,14 @@ const logOutUser = async (req, res) => {
 };
 
 const getMembers = async (req, res) => {
-  const query = `SELECT * FROM chatbot_users LIMIT 10`;
+  const query = `SELECT * FROM chatbot_users`;
 
   try {
     const data = await pool.promise().query(query);
     const count = await pool
       .promise()
       .query(`SELECT COUNT(*) As countNum FROM chatbot_users`);
-    if (data.legth < 1) {
+    if (data.length < 1) {
       return res.status(200).json({
         status: true,
         data: [],

@@ -66,7 +66,7 @@ const Login = () => {
     setErrors({});
     try {
       const url = isLogging ? LOGIN_URL : SIGNUP_URL;
-      const response = await axios.post(url, userDetails);
+      const response = await axios.post(url, userDetails, { withCredentials: true });
       setTokenToLocal(response.data.token);
       navigate(from);
     } catch (error) {
@@ -163,7 +163,7 @@ const Login = () => {
           </LinkText>
         </Text>
         <Text>
-          By continuing you to our <br />
+          By continuing you agree to our <br />
           <Link to={"/terms-of-service"}>
             <LinkText>Terms & Conditions</LinkText>
           </Link>{" "}
