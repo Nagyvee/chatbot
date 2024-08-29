@@ -5,6 +5,8 @@ const cors = require("cors");
 const PORT = 3501;
 require("dotenv").config();
 const router = require('./routes/routes');
+const {  deletePreviousImages} = require('./controllers/controllers');
+const cron = require('node-cron');
 
 const app = express();
 app.use(cookieParser());
@@ -18,6 +20,12 @@ app.use(
   })
 );
 
-app.use('/api/', router)
+app.use('/api/', router);
+
+// Schedule the task to run every day at 00:00
+cron.schedule('0 0 * * *', () => {
+  console.log('Running daily deletion task...');
+  deletePreviousImages();
+});
 
 app.listen(PORT, () => console.log(`server is listening on ${PORT}`));

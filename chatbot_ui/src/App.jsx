@@ -3,8 +3,6 @@ if (!Object.hasOwn) {
     return Object.prototype.hasOwnProperty.call(obj, prop);
   };
 }
-
-
 import "./App.css";
 import { useLocation, Navigate, Routes, Route } from "react-router-dom";
 import Login from "./Login/Login";

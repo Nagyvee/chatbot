@@ -1,7 +1,14 @@
 const axios = require('axios');
 require('dotenv').config();
+const openai = require('openai');
 const API_KEY = process.env.OPENAI_KEY;
 const endpoint = 'https://api.openai.com/v1/chat/completions';
+const imgEndPoint = 'https://api.openai.com/v1/images/generations';
+
+const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${API_KEY}`,
+};
 
 const fetchOpenAIResponse = async (history, prompt) => {                                     
     let chatHistory = [
@@ -10,11 +17,6 @@ const fetchOpenAIResponse = async (history, prompt) => {
             content: 'You are a helpful assistant named Nayvee. Please respond accordingly.',
         },
     ];
-
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`,
-    };
 
     if(history !== undefined && history.length > 0){
         let prevHistory;
@@ -54,5 +56,27 @@ const fetchOpenAIResponse = async (history, prompt) => {
     }
 };
 
-module.exports = fetchOpenAIResponse;
+const imageGenerate = async (message) =>{
+const imgData = {
+    model: "dall-e-2",
+    prompt: message,
+    n: 1,
+    size: "1024x1024",
+  };
+
+  try {
+    const response = await axios.post(imgEndPoint, imgData, { headers });
+    // Extract the generated response message
+    const imgUrl = response.data.data[0].url;
+    console.log(imgUrl);
+    // return image url;
+    return imgUrl;
+} catch (error) {
+    console.error('Error fetching OpenAI response:', error);
+    throw error;
+}
+  
+}
+
+module.exports = {fetchOpenAIResponse, imageGenerate};
 

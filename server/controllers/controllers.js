@@ -22,12 +22,12 @@ GROUP BY chatbot_messages.chat_id`;
     if (counts.length > 0) {
       chats.forEach((chat) => {
         messageCount = counts.find((count) => count.chat_id === chat.id);
-        if(messageCount.countNum !== undefined){
-        historyAndCount.push({
-          ...chat,
-          askedQuestionsCount: messageCount.countNum,
-        });
-      }
+        if (messageCount.countNum !== undefined) {
+          historyAndCount.push({
+            ...chat,
+            askedQuestionsCount: messageCount.countNum,
+          });
+        }
       });
     }
 
@@ -59,6 +59,51 @@ const selectSingleChat = async (req, res) => {
     res.status(500).json({ status: false, message: "Server Error" });
   }
 };
+
+const getImagesChat = async (req, res) => {
+  const { userId } = req.body;
+  const query = `SELECT user_chats_images.id, 
+user_chats_images.content, user_chats_images.sender, user_chats_images.time 
+FROM user_chats_images
+INNER JOIN chatbot_users ON chatbot_users.id = user_chats_images.user_id
+ WHERE user_id = ? AND time > UNIX_TIMESTAMP(NOW() - INTERVAL 1 HOUR) * 1000`;
+
+ const usageQuery = `SELECT COUNT(*) As countNum FROM user_chats_images
+WHERE time >= UNIX_TIMESTAMP(CURDATE()) * 1000 AND user_id = ? AND sender = ?`;
+
+try{
+  const sqlData = await pool.promise().query(query, userId);
+  const usageData = await pool.promise().query(usageQuery,[userId, 'Nayvee']);
+  const usage = usageData[0][0];
+  const data = sqlData[0];
+  
+  return res.status(200).json({
+    status: true,
+    data: data,
+    dailyUsage: usage.countNum,
+    msg: "Chat fetched successfully",
+  });
+}
+catch(err){
+  console.log(err);
+  res.status(500).json({ status: false, message: "Server Error" });
+}
+};
+
+const deletePreviousImages = async () => {
+  const query = `DELETE FROM user_chats_images
+  WHERE time < UNIX_TIMESTAMP(NOW() - INTERVAL 2 DAY) * 1000`;;
+
+  try {
+    await pool.promise().query(query);
+    console.log('deleted successfully');
+    return 
+  } catch (error) {
+    console.error('Error deleting chat history:', error);
+    return
+  }
+};
+
 
 const deleteHistory = async (req, res) => {
   const userId = req.params.chatId;
@@ -185,4 +230,6 @@ module.exports = {
   logOutUser,
   getMembers,
   updateProfile,
+  getImagesChat,
+  deletePreviousImages
 };

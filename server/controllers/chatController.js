@@ -1,4 +1,4 @@
-const fetchOpenAIResponse = require("../openai");
+const {fetchOpenAIResponse, imageGenerate} = require("../openai");
 const pool = require("../connectdb");
 
 const chatController = async (req, res) => {
@@ -14,9 +14,9 @@ const chatController = async (req, res) => {
       const userChatsQuery = `INSERT INTO user_chats(user_id,chat_id) VALUES(?,?)`;
       let topicContent;
       if(message.length > 60){
-        topicContent = message.slice(0, 60) + '...'
+        topicContent = message.slice(0, 60) + '...';
       }else{
-        topicContent = message
+        topicContent = message;
       }
       await pool.promise().query(chatQuery, [chatId, topicContent]);
       await pool.promise().query(userChatsQuery, [userId, chatId]);
@@ -28,8 +28,37 @@ const chatController = async (req, res) => {
     console.log(error);
     res
       .status(500)
-      .json({ error: "Failed to fetch Nayvee AI response.", errorMsg: error });
+      .json({ error: "Failed to fetch Nayvee AI response."});
   }
 };
 
-module.exports = { chatController };
+const imageController = async (req, res) =>{
+  const { userId, sender, message } = req.body;
+  const imagesNumQuery = `SELECT * FROM user_chats_images
+        WHERE time >= UNIX_TIMESTAMP(CURDATE()) * 1000 AND user_id = ? AND sender = ?`;
+  const addMessageQuery = `INSERT INTO user_chats_images(user_id,content, sender, time) VALUES(?,?,?,?)`;
+
+
+  try {
+    const imagesNumber = await pool.promise().query(imagesNumQuery, [userId, 'Nayvee']);
+
+    if(imagesNumber[0].length >= 2){
+      return res
+      .status(401)
+      .json({ error: "You have reached your daily limit."});
+    }
+
+    const data = await imageGenerate(message);
+
+    await pool.promise().query(addMessageQuery, [userId, message, sender, Date.now()]);
+    await pool.promise().query(addMessageQuery, [userId, data, "Nayvee", Date.now()]);
+    res.status(200).json(data);
+  }catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch Nayvee AI response."});
+  }
+}
+
+module.exports = { chatController, imageController };
