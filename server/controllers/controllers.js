@@ -68,42 +68,42 @@ FROM user_chats_images
 INNER JOIN chatbot_users ON chatbot_users.id = user_chats_images.user_id
  WHERE user_id = ? AND time > UNIX_TIMESTAMP(NOW() - INTERVAL 1 HOUR) * 1000`;
 
- const usageQuery = `SELECT COUNT(*) As countNum FROM user_chats_images
+  const usageQuery = `SELECT COUNT(*) As countNum FROM user_chats_images
 WHERE time >= UNIX_TIMESTAMP(CURDATE()) * 1000 AND user_id = ? AND sender = ?`;
 
-try{
-  const sqlData = await pool.promise().query(query, userId);
-  const usageData = await pool.promise().query(usageQuery,[userId, 'Nayvee']);
-  const usage = usageData[0][0];
-  const data = sqlData[0];
-  
-  return res.status(200).json({
-    status: true,
-    data: data,
-    dailyUsage: usage.countNum,
-    msg: "Chat fetched successfully",
-  });
-}
-catch(err){
-  console.log(err);
-  res.status(500).json({ status: false, message: "Server Error" });
-}
+  try {
+    const sqlData = await pool.promise().query(query, userId);
+    const usageData = await pool
+      .promise()
+      .query(usageQuery, [userId, "Nayvee"]);
+    const usage = usageData[0][0];
+    const data = sqlData[0];
+
+    return res.status(200).json({
+      status: true,
+      data: data,
+      dailyUsage: usage.countNum,
+      msg: "Chat fetched successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ status: false, message: "Server Error" });
+  }
 };
 
 const deletePreviousImages = async () => {
   const query = `DELETE FROM user_chats_images
-  WHERE time < UNIX_TIMESTAMP(NOW() - INTERVAL 2 DAY) * 1000`;;
+  WHERE time < UNIX_TIMESTAMP(NOW() - INTERVAL 2 DAY) * 1000`;
 
   try {
     await pool.promise().query(query);
-    console.log('deleted successfully');
-    return 
+    console.log("deleted successfully");
+    return;
   } catch (error) {
-    console.error('Error deleting chat history:', error);
-    return
+    console.error("Error deleting chat history:", error);
+    return;
   }
 };
-
 
 const deleteHistory = async (req, res) => {
   const userId = req.params.chatId;
@@ -162,10 +162,16 @@ const getMembers = async (req, res) => {
     let members = [];
 
     data[0].forEach((member) => {
+      const dateStr = member.created_at;
+      const date = new Date(dateStr);
+
+      const options = { year: "numeric", month: "short" };
+      const formattedDate = date.toLocaleDateString("en-US", options);
       members.push({
         name: member.name,
         image: member.image_url,
         id: member.id,
+        joined: formattedDate,
       });
     });
     res.status(200).json({
@@ -228,17 +234,22 @@ const downLoadImage = async (req, res) => {
   const fileName = `nayvee-chat-generated-${Date.now()}.png`;
 
   // Make an HTTP request to get the image
-  const https = require('https');
-  https.get(fileUrl, (fileRes) => {
-    // Set headers to prompt download
-    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-    res.setHeader('Content-Type', 'image/png');
+  const https = require("https");
+  https
+    .get(fileUrl, (fileRes) => {
+      // Set headers to prompt download
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${fileName}"`
+      );
+      res.setHeader("Content-Type", "image/png");
 
-    // Pipe the image response to the client
-    fileRes.pipe(res);
-  }).on('error', (err) => {
-    res.status(500).send('Error fetching the file');
-  });
+      // Pipe the image response to the client
+      fileRes.pipe(res);
+    })
+    .on("error", (err) => {
+      res.status(500).send("Error fetching the file");
+    });
 };
 
 module.exports = {
@@ -250,5 +261,5 @@ module.exports = {
   updateProfile,
   getImagesChat,
   deletePreviousImages,
-  downLoadImage
+  downLoadImage,
 };

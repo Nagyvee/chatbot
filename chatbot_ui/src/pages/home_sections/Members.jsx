@@ -15,7 +15,7 @@ const Container = styled.div`
     margin-bottom: 1rem;
   }
 
-    .failed {
+  .failed {
     color: red;
     margin: 2rem auto;
     font-size: 0.9rem;
@@ -72,13 +72,14 @@ const Members = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [memberTotal, setMembersTotal] = useState(0);
   const [errMsg, setErrMsg] = useState(false);
-  const [retry, setRetry] = useState(0)
+  const [retry, setRetry] = useState(0);
+  const [userDate, setUserDate] = useState(null);
 
   useEffect(() => {
     const fetchMember = async () => {
       const URL = import.meta.env.VITE_SERVER_URL;
       setIsLoading(true);
-      setErrMsg(false)
+      setErrMsg(false);
       try {
         const response = await axios.get(`${URL}/members`, {
           withCredentials: true,
@@ -86,36 +87,40 @@ const Members = () => {
         const data = response.data;
         setMembersArr(data.members);
         setMembersTotal(data.totalMembers);
+
+        // Set the user's joined date
+        const currentUser = data.members.find((member) => member.id === user.id);
+        if (currentUser) {
+          setUserDate(currentUser.joined);
+        }
       } catch (err) {
-        setErrMsg(true)
+        console.error(err);
+        setErrMsg(true);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchMember();
-  }, [retry]);
+  }, [retry, user.id]);
 
   return (
     <Container>
       <h2>Nayvee Chat Members</h2>
 
-      {memberTotal > 0 && (
-        <p> {memberTotal} users</p>
-      )}
+      {memberTotal > 0 && <p>{memberTotal} users</p>}
 
       <div>
         <img src={user.image ? user.image : ProfileImg} alt="member profile" />
         <div className="text">
           <h4>{user.name} (You)</h4>
-          <p>Joined: 2024</p>
+          {userDate && <p>Joined: {userDate}</p>}
         </div>
       </div>
-      {membersArr.map((member) => {
-        if (member.id === user.id) {
-          return;
-        }
-        return (
+      
+      {membersArr
+        .filter((member) => member.id !== user.id)
+        .map((member) => (
           <div key={member.id}>
             <img
               src={member.image !== null ? member.image : ProfileImg}
@@ -123,18 +128,24 @@ const Members = () => {
             />
             <div className="text">
               <h4>{member.name}</h4>
-              <p>Joined: 2024</p>
+              <p>Joined: {member.joined}</p>
             </div>
           </div>
-        );
-      })}
+        ))}
+
       {isLoading && (
         <div style={{ width: "80px", margin: '1rem auto' }}>
           {" "}
           <div className="loader"></div>{" "}
         </div>
       )}
-             {errMsg && <p className='failed'>Server Connection Error <br/> <span onClick={() => setRetry(retry + 1)}>Retry</span></p>}
+      
+      {errMsg && (
+        <p className="failed">
+          Server Connection Error <br />
+          <span onClick={() => setRetry(retry + 1)}>Retry</span>
+        </p>
+      )}
     </Container>
   );
 };
