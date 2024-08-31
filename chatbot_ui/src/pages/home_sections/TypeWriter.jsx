@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCount } from "../../redux_state/actions";
 
-const useTypewriter = (text, speed = 5) => {
+const useTypewriter = (text, speed = 12) => {
   const [displayedText, setDisplayedText] = useState("");
   const dispatch = useDispatch();
 
