@@ -9,7 +9,7 @@ import useTypewriter from "./TypeWriter";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FaCopy } from "react-icons/fa";
 import NayveeIcon from "../../assets/nayvee_logo_ icon_nobg.png";
-import EmptyState from './EmptyMessage';
+import EmptyState from "./EmptyMessage";
 
 export const Container = styled.div`
   display: flex;
@@ -112,7 +112,7 @@ const MarkdownContent = styled.div`
   width: 100%;
   margin: 0;
   position: relative;
-   overflow-x: auto;
+  overflow-x: auto;
 
   h1,
   h2,
@@ -126,12 +126,12 @@ const MarkdownContent = styled.div`
 
   pre {
     width: 100%;
-    max-width: 100%; 
+    max-width: 100%;
     padding: 0.2rem;
     border-radius: 5px;
     position: relative;
     background-color: #2d2d2d;
-    white-space: pre; 
+    white-space: pre;
     overflow-wrap: break-word;
 
     @media (max-width: 378px) {
@@ -174,7 +174,6 @@ const MarkdownContent = styled.div`
   }
 `;
 
-
 const CopyButton = styled.button`
   position: absolute;
   top: 0.5rem;
@@ -189,7 +188,7 @@ const CopyButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  z-index: 5; 
+  z-index: 5;
 
   &:hover {
     background: ${({ copie }) => (copie ? "#888" : "#024b9a")};
@@ -202,7 +201,7 @@ const CodeBlock = ({ className, children }) => {
   const [copyText, setCopyText] = useState(false);
 
   return (
-    <div style={{ position: "relative", overflowX: 'hidden' }}>
+    <div style={{ position: "relative", overflowX: "hidden" }}>
       {language && (
         <span
           style={{
@@ -298,18 +297,17 @@ export default function Messages({ failedMsg, typeChat }) {
 
   return (
     <Container>
-      {chatMessage.length > 0 ?
-        chatMessage.map(({ sender, message }, index) => (
-          <ChatMessage
-            key={index}
-            sender={sender}
-            message={message}
-            user={user}
-            typeChat={typeChat}
-          />
-        )):
-        <EmptyState />
-        }
+      {chatMessage.length > 0
+        ? chatMessage.map(({ sender, message }, index) => (
+            <ChatMessage
+              key={index}
+              sender={sender}
+              message={message}
+              user={user}
+              typeChat={typeChat}
+            />
+          ))
+        : !pendingMessage && <EmptyState />}
       {pendingMessage !== null && (
         <>
           <ChatMessage
@@ -323,7 +321,9 @@ export default function Messages({ failedMsg, typeChat }) {
           </div>
         </>
       )}
-      {failedMsg.text.status && <p className="failed">Error sending message. Try again.</p>}
+      {failedMsg.text.status && (
+        <p className="failed">Error sending message. Try again.</p>
+      )}
     </Container>
   );
 }
