@@ -15,7 +15,7 @@ export const chooseChat = async (id, dispatch) => {
             }
             dispatch(addChat({ id: Date.now(), sender: "Nayvee", message: chat.content }))
         })
-        dispatch(setActiveChat(id))
+        dispatch(setActiveChat({id: id, type: 'text'}));
     } catch (error) {
         throw new Error(error.response?.data?.msg || 'An error occurred Please try again.')
     }
