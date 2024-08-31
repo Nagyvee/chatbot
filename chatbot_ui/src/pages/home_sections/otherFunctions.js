@@ -29,7 +29,7 @@ export const deleteHistory = async (id, dispatch) =>{
         const URL = import.meta.env.VITE_SERVER_URL;
        const data = await axios.delete(`${URL}/chat/v2.5/nayveechat/${id}`, { withCredentials: true });
        console.log(data)
-        dispatch(setActiveChat(undefined));
+        dispatch(setActiveChat({id: undefined, type: 'text'}));
         dispatch(setChatHistory([]));
         dispatch(deleteChats());
     } catch (error) {
