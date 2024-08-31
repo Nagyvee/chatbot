@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import profileIcon from '../../assets/profile.jpg'
+import profileIcon from '../../assets/profile.jpg';
 
 const NavContainer = styled.nav`
   width: 100%;

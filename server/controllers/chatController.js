@@ -42,7 +42,7 @@ const imageController = async (req, res) =>{
   try {
     const imagesNumber = await pool.promise().query(imagesNumQuery, [userId, 'Nayvee']);
 
-    if(imagesNumber[0].length >= 2){
+    if(imagesNumber[0].length >= 3){
       return res
       .status(401)
       .json({ error: "You have reached your daily limit."});
@@ -54,7 +54,6 @@ const imageController = async (req, res) =>{
     await pool.promise().query(addMessageQuery, [userId, data, "Nayvee", Date.now()]);
     res.status(200).json(data);
   }catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ error: "Failed to fetch Nayvee AI response."});

@@ -68,11 +68,9 @@ const imgData = {
     const response = await axios.post(imgEndPoint, imgData, { headers });
     // Extract the generated response message
     const imgUrl = response.data.data[0].url;
-    console.log(imgUrl);
     // return image url;
     return imgUrl;
 } catch (error) {
-    console.error('Error fetching OpenAI response:', error);
     throw error;
 }
   

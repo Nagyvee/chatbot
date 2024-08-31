@@ -11,6 +11,7 @@ import axios from "axios";
 import { setChatHistory } from "../../redux_state/actions";
 import TimeDifference from "./TimeConvert";
 import { chooseChat, deleteHistory } from "./otherFunctions";
+import ImagesSection from "./ImagesSection";
 
 const Section = styled.section`
   display: flex;
@@ -245,10 +246,19 @@ const ChatContainer = () => {
   const [historyLoading, setHistoryLoading] = useState(false);
   const messageRef = useRef(null);
   const dispatch = useDispatch();
-  const [failedMsg, setFailed] = useState(false);
+  const [failedMsg, setFailed] = useState({
+    text: {
+      status: false,
+      msg: "",
+    },
+    image: {
+      status: false,
+      msg: "",
+    },
+  });
   const [errMsg, setErrMsg] = useState(false);
   const [retry, setRetry] = useState(0);
-  const [typeChat, setTypeChat] = useState('')
+  const [typeChat, setTypeChat] = useState("");
 
   useEffect(() => {
     const fetchChatsHistory = async () => {
@@ -286,17 +296,18 @@ const ChatContainer = () => {
   return (
     <Section>
       <div className="top-wrap" ref={messageRef}>
-        {activeChat === undefined && (
+        {activeChat.id === undefined && (
           <UpperSection>
             <Title>Get answers in seconds</Title>
             <Subtitle>Create and complete tasks using boards</Subtitle>
           </UpperSection>
         )}
-        {activeChat !== undefined ? (
-          <Messages 
-          failedMsg={failedMsg}
-          typeChat= {typeChat}
-           />
+        {activeChat.id !== undefined ? (
+          activeChat.type === "image" ? (
+            <ImagesSection failedMsg={failedMsg} />
+          ) : (
+            <Messages failedMsg={failedMsg} typeChat={typeChat} />
+          )
         ) : (
           <HistorySection>
             <Title>Search History</Title>
@@ -372,8 +383,10 @@ const ChatContainer = () => {
       </div>
       <div className="bottom-sec">
         <InputSec
-         setFailed={setFailed}
-         setTypeChat={setTypeChat} />
+          failedMsg={failedMsg}
+          setFailed={setFailed}
+          setTypeChat={setTypeChat}
+        />
       </div>
     </Section>
   );

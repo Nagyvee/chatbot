@@ -6,7 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setActiveChat,
   setPendingMessage,
-  addChat
+  addChat,
+  setImageChat,
 } from "../../redux_state/actions";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -76,49 +77,95 @@ const Footer = styled.p`
   color: #999;
 `;
 
-const InputSec = ({ setFailed, setTypeChat }) => {
+const InputSec = ({ setFailed, failedMsg, setTypeChat }) => {
   const [messageValue, setMessageValue] = useState("");
   const [isSending, setIsSending] = useState(false);
   const dispatch = useDispatch();
-  const chatId = useSelector((state) => state.chat.activeChat);
+  const chatId = useSelector((state) => state.chat.activeChat.id);
   const userId = useSelector((state) => state.user.userDetails.id);
   const history = useSelector((state) => state.chat.userChats);
+  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
+  const activeUserChat = useSelector((state) => state.chat.activeChat);
+  const userImagesChats = useSelector((state) => state.chat.userImagesChats);
 
   const handleSend = async (event) => {
     event.preventDefault();
-    setFailed(false);
+    setFailed({
+      text: {
+        status: false,
+        msg: ''
+      },
+      image:  {
+        status: false,
+        msg: ''
+      },
+    });
     setIsSending(true);
-    setTypeChat('')
+    setTypeChat("");
+
+    const senderObj = { sender: "user", message: messageValue };
 
     let activeChat = chatId;
-    if (activeChat === undefined) {
-      const chat_id = uuidv4();
-      dispatch(setActiveChat(chat_id));
-      activeChat = chat_id;
+    if (activeUserChat.type === "image") {
+      dispatch(
+        setPendingMessage({
+          ...pendingMessage,
+          image: { sender: "user", content: messageValue },
+        })
+      );
+    } else {
+      if (activeUserChat.id === undefined) {
+        const chat_id = uuidv4();
+        dispatch(setActiveChat({ type: "text", id: chat_id }));
+        activeChat = chat_id;
+      }
+      dispatch(setPendingMessage({ ...pendingMessage, text: senderObj }));
     }
-    const senderObj = { sender: "user", message: messageValue };
-    dispatch(setPendingMessage(senderObj));
-
-    const URL = import.meta.env.VITE_SERVER_URL;
+    let serverUrl = import.meta.env.VITE_SERVER_URL;
+    const URL =
+      activeUserChat.type === "image"
+        ? `${serverUrl}/chat/v2.5/nayveechat/image`
+        : `${serverUrl}/chat/v2.5/nayveechat`;
 
     try {
       setMessageValue("");
       const response = await axios.post(
-        `${URL}/chat/v2.5/nayveechat/`,
+        URL,
         { userId, ...senderObj, history, chatId: activeChat },
         { withCredentials: true }
       );
-      await dispatch(addChat({ id: Date.now(), ...senderObj }));
-      await dispatch(
-        addChat({ id: Date.now(), sender: "Nayvee", message: response.data })
-      );
-      setTypeChat(response.data)
+      if (activeUserChat.type === "image") {
+        let newData = userImagesChats.data;
+        newData.push({ sender: "user", content: senderObj.message });
+        newData.push({ sender: "Nayvee", content: response.data });
+        const usage = userImagesChats.dailyUsage + 1
+        await dispatch(setImageChat({...userImagesChats,dailyUsage: usage, data: newData}));
+      } else {
+        await dispatch(addChat({ id: Date.now(), ...senderObj }));
+        await dispatch(
+          addChat({ id: Date.now(), sender: "Nayvee", message: response.data })
+        );
+        setTypeChat(response.data);
+      }
     } catch (error) {
-      setFailed(true);
+      console.log(error)
+     if(activeUserChat.type === 'image'){ 
+      setFailed({...failedMsg,   
+        image: {
+        status: true,
+        msg: error?.response?.data?.error || 'Connection error. Plese try again'
+      }});
+    }else{
+      setFailed({...failedMsg,   
+        text:{
+        status: true,
+        msg:'Connection error. Plese try again'
+      }});
+    }
       setMessageValue(senderObj.message);
     } finally {
       setIsSending(false);
-      dispatch(setPendingMessage(null));
+      dispatch(setPendingMessage({ text: null, image: null }));
     }
   };
 
@@ -140,7 +187,7 @@ const InputSec = ({ setFailed, setTypeChat }) => {
           )}
         </SendButton>
       </MessageSection>
-      <Footer>Nayvee Chat AI Chat V2.5</Footer>
+      <Footer>Nayvee Chat AI V2.5</Footer>
     </>
   );
 };

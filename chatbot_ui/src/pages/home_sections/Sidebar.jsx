@@ -12,12 +12,13 @@ import {
   faUserCog,
   faBars,
   faTimes,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveChat, deleteChats } from "../../redux_state/actions";
-import axios from 'axios';
+import axios from "axios";
 import { v4 as uuidV4 } from "uuid";
-import {NavLink, Link} from 'react-router-dom'
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 const SidebarContainer = styled.div`
   width: 180px;
@@ -31,19 +32,20 @@ const SidebarContainer = styled.div`
   position: relative;
   transition: transform 0.3s ease;
 
-  a{
-  text-decoration: none;
-  color: #000;
+  a {
+    text-decoration: none;
+    color: #000;
   }
 
   @media (max-width: 975px) {
-    transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
+    transform: ${({ isOpen }) =>
+      isOpen ? "translateX(0)" : "translateX(-100%)"};
     position: fixed;
     z-index: 100;
     height: 100%;
   }
 
-  .failed{
+  .failed {
     color: red;
     margin: 1.8rem auto;
     font-size: 0.85rem;
@@ -70,6 +72,14 @@ const NavList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+
+  .active {
+    background: #5a67d8;
+    color: #fff;
+
+    svg {
+      color: #fff;
+  }
 `;
 
 const NavItem = styled.li`
@@ -149,33 +159,53 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const activeChat = useSelector((state) => state.chat.activeChat);
+  const LimitData = useSelector((state) => state.chat.userImagesChats);
   const chats = useSelector((state) => state.chat.userChats);
-  const [errMsg, setErrMsg] = useState(false)
+  const [errMsg, setErrMsg] = useState(false);
+  const location = useLocation();
 
   const handleLogOut = async () => {
     try {
       const URL = import.meta.env.VITE_SERVER_URL;
       await axios.post(`${URL}/user/logout`, "", { withCredentials: true });
       localStorage.clear();
-      toggleSidebar()
-      window.location.href = '/user/auth';
+      toggleSidebar();
+      window.location.href = "/user/auth";
     } catch (error) {
-      setErrMsg(true)
+      setErrMsg(true);
       setTimeout(() => {
         setErrMsg(false);
       }, 10000);
     }
   };
-
+  console.log(location);
   const newChat = () => {
-    if (activeChat === undefined || chats.length < 1) {
-      toggleSidebar()
+    if (
+      activeChat.id === undefined ||
+      (chats.length < 1 && activeChat.type !== "image")
+    ) {
+      toggleSidebar();
       return;
     }
     const chatId = uuidV4();
-    dispatch(setActiveChat(chatId));
+    dispatch(
+      setActiveChat({
+        id: chatId,
+        type: "text",
+      })
+    );
     dispatch(deleteChats());
-    toggleSidebar()
+    toggleSidebar();
+  };
+
+  const imageChat = () => {
+    dispatch(
+      setActiveChat({
+        id: "nayveeImgChat",
+        type: "image",
+      })
+    );
+    toggleSidebar();
   };
 
   const toggleSidebar = () => {
@@ -192,49 +222,87 @@ const Sidebar = () => {
           <Logo src={LogoImg} alt="Logo image" />
         </LogoContainer>
         <NavList>
-        <NavLink to={'/'} >
-           <NavItem onClick={newChat}>
-            <FontAwesomeIcon icon={faRobot} />
-            <span>{activeChat === undefined || chats.length < 1 ? 'Nayvee AI' : 'New Chat'}</span>
+          <Link
+            to={"/"}
+            className={
+              activeChat.id === undefined ||
+              (chats.length < 1 &&
+                activeChat.type !== "image" &&
+                location.pathname === "/")
+                ? "active"
+                : ""
+            }
+          >
+            <NavItem onClick={newChat}>
+              <FontAwesomeIcon icon={faRobot} />
+              <span>
+                {activeChat.id === undefined ||
+                (chats.length < 1 && activeChat.type !== "image")
+                  ? "Nayvee AI"
+                  : "New Chat"}
+              </span>
+            </NavItem>
+          </Link>
+          <Link to={"/"}>
+          <NavItem
+            onClick={imageChat}
+            style={{display: "block"}} 
+            className={
+              activeChat.type === "image" && location.pathname === "/"
+                ? "active"
+                : ""
+            }
+          >
+            
+            <FontAwesomeIcon icon={faImage} />
+            {
+              activeChat.type === "image" && location.pathname === "/" && LimitData?.dailyUsage
+                ? <span style={{fontSize: '.83rem'}}>Daily Limit {LimitData.dailyUsage}/ 3</span> 
+                :  <span>Images AI</span>
+            }
           </NavItem>
-        </ NavLink>
-         <Link to={'/'} >
-           <NavItem onClick={() => {
-            dispatch(setActiveChat(undefined))
-            dispatch(deleteChats());
-            toggleSidebar()
-            }}>
-            <FontAwesomeIcon icon={faCommentAlt} />
-            <span>Chats History</span>
-          </NavItem>
-          </Link >
-          <NavLink to={'/members'} ><NavItem onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faUsers} />
-            <span>Chatbot users</span>
-          </NavItem>
+          </Link>
+          <Link to={"/"}>
+            <NavItem
+              onClick={() => {
+                dispatch(setActiveChat({ id: undefined, type: "text" }));
+                dispatch(deleteChats());
+                toggleSidebar();
+              }}
+            >
+              <FontAwesomeIcon icon={faCommentAlt} />
+              <span>Chats History</span>
+            </NavItem>
+          </Link>
+          <NavLink to={"/members"}>
+            <NavItem onClick={toggleSidebar}>
+              <FontAwesomeIcon icon={faUsers} />
+              <span>Chatbot users</span>
+            </NavItem>
           </NavLink>
-          <NavLink to={'/pricing'} ><NavItem onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faDollarSign} />
-            <span>Pricing</span>
-          </NavItem>
+          <NavLink to={"/pricing"}>
+            <NavItem onClick={toggleSidebar}>
+              <FontAwesomeIcon icon={faDollarSign} />
+              <span>Pricing</span>
+            </NavItem>
           </NavLink>
-          <NavLink to={'/settings'} >
-          <NavItem onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faCog} />
-            <span>Settings</span>
-          </NavItem>
+          <NavLink to={"/settings"}>
+            <NavItem onClick={toggleSidebar}>
+              <FontAwesomeIcon icon={faCog} />
+              <span>Settings</span>
+            </NavItem>
           </NavLink>
-          <NavLink to={'/profile'} >
-          <NavItem onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faUserCog} />
-            <span>Profile</span>
-          </NavItem>
+          <NavLink to={"/profile"}>
+            <NavItem onClick={toggleSidebar}>
+              <FontAwesomeIcon icon={faUserCog} />
+              <span>Profile</span>
+            </NavItem>
           </NavLink>
           <NavItem className="logout" onClick={handleLogOut}>
             <FontAwesomeIcon icon={faSignOutAlt} />
             LogOut
           </NavItem>
-          {errMsg && <p className='failed'>Error logging out</p>}
+          {errMsg && <p className="failed">Error logging out</p>}
         </NavList>
       </SidebarContainer>
     </>

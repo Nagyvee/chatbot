@@ -12,9 +12,16 @@ const initialUserState = {
 
 const initialChatState = {
   userChats: [],
+  userImagesChats: null,
   chatsHistory: [],
-  activeChat: undefined,
-  pendingMessage: null,
+  activeChat: {
+    id: undefined,
+    type: 'text'
+  },
+  pendingMessage:{
+    text: null,
+    image: null
+  },
   count: 0,
 };
 
@@ -36,6 +43,11 @@ const chatReducer = (state = initialChatState, action) => {
       return {
         ...state,
         userChats: [...state.userChats, action.payload],
+      };
+      case "SET_IMAGE_CHAT":
+      return {
+        ...state,
+        userImagesChats: action.payload,
       };
     case "SET_CHAT_HISTORY": {
       return {

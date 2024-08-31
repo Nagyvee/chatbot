@@ -223,6 +223,24 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const downLoadImage = async (req, res) => {
+  const { fileUrl } = req.body;
+  const fileName = `nayvee-chat-generated-${Date.now()}.png`;
+
+  // Make an HTTP request to get the image
+  const https = require('https');
+  https.get(fileUrl, (fileRes) => {
+    // Set headers to prompt download
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.setHeader('Content-Type', 'image/png');
+
+    // Pipe the image response to the client
+    fileRes.pipe(res);
+  }).on('error', (err) => {
+    res.status(500).send('Error fetching the file');
+  });
+};
+
 module.exports = {
   userHistory,
   selectSingleChat,
@@ -231,5 +249,6 @@ module.exports = {
   getMembers,
   updateProfile,
   getImagesChat,
-  deletePreviousImages
+  deletePreviousImages,
+  downLoadImage
 };

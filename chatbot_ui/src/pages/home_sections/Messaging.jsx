@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import profileIcon from "../../assets/profile.jpg";
@@ -9,8 +9,9 @@ import useTypewriter from "./TypeWriter";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FaCopy } from "react-icons/fa";
 import NayveeIcon from "../../assets/nayvee_logo_ icon_nobg.png";
+import EmptyState from './EmptyMessage';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -68,7 +69,7 @@ const Container = styled.div`
   }
 `;
 
-const Message = styled.div`
+export const Message = styled.div`
   display: flex;
   flex-wrap: ${({ sender }) => (sender === "user" ? "no-wrap" : "wrap")};
   align-items: flex-start;
@@ -252,7 +253,7 @@ const components = {
   },
 };
 
-const ChatMessage = ({ sender, message, user, typeChat }) => {
+export const ChatMessage = ({ sender, message, user, typeChat }) => {
   const typedMessage = sender === "Nayvee" ? useTypewriter(message) : message;
 
   return (
@@ -291,13 +292,13 @@ const ChatMessage = ({ sender, message, user, typeChat }) => {
 };
 
 export default function Messages({ failedMsg, typeChat }) {
-  const pendingMessage = useSelector((state) => state.chat.pendingMessage);
+  const pendingMessage = useSelector((state) => state.chat.pendingMessage.text);
   const chatMessage = useSelector((state) => state.chat.userChats);
   const user = useSelector((state) => state.user.userDetails);
 
   return (
     <Container>
-      {chatMessage.length > 0 &&
+      {chatMessage.length > 0 ?
         chatMessage.map(({ sender, message }, index) => (
           <ChatMessage
             key={index}
@@ -306,21 +307,23 @@ export default function Messages({ failedMsg, typeChat }) {
             user={user}
             typeChat={typeChat}
           />
-        ))}
+        )):
+        <EmptyState />
+        }
       {pendingMessage !== null && (
         <>
           <ChatMessage
-            sender="user"
+            sender={pendingMessage.sender}
             message={pendingMessage.message}
             user={user}
           />
           <div className="loading">
             <img src={NayveeIcon} alt="Nayvee Logo" className="nayvee-logo" />
-            <span>Nayvee filtering...</span>
+            <span>Nayvee processing...</span>
           </div>
         </>
       )}
-      {failedMsg && <p className="failed">Error sending message. Try again.</p>}
+      {failedMsg.text.status && <p className="failed">Error sending message. Try again.</p>}
     </Container>
   );
 }
