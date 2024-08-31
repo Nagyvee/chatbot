@@ -146,7 +146,7 @@ const logOutUser = async (req, res) => {
 };
 
 const getMembers = async (req, res) => {
-  const query = `SELECT * FROM chatbot_users`;
+  const query = `SELECT * FROM chatbot_users ORDER BY name`;
 
   try {
     const data = await pool.promise().query(query);
