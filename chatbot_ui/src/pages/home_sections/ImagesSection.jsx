@@ -98,7 +98,6 @@ const Highlight = styled.span`
 const ImagesSection = ({ failedMsg }) => {
   const user = useSelector((state) => state.user.userDetails);
   const URL = import.meta.env.VITE_SERVER_URL;
-  const [msg, setMsg] = useState("");
   const dispatch = useDispatch();
   const data = useSelector((state) => state.chat.userImagesChats);
   const pendingMessage = useSelector((state) => state.chat.pendingMessage.image);
@@ -154,7 +153,6 @@ const ImagesSection = ({ failedMsg }) => {
       link.click();
       link.remove();
 
-      setMsg("Download started");
     } catch (error) {
       setErrMsg({ ...errMsg, downloadErr: "Error downloading image" });
     } finally {

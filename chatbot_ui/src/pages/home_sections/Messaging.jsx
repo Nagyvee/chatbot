@@ -22,7 +22,7 @@ export const Container = styled.div`
   overflow-x: hidden;
 
   .failed {
-    color: red;
+    color: #d9534f;
     margin: 1rem auto;
     font-size: 0.8rem;
     font-weight: 550;

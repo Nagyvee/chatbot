@@ -31,7 +31,7 @@ const EmptyState = () => {
   return (
     <PlaceholderContainer>
       <Heading>Get started with Nayvee Chat</Heading>
-      <SubHeading>Hello there! How can I help you today?</SubHeading>
+      <SubHeading>Hello there! How can I assist you today?</SubHeading>
     </PlaceholderContainer>
   );
 };
