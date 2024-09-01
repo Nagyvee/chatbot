@@ -322,8 +322,8 @@ const Pricing = () => {
           </div>
 
           <div className="footer">
-          <button className="upgrade-btn" onClick={() => window.location.href='https://melsoftacademy.com'}>Visit Melsoft Academy website</button>
-          <button className="upgrade-btn" onClick={() => window.location.href='https://www.nayveetech.co.za'}>Visit Nayvee Tech website</button>
+          <button className="upgrade-btn"><a href="https://melsoftacademy.com">Visit Melsoft Academy website</a></button>
+          <button className="upgrade-btn"><a href="https://www.nayveetech.co.za">Visit Nayvee Tech website</a></button>
           </div>
         </form>
       </div>

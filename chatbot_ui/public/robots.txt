@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://www.chatbot.nayveetech.co.za/sitemap.xml
