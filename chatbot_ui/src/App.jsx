@@ -55,7 +55,7 @@ function App() {
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <meta name="keywords" content="Nayvee, Nayvee Chat, Nayvee Tech" />
+        <meta name="keywords" content="Nayvee, Nayvee Chat, Nayvee Tech, AI chatbot, chatbot assistant, AI assistant, virtual assistant, conversational AI, chatbot technology, AI conversation, automated chatbot, interactive chatbot, customer support chatbot, chatbot for business, natural language processing, NLP chatbot, machine learning chatbot, AI-powered chatbot, chatbot services, chatbot solutions, virtual customer service, chatgpt, gpt, openai" />
         <link rel="canonical" href={`https://chatbot.nayveetech.co.za${location.pathname}`} />
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content={title} />
