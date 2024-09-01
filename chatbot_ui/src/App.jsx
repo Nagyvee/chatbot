@@ -51,7 +51,8 @@ const getPageMetadata = (pathname) => {
 
 function App() {
   const [popUp, setPopUp] = useState(false);
-  useVerifyUser(setPopUp);
+  const [isFetching, setIsFetching] = useState(true);
+  useVerifyUser(setPopUp, setIsFetching);
   const user = useSelector((state) => state.user.userDetails);
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -97,7 +98,7 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isFetching={isFetching}>
               <Home />
             </ProtectedRoute>
           }
@@ -105,7 +106,7 @@ function App() {
         <Route
           path="/:id"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isFetching={isFetching}>
               <Home />
             </ProtectedRoute>
           }
@@ -113,7 +114,7 @@ function App() {
         <Route
           path="/chat"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isFetching={isFetching}>
               <Chat />
             </ProtectedRoute>
           }
