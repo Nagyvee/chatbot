@@ -1,5 +1,22 @@
+if (!Object.hasOwn) {
+  Object.hasOwn = function(obj, prop) {
+    return Object.prototype.hasOwnProperty.call(obj, prop);
+  };
+}
+
+import "./App.css";
+import { useLocation, Navigate, Routes, Route } from "react-router-dom";
+import Login from "./Login/Login";
+import useVerifyUser from "./Login/verifyUser";
+import { useSelector } from "react-redux";
+import Home from "./pages/home_sections/Home";
+import Chat from "./pages/home_sections/Chat";
+import PopUpNotification from "./pages/home_sections/PopupNoti";
+import { useState } from "react";
+import ProtectedRoute from "./Login/ProtectedRoute";
+import PrivacyPolicy from './pages/home_sections/Privacy'
+import TermsOfService from './pages/home_sections/Terms'
 import { Helmet } from "react-helmet";
-import { useLocation } from "react-router-dom";
 
 // Helper function to set page-specific metadata
 const getPageMetadata = (pathname) => {

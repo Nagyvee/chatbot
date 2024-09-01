@@ -19,7 +19,7 @@ import { setActiveChat, deleteChats } from "../../redux_state/actions";
 import axios from "axios";
 import { v4 as uuidV4 } from "uuid";
 import { NavLink, Link, useLocation } from "react-router-dom";
-import InstallButton from './Installbtn';
+import InstallButton from "./Installbtn";
 
 const SidebarContainer = styled.div`
   width: 180px;
@@ -179,7 +179,6 @@ const Sidebar = () => {
       }, 10000);
     }
   };
-  console.log(location);
   const newChat = () => {
     if (
       activeChat.id === undefined ||
@@ -245,23 +244,26 @@ const Sidebar = () => {
             </NavItem>
           </Link>
           <Link to={"/"}>
-          <NavItem
-            onClick={imageChat}
-            style={{display: "block"}} 
-            className={
-              activeChat.type === "image" && location.pathname === "/"
-                ? "active"
-                : ""
-            }
-          >
-            
-            <FontAwesomeIcon icon={faImage} />
-            {
-              activeChat.type === "image" && location.pathname === "/" && LimitData?.dailyUsage
-                ? <span style={{fontSize: '.83rem'}}>Daily Limit {LimitData.dailyUsage}/ 3</span> 
-                :  <span>Images AI</span>
-            }
-          </NavItem>
+            <NavItem
+              onClick={imageChat}
+              style={{ display: "block" }}
+              className={
+                activeChat.type === "image" && location.pathname === "/"
+                  ? "active"
+                  : ""
+              }
+            >
+              <FontAwesomeIcon icon={faImage} />
+              {activeChat.type === "image" &&
+              location.pathname === "/" &&
+              LimitData ? (
+                <span style={{ fontSize: ".83rem" }}>
+                  Daily Limit {LimitData.dailyUsage}/ 3
+                </span>
+              ) : (
+                <span>Images AI</span>
+              )}
+            </NavItem>
           </Link>
           <Link to={"/"}>
             <NavItem
