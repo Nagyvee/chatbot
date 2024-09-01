@@ -19,6 +19,7 @@ import { setActiveChat, deleteChats } from "../../redux_state/actions";
 import axios from "axios";
 import { v4 as uuidV4 } from "uuid";
 import { NavLink, Link, useLocation } from "react-router-dom";
+import InstallButton from './Installbtn';
 
 const SidebarContainer = styled.div`
   width: 180px;
@@ -298,6 +299,7 @@ const Sidebar = () => {
               <span>Profile</span>
             </NavItem>
           </NavLink>
+          <InstallButton />
           <NavItem className="logout" onClick={handleLogOut}>
             <FontAwesomeIcon icon={faSignOutAlt} />
             LogOut
