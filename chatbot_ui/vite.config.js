@@ -10,8 +10,11 @@ export default defineConfig({
       manifest: {
         name: 'Nayvee Chatbot App',
         short_name: 'Nayvee Chat',
-        description: 'Nayvee Chatbot an AI assistant using latest gpt model.',
+        description: 'Nayvee Chatbot, an AI assistant using the latest GPT model.',
         theme_color: '#ffffff',
+        background_color: '#ffffff', 
+        start_url: '/',
+        display: 'standalone',
         icons: [
           {
             src: '/android-chrome-192x192.png',
