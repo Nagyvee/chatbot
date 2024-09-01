@@ -104,7 +104,7 @@ function App() {
           }
         />
         <Route
-          path="/:id"
+          path="/c/:id"
           element={
             <ProtectedRoute isFetching={isFetching}>
               <Home />

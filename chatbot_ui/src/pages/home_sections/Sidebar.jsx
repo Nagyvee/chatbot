@@ -277,25 +277,25 @@ const Sidebar = () => {
               <span>Chats History</span>
             </NavItem>
           </Link>
-          <NavLink to={"/members"}>
+          <NavLink to={"/c/members"}>
             <NavItem onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faUsers} />
               <span>Chatbot users</span>
             </NavItem>
           </NavLink>
-          <NavLink to={"/pricing"}>
+          <NavLink to={"/c/pricing"}>
             <NavItem onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faDollarSign} />
               <span>Pricing</span>
             </NavItem>
           </NavLink>
-          <NavLink to={"/settings"}>
+          <NavLink to={"/c/settings"}>
             <NavItem onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCog} />
               <span>Settings</span>
             </NavItem>
           </NavLink>
-          <NavLink to={"/profile"}>
+          <NavLink to={"/c/profile"}>
             <NavItem onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faUserCog} />
               <span>Profile</span>
